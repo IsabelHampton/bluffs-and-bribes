@@ -6,6 +6,7 @@ public class StartMenuUI : MonoBehaviour
     public GameObject startMenuPanel;
     public GameObject tablePanel;
 
+    public HandManager handManager;
     private void Start()
     {
         SetUp();

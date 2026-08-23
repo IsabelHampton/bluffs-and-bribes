@@ -221,6 +221,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5599773748700171677, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
   m_PrefabInstance: {fileID: 20097255}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &20097257 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8505907820580329273, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
+  m_PrefabInstance: {fileID: 20097255}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509ea3f7b25793749aa71f978354a649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
 --- !u!1 &144845375
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,6 +413,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5599773748700171677, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
   m_PrefabInstance: {fileID: 149285033}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &149285035 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8505907820580329273, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
+  m_PrefabInstance: {fileID: 149285033}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509ea3f7b25793749aa71f978354a649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
 --- !u!1 &278797741
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,6 +665,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5599773748700171677, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
   m_PrefabInstance: {fileID: 290994907}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &290994909 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8505907820580329273, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
+  m_PrefabInstance: {fileID: 290994907}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509ea3f7b25793749aa71f978354a649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1320,6 +1353,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5599773748700171677, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
   m_PrefabInstance: {fileID: 478416462}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &478416464 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8505907820580329273, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
+  m_PrefabInstance: {fileID: 478416462}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509ea3f7b25793749aa71f978354a649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
 --- !u!1 &500560779
 GameObject:
   m_ObjectHideFlags: 0
@@ -1555,6 +1599,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5599773748700171677, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
   m_PrefabInstance: {fileID: 521404910}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &521404912 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8505907820580329273, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
+  m_PrefabInstance: {fileID: 521404910}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509ea3f7b25793749aa71f978354a649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
 --- !u!1 &526115148
 GameObject:
   m_ObjectHideFlags: 0
@@ -1735,6 +1790,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5599773748700171677, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
   m_PrefabInstance: {fileID: 589328565}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &589328567 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8505907820580329273, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
+  m_PrefabInstance: {fileID: 589328565}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509ea3f7b25793749aa71f978354a649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
 --- !u!1 &619676982
 GameObject:
   m_ObjectHideFlags: 0
@@ -2269,6 +2335,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5599773748700171677, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
   m_PrefabInstance: {fileID: 828199325}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &828199327 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8505907820580329273, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
+  m_PrefabInstance: {fileID: 828199325}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509ea3f7b25793749aa71f978354a649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -2795,6 +2872,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5599773748700171677, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
   m_PrefabInstance: {fileID: 1351430545}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1351430547 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8505907820580329273, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
+  m_PrefabInstance: {fileID: 1351430545}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509ea3f7b25793749aa71f978354a649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
 --- !u!1 &1494012220
 GameObject:
   m_ObjectHideFlags: 0
@@ -3037,6 +3125,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5599773748700171677, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
   m_PrefabInstance: {fileID: 225611278853746195}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1571746081 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8505907820580329273, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
+  m_PrefabInstance: {fileID: 225611278853746195}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509ea3f7b25793749aa71f978354a649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
 --- !u!1001 &1617943289
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3139,6 +3238,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5599773748700171677, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
   m_PrefabInstance: {fileID: 1617943289}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1617943291 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8505907820580329273, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
+  m_PrefabInstance: {fileID: 1617943289}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509ea3f7b25793749aa71f978354a649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
 --- !u!1 &1662440616
 GameObject:
   m_ObjectHideFlags: 0
@@ -3517,6 +3627,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5599773748700171677, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
   m_PrefabInstance: {fileID: 1724013098}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1724013100 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8505907820580329273, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
+  m_PrefabInstance: {fileID: 1724013098}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509ea3f7b25793749aa71f978354a649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
 --- !u!1 &1743794860
 GameObject:
   m_ObjectHideFlags: 0
@@ -3969,6 +4090,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5599773748700171677, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
   m_PrefabInstance: {fileID: 1811088816}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1811088818 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8505907820580329273, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
+  m_PrefabInstance: {fileID: 1811088816}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509ea3f7b25793749aa71f978354a649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
 --- !u!1 &1858078667
 GameObject:
   m_ObjectHideFlags: 0
@@ -4001,6 +4133,7 @@ MonoBehaviour:
   newRunConfirmationPanel: {fileID: 526115148}
   startMenuPanel: {fileID: 1896837325}
   tablePanel: {fileID: 1743794860}
+  handManager: {fileID: 0}
 --- !u!4 &1858078669
 Transform:
   m_ObjectHideFlags: 0
@@ -4118,6 +4251,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5599773748700171677, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
   m_PrefabInstance: {fileID: 1863835447}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1863835449 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8505907820580329273, guid: fe5fbb14d2069e34d8e9c7d8366c5141, type: 3}
+  m_PrefabInstance: {fileID: 1863835447}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509ea3f7b25793749aa71f978354a649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
 --- !u!1 &1896837325
 GameObject:
   m_ObjectHideFlags: 0
@@ -4206,6 +4350,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1973094538}
+  - component: {fileID: 1973094539}
   m_Layer: 0
   m_Name: HandManager
   m_TagString: Untagged
@@ -4228,6 +4373,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1973094539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973094537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 674a1491aacaaf744a7dd843fa97207a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandManager
+  playerHand:
+  - {fileID: 1571746081}
+  - {fileID: 290994909}
+  e1Hand:
+  - {fileID: 828199327}
+  - {fileID: 149285035}
+  e2Hand:
+  - {fileID: 478416464}
+  - {fileID: 589328567}
+  e3Hand:
+  - {fileID: 1351430547}
+  - {fileID: 20097257}
+  centreCards:
+  - {fileID: 521404912}
+  - {fileID: 1811088818}
+  - {fileID: 1863835449}
+  - {fileID: 1617943291}
+  - {fileID: 1724013100}
+  cardHandDisplays: []
+  centreCardsDisplays: []
 --- !u!1 &2015916421
 GameObject:
   m_ObjectHideFlags: 0
