@@ -23,15 +23,15 @@ public class HandManager : MonoBehaviour
     {
         for (int i = 0; i < 2; i++)
         {
-            centreCards[i].faceDown = false;
+            centreCards[i].Reveal();
         }
     }
     public void ShowTurn()
     {
-        centreCards[3].faceDown = false;
+        centreCards[3].Reveal();
     }
     public void ShowRiver()
     {
-        centreCards[4].faceDown = false;
+        centreCards[4].Reveal();
     }
 }
