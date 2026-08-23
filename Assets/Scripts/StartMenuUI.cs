@@ -35,7 +35,8 @@ public class StartMenuUI : MonoBehaviour
     }
     public void OnNewRunConfirmation()
     {
-
+        startMenuPanel.SetActive(false);
+        tablePanel.SetActive(true);
     }
     public void OnNewRunCancellation()
     {
