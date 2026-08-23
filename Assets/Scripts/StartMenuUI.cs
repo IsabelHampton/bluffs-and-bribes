@@ -11,6 +11,7 @@ public class StartMenuUI : MonoBehaviour
     {
         SetUp();
     }
+
     /// <summary>
     /// Set up which panels are hidden
     /// </summary>
@@ -22,6 +23,8 @@ public class StartMenuUI : MonoBehaviour
     }
     public void OnNewRun()
     {
+        // TO DO: Add check if previous run exists, if not ignore confirm 
+
         // Ask confirmation as this will override previous run
         newRunConfirmationPanel.SetActive(true);
 
@@ -37,7 +40,10 @@ public class StartMenuUI : MonoBehaviour
     public void OnNewRunConfirmation()
     {
         startMenuPanel.SetActive(false);
+        newRunConfirmationPanel.SetActive(false);
+
         tablePanel.SetActive(true);
+        handManager.PlayTutorial();
     }
     public void OnNewRunCancellation()
     {
