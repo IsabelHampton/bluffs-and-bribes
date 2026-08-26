@@ -24,6 +24,12 @@ public class GameManager : MonoBehaviour
         {
             case GameState.TIPOFF:
                 break;
+            case GameState.BRIBE:
+                if (roundNumber == 0)
+                {
+                    UpdateGameState(GameState.DEALING);
+                }
+                break;
             case GameState.DEALING:
                 break;
             case GameState.PLAYER_TURN:
@@ -49,6 +55,7 @@ public enum GameState
 {
     IN_START_MENU,
     TIPOFF,
+    BRIBE,
     DEALING,
     PLAYER_TURN,
     ENEMY1_TURN,

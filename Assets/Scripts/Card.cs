@@ -34,6 +34,20 @@ public class Card : MonoBehaviour
         else
             displayedImage.sprite = faceUpSprite;
     }
+
+    public void Init(int _cardValue, bool _faceDown = true)
+    {
+        Value = _cardValue % 13; ;
+        Suit = (int)(_cardValue / 13);
+        faceDown = _faceDown;
+
+        faceUpSprite = cardImages.cardSprites[_cardValue];
+
+        if (faceDown)
+            displayedImage.sprite = faceDownSprite;
+        else
+            displayedImage.sprite = faceUpSprite;
+    }
     public void Reveal()
     {
         faceDown = false;

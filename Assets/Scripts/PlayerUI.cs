@@ -26,12 +26,11 @@ public class PlayerUI : MonoBehaviour
 
     private void GameManagerOnStateChanged(GameState _state)
     {
-        UpdateButtonInteractability(_state == GameState.PLAYER_TURN);
+        UpdateButtonInteractability(GameManager.Instance.state == GameState.PLAYER_TURN); //events fire in wrong order here so needs to reference instance
     }
-
     private void UpdateButtonInteractability(bool _isInteractable)
     {
-        checkButton.interactable = _isInteractable;
+        checkButton.interactable = _isInteractable && BetManager.Instance.bets[(int)(PlayerOrder.PLAYER)] == BetManager.Instance.highestBet;
         callButton.interactable = _isInteractable;
         raiseButton.interactable = _isInteractable;
         foldButton.interactable = _isInteractable;
@@ -72,6 +71,11 @@ public class PlayerUI : MonoBehaviour
 
         if (viewingTipOff == 0)
             previousTipOffButton.interactable = false;
+    }
+
+    public void OnCheck()
+    {
+        GameManager.Instance.UpdateGameState(GameState.ENEMY1_TURN);
     }
 
 
