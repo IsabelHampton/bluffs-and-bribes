@@ -1,13 +1,17 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TipOffManager : MonoBehaviour
 {
-    //[SerializeField] int tipOffNumber;
-    int unlockedTipOffs;
-    
+    public static TipOffManager Instance;
+    public List<GameObject> unlockedTipOffs = new List<GameObject>();
+    [SerializeField] GameObject[] tipoffs = new GameObject[10];
+
+    HashSet<int> roundsWithTipOffs = new HashSet<int> {0, 1, 2, 3, 5 };
 
     private void Awake()
     {
+        Instance = this;
         GameManager.OnGameStateChanged += GameManagerOnStateChanged;
     }
     private void OnDestroy()
@@ -22,17 +26,12 @@ public class TipOffManager : MonoBehaviour
             ReceiveTipOff(GameManager.Instance.roundNumber);
         }
     }
-    public void ReceiveTipOff(int _tipOffNumber)
+    public void ReceiveTipOff(int _roundNumber)
     {
-        Debug.Log("Welcome to Game");
+        if (roundsWithTipOffs.Contains(_roundNumber))
+        {
+            unlockedTipOffs.Add(tipoffs[unlockedTipOffs.Count]); //adds next tipoff to unocked tipoffs list
+        }
     }
 
-}
-
-public enum TipoffTiming
-{
-    TIPOFF1 = 0,
-    TIPOFF2 = 1,
-    TIPOFF3 = 3,
-    TIPOFF4 = 5
 }
