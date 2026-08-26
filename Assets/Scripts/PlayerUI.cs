@@ -40,8 +40,12 @@ public class PlayerUI : MonoBehaviour
     {
         tipOffMenu.SetActive(true);
         viewingTipOff = 0;
+        TipOffManager.Instance.unlockedTipOffs[0].SetActive(true);
         previousTipOffButton.interactable = false;
-        nextTipOffButton.interactable = true;
+        if (TipOffManager.Instance.unlockedTipOffs.Count > 1)
+            nextTipOffButton.interactable = true;
+        else
+            nextTipOffButton.interactable = false;
     }
     public void HideTipOffMenu()
     {

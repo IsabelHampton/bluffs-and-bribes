@@ -5,6 +5,7 @@ public class StartMenuUI : MonoBehaviour
     public GameObject newRunConfirmationPanel;
     public GameObject startMenuPanel;
     public GameObject tablePanel;
+    public GameObject tipoffPanel;
 
     public HandManager handManager;
     private void Start()
@@ -52,6 +53,7 @@ public class StartMenuUI : MonoBehaviour
     {
         tablePanel.SetActive(false);
         newRunConfirmationPanel.SetActive(false);
+        tipoffPanel.SetActive(false);
         startMenuPanel.SetActive(true);
     }
     public void OnNewRun()
