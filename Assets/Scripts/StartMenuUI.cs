@@ -9,7 +9,40 @@ public class StartMenuUI : MonoBehaviour
     public HandManager handManager;
     private void Start()
     {
+        GameManager.OnGameStateChanged += GameManagerOnStateChanged;
         SetUp();
+        
+    }
+    private void OnDestroy()
+    {
+        GameManager.OnGameStateChanged -= GameManagerOnStateChanged;
+    }
+    private void GameManagerOnStateChanged(GameState _state)
+    {
+        switch (_state)
+        {
+            case GameState.IN_START_MENU:
+                SetUp();
+                break;
+            case GameState.TIPOFF:
+                break;
+            case GameState.DEALING:
+                break;
+            case GameState.PLAYER_TURN:
+                break;
+            case GameState.ENEMY1_TURN:
+                break;
+            case GameState.ENEMY2_TURN:
+                break;
+            case GameState.ENEMY3_TURN:
+                break;
+            case GameState.REVEAL:
+                break;
+            case GameState.END_ROUND:
+                break;
+            default:
+                break;
+        }
     }
 
     /// <summary>
@@ -39,10 +72,14 @@ public class StartMenuUI : MonoBehaviour
     }
     public void OnNewRunConfirmation()
     {
+        // Set up UI
         startMenuPanel.SetActive(false);
         newRunConfirmationPanel.SetActive(false);
 
         tablePanel.SetActive(true);
+
+        // Update game state
+        GameManager.Instance.UpdateGameState(GameState.TIPOFF);
         handManager.PlayTutorial();
     }
     public void OnNewRunCancellation()
