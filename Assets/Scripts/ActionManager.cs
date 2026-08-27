@@ -8,6 +8,7 @@ public class ActionManager : MonoBehaviour
     public static ActionManager Instance;
 
     public bool[] hasFolded = new bool[(int)PlayerOrder.NUM_OF_PLAYERS];
+    public int foldedPlayers;
     public bool[] isAllIn = new bool[(int)PlayerOrder.NUM_OF_PLAYERS];
 
     public Actions[] lastActions = new Actions[(int)PlayerOrder.NUM_OF_PLAYERS];
@@ -30,6 +31,9 @@ public class ActionManager : MonoBehaviour
         Debug.Log($"Game state changed to {GameManager.Instance.state} ");
         switch (GameManager.Instance.state)
         {
+            case GameState.DEALING:
+                ResetPlayerStates();
+                break;
             case GameState.PLAYER_TURN:
                 if (TurnNeedsSkipping((int)PlayerOrder.PLAYER))
                     StartCoroutine(MoveToNextStage((int)PlayerOrder.PLAYER));
@@ -64,6 +68,13 @@ public class ActionManager : MonoBehaviour
         }
     }
 
+    public void ResetPlayerStates()
+    {
+        hasFolded = new bool[(int)PlayerOrder.NUM_OF_PLAYERS];
+        isAllIn = new bool[(int)PlayerOrder.NUM_OF_PLAYERS];
+        lastActions = new Actions[(int)PlayerOrder.NUM_OF_PLAYERS];
+        foldedPlayers = 0;
+    }
     public void TakeTurn(int _playerNumber)
     {
         DeterminePossibleActionsForTurn(_playerNumber);
@@ -92,7 +103,8 @@ public class ActionManager : MonoBehaviour
     }
     public bool TurnNeedsSkipping(int _playerNumber)
     {
-        return hasFolded[_playerNumber] ||
+        return foldedPlayers == (int)PlayerOrder.NUM_OF_PLAYERS-1 || // All other players have folded so skip to reveal
+            hasFolded[_playerNumber] ||
             isAllIn[_playerNumber] ||
             (BetManager.Instance.highestBet > 0 && BetManager.Instance.bets[_playerNumber] == BetManager.Instance.highestBet); // Check if turn should be skipped as player is being revisited as others had to call their last bet
     }
@@ -143,6 +155,7 @@ public class ActionManager : MonoBehaviour
     public void Fold(int _playerNumber)
     {
         hasFolded[_playerNumber] = true;
+        foldedPlayers++;
     }
     public void PlayerFold()
     {
