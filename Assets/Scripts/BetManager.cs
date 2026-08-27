@@ -24,7 +24,7 @@ public class BetManager : MonoBehaviour
     {
         switch (GameManager.Instance.state)
         {
-            case GameState.PLAYER_TURN: // 1st turn of round
+            case GameState.REVEAL: // 1st turn of round
                 ResetBets();
                 break;
             default:

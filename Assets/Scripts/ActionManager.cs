@@ -72,13 +72,11 @@ public class ActionManager : MonoBehaviour
         switch (possibleActions[actionNumberIndex])
         {
             case (int)Actions.CHECK:
-                //MoveToNextStage(_playerNumber);
                 break;
             case (int)Actions.CALL:
                 Call(_playerNumber);
                 break;
             case (int)Actions.RAISE:
-                Call(_playerNumber);
                 Raise(_playerNumber, RandomRaiseValue(_playerNumber));
                 break;
             case (int)Actions.FOLD:
@@ -135,9 +133,12 @@ public class ActionManager : MonoBehaviour
     }
     public bool CanRaise(int _playerNumber)
     {
-        // Determine if can't physically raise OR shouldn't be allowed to raise (previously players calling their last bet)
-        return BetManager.Instance.chips[_playerNumber] > BetManager.Instance.highestBet - BetManager.Instance.bets[_playerNumber] ||
-            !(BetManager.Instance.highestBet > 0 && BetManager.Instance.highestBet == BetManager.Instance.bets[_playerNumber]);
+        // 1st raise should be allowed always - as long as player has chips
+        if (BetManager.Instance.highestBet == 0 && BetManager.Instance.chips[_playerNumber] >= BetManager.Instance.minBet)
+            return true;
+
+        // There are existing bets, determine if can physically raise 
+        return BetManager.Instance.chips[_playerNumber] >= (BetManager.Instance.highestBet - BetManager.Instance.bets[_playerNumber]) + BetManager.Instance.minBet;
     }
     public void Fold(int _playerNumber)
     {
@@ -219,6 +220,7 @@ public class ActionManager : MonoBehaviour
     /// </summary>
     public void Raise(int _playerNumber, int _value)
     {
+        Call(_playerNumber);
         BetManager.Instance.chips[_playerNumber] -= _value;
         BetManager.Instance.bets[_playerNumber] += _value;
         BetManager.Instance.pot += _value;
