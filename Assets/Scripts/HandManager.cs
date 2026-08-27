@@ -30,7 +30,7 @@ public class HandManager : MonoBehaviour
 
     private void GameManagerOnStateChanged(GameState _state)
     {
-        if (_state == GameState.DEALING)
+        if (GameManager.Instance.state == GameState.DEALING)
         {
             // 1st round normal deal cards
             if (GameManager.Instance.roundNumber == 0)

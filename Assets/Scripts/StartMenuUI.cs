@@ -20,7 +20,7 @@ public class StartMenuUI : MonoBehaviour
     }
     private void GameManagerOnStateChanged(GameState _state)
     {
-        switch (_state)
+        switch (GameManager.Instance.state)
         {
             case GameState.IN_START_MENU:
                 SetUp();

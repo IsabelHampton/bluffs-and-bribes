@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,9 @@ public class ActionManager : MonoBehaviour
 {
     public static ActionManager Instance;
 
-    public bool[] hasFolded = new bool[4];
+    public bool[] hasFolded = new bool[(int)PlayerOrder.NUM_OF_PLAYERS];
+    public bool[] isAllIn = new bool[(int)PlayerOrder.NUM_OF_PLAYERS];
+
     public List<int> possibleActions = new List<int>();
 
     void Awake()
@@ -22,55 +25,58 @@ public class ActionManager : MonoBehaviour
 
     private void GameManagerOnStateChanged(GameState _state)
     {
-        switch (_state)
+        Debug.Log($"Game state changed to {GameManager.Instance.state} ");
+        switch (GameManager.Instance.state)
         {
             case GameState.PLAYER_TURN:
-                if (hasFolded[0])
-                    GameManager.Instance.UpdateGameState(GameState.ENEMY1_TURN);
+                if (hasFolded[(int)PlayerOrder.PLAYER])
+                    StartCoroutine(MoveToNextStage((int)PlayerOrder.PLAYER));
                 break;
+
             case GameState.ENEMY1_TURN:
-                if (hasFolded[1])
-                    GameManager.Instance.UpdateGameState(GameState.ENEMY2_TURN);
+                if (hasFolded[(int)PlayerOrder.ENEMY1])
+                    StartCoroutine(MoveToNextStage((int)PlayerOrder.ENEMY1));
                 else
-                    TakeTurn(1);
+                    TakeTurn((int)PlayerOrder.ENEMY1);
                 break;
+
             case GameState.ENEMY2_TURN:
-                if (hasFolded[2])
-                    GameManager.Instance.UpdateGameState(GameState.ENEMY2_TURN);
+                if (hasFolded[(int)PlayerOrder.ENEMY2])
+                    StartCoroutine(MoveToNextStage((int)PlayerOrder.ENEMY2));
                 else
-                    TakeTurn(2);
+                    TakeTurn((int)PlayerOrder.ENEMY2);
                 break;
+
             case GameState.ENEMY3_TURN:
-                if (hasFolded[3])
+                if (hasFolded[(int)PlayerOrder.ENEMY3])
                 {
                     // Check if pay should got back to player or reveal
                     HandleIfRoundCanEnd();
                 }
                 else
-                    TakeTurn(3);
+                    TakeTurn((int)PlayerOrder.ENEMY3);
                 break;
-            case GameState.REVEAL:
-                break;
-            case GameState.END_ROUND:
-                break;
+
             default:
                 break;
         }
     }
 
-    private void TakeTurn(int _playerNumber)
+    public void TakeTurn(int _playerNumber)
     {
         DeterminePossibleActionsForTurn(_playerNumber);
+
         int actionNumberIndex = Random.Range(0, possibleActions.Count);
         switch (possibleActions[actionNumberIndex])
         {
             case (int)Actions.CHECK:
-                Check();
+                //MoveToNextStage(_playerNumber);
                 break;
             case (int)Actions.CALL:
                 Call(_playerNumber);
                 break;
             case (int)Actions.RAISE:
+                Call(_playerNumber);
                 Raise(_playerNumber, RandomRaiseValue(_playerNumber));
                 break;
             case (int)Actions.FOLD:
@@ -79,7 +85,8 @@ public class ActionManager : MonoBehaviour
             default:
                 break;
         }
-        Debug.Log($"Player {_playerNumber} performed action {possibleActions[actionNumberIndex]}");
+        Debug.Log($"Player {(PlayerOrder)_playerNumber} performed action {(Actions)possibleActions[actionNumberIndex]}");
+        StartCoroutine(MoveToNextStage(_playerNumber));
     }
     private void DeterminePossibleActionsForTurn(int _playerNumber)
     {
@@ -89,43 +96,56 @@ public class ActionManager : MonoBehaviour
         {
             possibleActions.Add(i);
         }
+
         // Determine if enemy can check this turn
         if (!CanCheck(_playerNumber))
         {
             possibleActions.Remove((int)Actions.CHECK);
-
-            // If can't check must be something to call, determine if has enough chips to call
-            if (BetManager.Instance.bets[_playerNumber] < BetManager.Instance.highestBet)
-            {
-                possibleActions.Remove((int)Actions.CALL);
-            }
-
         }
-        // If enemy can check it means there is nothing to call
+        // If enemy can check it means there is nothing to call and shouldn't fold
         else
+        {
             possibleActions.Remove((int)Actions.CALL);
+            possibleActions.Remove((int)Actions.FOLD);
+        }
 
-        // Determine if can raise
-        if (BetManager.Instance.bets[_playerNumber] <= BetManager.Instance.highestBet)
+        // Determine if can't physically raise OR shouldn't be allowed to raise (previously players calling their last bet)
+        if (!CanRaise(_playerNumber))
             possibleActions.Remove((int)Actions.RAISE);
-    }
-    public void Check()
-    {
-        GameManager.Instance.UpdateGameState(GameManager.Instance.state + 1);
     }
     public bool CanCheck(int _playerNumber)
     {
         return BetManager.Instance.highestBet == BetManager.Instance.bets[_playerNumber];
     }
+    public bool CanRaise(int _playerNumber)
+    {
+        // Determine if can't physically raise OR shouldn't be allowed to raise (previously players calling their last bet)
+        return BetManager.Instance.chips[_playerNumber] <= BetManager.Instance.highestBet - BetManager.Instance.bets[_playerNumber] ||
+            (BetManager.Instance.highestBet > 0 && BetManager.Instance.highestBet == BetManager.Instance.bets[_playerNumber]);
+    }
     public void Fold(int _playerNumber)
     {
         hasFolded[_playerNumber] = true;
-        if(_playerNumber == (int)PlayerOrder.ENEMY3)
+    }
+    public void PlayerFold()
+    {
+        Fold((int)PlayerOrder.PLAYER);
+        StartCoroutine(MoveToNextStage((int)PlayerOrder.PLAYER));
+    }
+    public IEnumerator MoveToNextStage(int _playerNumber)
+    {
+        yield return new WaitForSecondsRealtime(1.0f);
+
+        if (_playerNumber == (int)PlayerOrder.ENEMY3)
         {
             HandleIfRoundCanEnd();
         }
         else
-            GameManager.Instance.UpdateGameState(GameManager.Instance.state + 1);
+            GameManager.Instance.UpdateGameState((GameState)(GameManager.Instance.state + 1));
+    }
+    public void PlayerCheck()
+    {
+        StartCoroutine(MoveToNextStage((int)(PlayerOrder.PLAYER)));
     }
     public void HandleIfRoundCanEnd()
     {
@@ -134,13 +154,13 @@ public class ActionManager : MonoBehaviour
 
         for (int i = 0; i < BetManager.Instance.bets.Length; i++)
         {
-            if (hasFolded[i] == false && BetManager.Instance.bets[i] < BetManager.Instance.highestBet)
+            if (hasFolded[i] == false && isAllIn[i] == false &&  BetManager.Instance.bets[i] < BetManager.Instance.highestBet)
             {
                 roundCanEnd = false;
             }
         }
         if (roundCanEnd)
-            GameManager.Instance.UpdateGameState(GameManager.Instance.state + 1);
+            GameManager.Instance.UpdateGameState((GameState)(GameManager.Instance.state + 1));
         else
             GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
     }
@@ -150,12 +170,27 @@ public class ActionManager : MonoBehaviour
     public void Call(int _playerNumber)
     {
         int chipsNeededToCall = BetManager.Instance.highestBet - BetManager.Instance.bets[_playerNumber];
-        BetManager.Instance.chips[_playerNumber] -= chipsNeededToCall;
-        BetManager.Instance.bets[_playerNumber] += chipsNeededToCall;
+
+        // Player does not have enough chips to call so muct go all in
+        if (chipsNeededToCall >= BetManager.Instance.chips[_playerNumber])
+        {
+            BetManager.Instance.bets[_playerNumber] += BetManager.Instance.chips[_playerNumber];
+            BetManager.Instance.pot += BetManager.Instance.chips[_playerNumber];
+
+            BetManager.Instance.chips[_playerNumber] = 0;
+            isAllIn[_playerNumber] = true;
+        }
+        else
+        {
+            BetManager.Instance.chips[_playerNumber] -= chipsNeededToCall;
+            BetManager.Instance.bets[_playerNumber] += chipsNeededToCall;
+            BetManager.Instance.pot += chipsNeededToCall;
+        }
     }
     public void PlayerCall()
     {
         Call((int)PlayerOrder.PLAYER);
+        StartCoroutine(MoveToNextStage((int)PlayerOrder.PLAYER));
     }
     /// <summary>
     /// Checks for if call is valid shoud be performed before calling
@@ -164,23 +199,24 @@ public class ActionManager : MonoBehaviour
     {
         BetManager.Instance.chips[_playerNumber] -= _value;
         BetManager.Instance.bets[_playerNumber] += _value;
+        BetManager.Instance.pot += _value;
         BetManager.Instance.highestBet = BetManager.Instance.bets[_playerNumber];
     }
     public int RandomRaiseValue(int _playerNumber)
     {
-        int chipsToCall = BetManager.Instance.highestBet - BetManager.Instance.bets[_playerNumber];
-        int chipsAvailableForRaise = BetManager.Instance.chips[_playerNumber] - chipsToCall;
-        int incrementsAvailableForRaise = chipsAvailableForRaise / BetManager.Instance.minBet;
+        int incrementsAvailableForRaise = BetManager.Instance.chips[_playerNumber] / BetManager.Instance.minBet;
         int raiseIncrement = Random.Range(1, incrementsAvailableForRaise + 1);
         if (raiseIncrement == incrementsAvailableForRaise)
         {
             // TO DO: Trigger UI for All in
         }
+        Debug.Log($"Player {_playerNumber} raised by {raiseIncrement * BetManager.Instance.minBet}");
         return raiseIncrement * BetManager.Instance.minBet;
     }
     public void PlayerRaise()
     {
-
+        // TO DO: Implement UI reading for selecting how much to raise
+        StartCoroutine(MoveToNextStage((int)PlayerOrder.PLAYER));
     }
 }  
 

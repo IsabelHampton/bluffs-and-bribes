@@ -22,7 +22,7 @@ public class BetManager : MonoBehaviour
 
     private void GameManagerOnStateChanged(GameState _state)
     {
-        switch (_state)
+        switch (GameManager.Instance.state)
         {
             case GameState.PLAYER_TURN: // 1st turn of round
                 ResetBets();
@@ -43,5 +43,6 @@ public enum PlayerOrder
     PLAYER,
     ENEMY1,
     ENEMY2,
-    ENEMY3
+    ENEMY3,
+    NUM_OF_PLAYERS
 }

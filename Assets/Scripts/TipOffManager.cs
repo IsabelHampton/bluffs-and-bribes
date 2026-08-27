@@ -21,7 +21,7 @@ public class TipOffManager : MonoBehaviour
 
     private void GameManagerOnStateChanged(GameState _state)
     {
-        if (_state == GameState.TIPOFF)
+        if (GameManager.Instance.state == GameState.TIPOFF)
         {
             ReceiveTipOff(GameManager.Instance.roundNumber);
 
