@@ -41,9 +41,9 @@ public class ActionUI : MonoBehaviour
     }
     public void UpdateElements()
     {
-        playerActionDisplay.text = Convert.ToString(BetManager.Instance.chips[(int)PlayerOrder.PLAYER]);
-        e1ActionDisplay.text = Convert.ToString(BetManager.Instance.chips[(int)PlayerOrder.ENEMY1]);
-        e2ActionDisplay.text = Convert.ToString(BetManager.Instance.chips[(int)PlayerOrder.ENEMY2]);
-        e3ActionDisplay.text = Convert.ToString(BetManager.Instance.chips[(int)PlayerOrder.ENEMY3]);
+        playerActionDisplay.text = Convert.ToString(ActionManager.Instance.lastActions[(int)PlayerOrder.PLAYER]);
+        e1ActionDisplay.text = Convert.ToString(ActionManager.Instance.lastActions[(int)PlayerOrder.ENEMY1]);
+        e2ActionDisplay.text = Convert.ToString(ActionManager.Instance.lastActions[(int)PlayerOrder.ENEMY2]);
+        e3ActionDisplay.text = Convert.ToString(ActionManager.Instance.lastActions[(int)PlayerOrder.ENEMY3]);
     }
 }
