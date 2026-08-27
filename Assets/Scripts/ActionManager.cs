@@ -10,6 +10,8 @@ public class ActionManager : MonoBehaviour
     public bool[] hasFolded = new bool[(int)PlayerOrder.NUM_OF_PLAYERS];
     public bool[] isAllIn = new bool[(int)PlayerOrder.NUM_OF_PLAYERS];
 
+    public Actions[] lastActions = new Actions[(int)PlayerOrder.NUM_OF_PLAYERS];
+    
     public List<int> possibleActions = new List<int>();
 
     void Awake()
@@ -29,28 +31,28 @@ public class ActionManager : MonoBehaviour
         switch (GameManager.Instance.state)
         {
             case GameState.PLAYER_TURN:
-                if (hasFolded[(int)PlayerOrder.PLAYER])
+                if (TurnNeedsSkipping((int)PlayerOrder.PLAYER))
                     StartCoroutine(MoveToNextStage((int)PlayerOrder.PLAYER));
                 break;
 
             case GameState.ENEMY1_TURN:
-                if (hasFolded[(int)PlayerOrder.ENEMY1])
+                if (TurnNeedsSkipping((int)PlayerOrder.ENEMY1))
                     StartCoroutine(MoveToNextStage((int)PlayerOrder.ENEMY1));
                 else
                     TakeTurn((int)PlayerOrder.ENEMY1);
                 break;
 
             case GameState.ENEMY2_TURN:
-                if (hasFolded[(int)PlayerOrder.ENEMY2])
+                if (TurnNeedsSkipping((int)PlayerOrder.ENEMY2))
                     StartCoroutine(MoveToNextStage((int)PlayerOrder.ENEMY2));
                 else
                     TakeTurn((int)PlayerOrder.ENEMY2);
                 break;
 
             case GameState.ENEMY3_TURN:
-                if (hasFolded[(int)PlayerOrder.ENEMY3])
+                if (TurnNeedsSkipping((int)PlayerOrder.ENEMY3))
                 {
-                    // Check if pay should got back to player or reveal
+                    // Check if play should got back to player or reveal
                     HandleIfRoundCanEnd();
                 }
                 else
@@ -85,8 +87,16 @@ public class ActionManager : MonoBehaviour
             default:
                 break;
         }
+
+        lastActions[_playerNumber] = (Actions)possibleActions[actionNumberIndex];
         Debug.Log($"Player {(PlayerOrder)_playerNumber} performed action {(Actions)possibleActions[actionNumberIndex]}");
         StartCoroutine(MoveToNextStage(_playerNumber));
+    }
+    public bool TurnNeedsSkipping(int _playerNumber)
+    {
+        return hasFolded[_playerNumber] ||
+            isAllIn[_playerNumber] ||
+            (BetManager.Instance.highestBet > 0 && BetManager.Instance.bets[_playerNumber] == BetManager.Instance.highestBet); // Check if turn should be skipped as player is being revisited as others had to call their last bet
     }
     private void DeterminePossibleActionsForTurn(int _playerNumber)
     {
@@ -112,6 +122,12 @@ public class ActionManager : MonoBehaviour
         // Determine if can't physically raise OR shouldn't be allowed to raise (previously players calling their last bet)
         if (!CanRaise(_playerNumber))
             possibleActions.Remove((int)Actions.RAISE);
+
+        // REMOVE
+        /*foreach (int action in possibleActions)
+        {
+            Debug.Log($"Player {(PlayerOrder)_playerNumber} can perform {(Actions)action}");
+        }*/
     }
     public bool CanCheck(int _playerNumber)
     {
@@ -120,8 +136,8 @@ public class ActionManager : MonoBehaviour
     public bool CanRaise(int _playerNumber)
     {
         // Determine if can't physically raise OR shouldn't be allowed to raise (previously players calling their last bet)
-        return BetManager.Instance.chips[_playerNumber] <= BetManager.Instance.highestBet - BetManager.Instance.bets[_playerNumber] ||
-            (BetManager.Instance.highestBet > 0 && BetManager.Instance.highestBet == BetManager.Instance.bets[_playerNumber]);
+        return BetManager.Instance.chips[_playerNumber] > BetManager.Instance.highestBet - BetManager.Instance.bets[_playerNumber] ||
+            !(BetManager.Instance.highestBet > 0 && BetManager.Instance.highestBet == BetManager.Instance.bets[_playerNumber]);
     }
     public void Fold(int _playerNumber)
     {
@@ -130,6 +146,8 @@ public class ActionManager : MonoBehaviour
     public void PlayerFold()
     {
         Fold((int)PlayerOrder.PLAYER);
+        lastActions[(int)PlayerOrder.PLAYER] = Actions.FOLD;
+
         StartCoroutine(MoveToNextStage((int)PlayerOrder.PLAYER));
     }
     public IEnumerator MoveToNextStage(int _playerNumber)
@@ -145,6 +163,8 @@ public class ActionManager : MonoBehaviour
     }
     public void PlayerCheck()
     {
+        lastActions[(int)PlayerOrder.PLAYER] = Actions.CHECK;
+
         StartCoroutine(MoveToNextStage((int)(PlayerOrder.PLAYER)));
     }
     public void HandleIfRoundCanEnd()
@@ -190,6 +210,8 @@ public class ActionManager : MonoBehaviour
     public void PlayerCall()
     {
         Call((int)PlayerOrder.PLAYER);
+        lastActions[(int)PlayerOrder.PLAYER] = Actions.CALL;
+
         StartCoroutine(MoveToNextStage((int)PlayerOrder.PLAYER));
     }
     /// <summary>
@@ -216,6 +238,8 @@ public class ActionManager : MonoBehaviour
     public void PlayerRaise()
     {
         // TO DO: Implement UI reading for selecting how much to raise
+
+        lastActions[(int)PlayerOrder.PLAYER] = Actions.RAISE;
         StartCoroutine(MoveToNextStage((int)PlayerOrder.PLAYER));
     }
 }  
