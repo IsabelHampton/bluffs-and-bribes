@@ -192,7 +192,7 @@ public class ActionManager : MonoBehaviour
     {
         int chipsNeededToCall = BetManager.Instance.highestBet - BetManager.Instance.bets[_playerNumber];
 
-        // Player does not have enough chips to call so muct go all in
+        // Player does not have enough chips to call so must go all in
         if (chipsNeededToCall >= BetManager.Instance.chips[_playerNumber])
         {
             BetManager.Instance.bets[_playerNumber] += BetManager.Instance.chips[_playerNumber];
@@ -221,6 +221,7 @@ public class ActionManager : MonoBehaviour
     public void Raise(int _playerNumber, int _value)
     {
         Call(_playerNumber);
+
         BetManager.Instance.chips[_playerNumber] -= _value;
         BetManager.Instance.bets[_playerNumber] += _value;
         BetManager.Instance.pot += _value;
@@ -228,10 +229,15 @@ public class ActionManager : MonoBehaviour
     }
     public int RandomRaiseValue(int _playerNumber)
     {
-        int incrementsAvailableForRaise = BetManager.Instance.chips[_playerNumber] / BetManager.Instance.minBet;
+        // Calculate chips available to raise with after any outstanding call player needs to make
+        int chipsNeededToCall = BetManager.Instance.highestBet - BetManager.Instance.bets[_playerNumber];
+        int availableChips = BetManager.Instance.chips[_playerNumber] - chipsNeededToCall;
+
+        int incrementsAvailableForRaise = availableChips / BetManager.Instance.minBet;
         int raiseIncrement = Random.Range(1, incrementsAvailableForRaise + 1);
         if (raiseIncrement == incrementsAvailableForRaise)
         {
+            isAllIn[_playerNumber] = true;
             // TO DO: Trigger UI for All in
         }
         Debug.Log($"Player {_playerNumber} raised by {raiseIncrement * BetManager.Instance.minBet}");
