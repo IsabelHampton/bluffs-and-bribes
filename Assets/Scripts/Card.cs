@@ -16,7 +16,7 @@ public class Card : MonoBehaviour
 
     public int Value;
     public int Suit;
-    [SerializeField] private bool faceDown;
+    [SerializeField] public bool faceDown;
     public Image displayedImage;
 
     [SerializeField] private Sprite faceUpSprite;

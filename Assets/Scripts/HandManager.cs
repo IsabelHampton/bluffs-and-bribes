@@ -10,11 +10,9 @@ public class HandManager : MonoBehaviour
     public Card[] e1Hand = new Card[2];
     public Card[] e2Hand = new Card[2];
     public Card[] e3Hand = new Card[2];
+    public Card[] flop = new Card[3];
     public Card[] centreCards = new Card[5];
     public Card[] cardsOnTable = new Card[13];
-
-    public Image[] cardHandDisplays;
-    public Image[] centreCardsDisplays;
 
     private List<int> indexesToDrawFrom = new List<int>();
 
@@ -30,18 +28,31 @@ public class HandManager : MonoBehaviour
 
     private void GameManagerOnStateChanged(GameState _state)
     {
-        if (GameManager.Instance.state == GameState.DEALING)
+        switch (GameManager.Instance.state)
         {
-            // 1st round normal deal cards
-            if (GameManager.Instance.roundNumber == 0)
-            {
-                RandomDealCards();
-            }
-            else
-            {
-                // TO DO: Cheating mechanics
-            }
-            GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
+            case GameState.DEALING:
+                // 1st round normal deal cards
+                if (GameManager.Instance.roundNumber == 0)
+                {
+                    RandomDealCards();
+                }
+                else
+                {
+                    // TO DO: Cheating mechanics
+                }
+
+                RevealCards(playerHand);
+                RevealCards(flop);
+
+                GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
+                break;
+            case GameState.REVEAL:
+                NextCardReveal();
+                break;
+            case GameState.END_ROUND:
+                break;
+            default:
+                break;
         }
     }
 
@@ -59,28 +70,35 @@ public class HandManager : MonoBehaviour
         for (int i = 0; i < cardsOnTable.Length; i++)
         {
             int cardInt = Random.Range(0, indexesToDrawFrom.Count);
-            cardsOnTable[i].Init(indexesToDrawFrom[cardInt], false);
+            cardsOnTable[i].Init(indexesToDrawFrom[cardInt]);
             indexesToDrawFrom.RemoveAt(cardInt);
         }
     }
 
-    public void RevealCards()
+    public void RevealCards(Card[] _cardsToReveal)
     {
-
-    }
-    public void ShowFlop()
-    {
-        for (int i = 0; i < 2; i++)
+        foreach (Card card in _cardsToReveal)
         {
-            centreCards[i].Reveal();
+            card.Reveal();
         }
     }
-    public void ShowTurn()
+    public void NextCardReveal()
     {
-        centreCards[3].Reveal();
+        bool cardWasRevealed = false;
+        foreach(Card card in centreCards)
+        {
+            if (card.faceDown)
+            {
+                card.Reveal();
+                cardWasRevealed = true;
+                break;
+            }
+        }
+
+        if (cardWasRevealed)
+            GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
+        else
+            GameManager.Instance.UpdateGameState(GameState.END_ROUND);
     }
-    public void ShowRiver()
-    {
-        centreCards[4].Reveal();
-    }
+
 }

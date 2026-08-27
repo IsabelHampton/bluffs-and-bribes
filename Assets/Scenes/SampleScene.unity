@@ -7091,6 +7091,10 @@ MonoBehaviour:
   e3Hand:
   - {fileID: 1351430547}
   - {fileID: 20097257}
+  flop:
+  - {fileID: 521404912}
+  - {fileID: 1811088818}
+  - {fileID: 1863835449}
   centreCards:
   - {fileID: 521404912}
   - {fileID: 1811088818}
@@ -7111,8 +7115,6 @@ MonoBehaviour:
   - {fileID: 1863835449}
   - {fileID: 1617943291}
   - {fileID: 1724013100}
-  cardHandDisplays: []
-  centreCardsDisplays: []
 --- !u!1 &2015916421
 GameObject:
   m_ObjectHideFlags: 0
