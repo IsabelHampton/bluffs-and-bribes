@@ -243,9 +243,10 @@ public class ActionManager : MonoBehaviour
         Debug.Log($"Player {_playerNumber} raised by {raiseIncrement * BetManager.Instance.minBet}");
         return raiseIncrement * BetManager.Instance.minBet;
     }
-    public void PlayerRaise()
+    public void PlayerRaise(int _value)
     {
-        // TO DO: Implement UI reading for selecting how much to raise
+        Raise((int)PlayerOrder.PLAYER, _value);
+
 
         lastActions[(int)PlayerOrder.PLAYER] = Actions.RAISE;
         StartCoroutine(MoveToNextStage((int)PlayerOrder.PLAYER));
