@@ -31,8 +31,8 @@ public class PlayerUI : MonoBehaviour
     private void UpdateButtonInteractability(bool _isInteractable)
     {
         checkButton.interactable = _isInteractable && BetManager.Instance.bets[(int)(PlayerOrder.PLAYER)] == BetManager.Instance.highestBet;
-        callButton.interactable = _isInteractable;
-        raiseButton.interactable = _isInteractable;
+        callButton.interactable = _isInteractable && BetManager.Instance.chips[(int)(PlayerOrder.PLAYER)] >= BetManager.Instance.highestBet;
+        raiseButton.interactable = _isInteractable && BetManager.Instance.chips[(int)(PlayerOrder.PLAYER)] > BetManager.Instance.highestBet;
         foldButton.interactable = _isInteractable;
     }
     public void OpenTipoffMenu()
@@ -73,10 +73,6 @@ public class PlayerUI : MonoBehaviour
             previousTipOffButton.interactable = false;
     }
 
-    public void OnCheck()
-    {
-        GameManager.Instance.UpdateGameState(GameState.ENEMY1_TURN);
-    }
 
 
 }
