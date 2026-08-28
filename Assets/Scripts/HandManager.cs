@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -63,7 +64,8 @@ public class HandManager : MonoBehaviour
                 playerHand[1].Init(7, (int)Suit.CLUB, false);
 
                 List<Card> testCards = new List<Card> { centreCards[0], centreCards[1], centreCards[2], centreCards[3], centreCards[4], playerHand[0], playerHand[1], };
-                int rank = CheckForTwoPair(testCards, playerHand);
+                //int rank = CheckForTwoPair(testCards, playerHand);
+                int rank = CheckForSpecificHand(testCards, playerHand, FindTwoPair, CalculateTwoPairRank, 4, true);
                 Debug.Log($"Two pair rank from test {rank}");
                 break;
             default:
@@ -83,7 +85,7 @@ public class HandManager : MonoBehaviour
         CreateDeck();
         for (int i = 0; i < cardsOnTable.Length; i++)
         {
-            int cardInt = Random.Range(0, indexesToDrawFrom.Count);
+            int cardInt = UnityEngine.Random.Range(0, indexesToDrawFrom.Count);
             cardsOnTable[i].Init(indexesToDrawFrom[cardInt]);
             indexesToDrawFrom.RemoveAt(cardInt);
         }
@@ -171,13 +173,45 @@ public class HandManager : MonoBehaviour
 
         return 0;
     }
+    public int CheckForSpecificHand(List<Card> _cardsAvailable, Card[] _playerHand, Func<Card[], List<Card>> FindHand, Func<Card[], int> CalculateHandRank, int _cardsInHand, bool _useRecursion = true)
+    {
+        List<Card> handToCheck = new List<Card>(FindHand(_cardsAvailable.ToArray()));
+
+        if (handToCheck == null || handToCheck.Count < _cardsInHand)
+            return 0; // No two pair found so return 0 for rank to continue search for valid hand
+
+        bool containsPlayerCard = false;
+        // Check this hand contains player's cards
+        foreach (Card card in handToCheck)
+        {
+            if (card == _playerHand[0] || card == _playerHand[1])
+            {
+                containsPlayerCard = true;
+            }
+        }
+
+        // Highest hand of specified type was only in the flop
+        if (!containsPlayerCard && _useRecursion)
+        {
+            _cardsAvailable.Remove(handToCheck[handToCheck.Count - 1]);
+            return CheckForSpecificHand(_cardsAvailable, _playerHand, FindHand, CalculateHandRank, _cardsInHand, _useRecursion);
+        }
+
+        return CalculateHandRank(handToCheck.ToArray());
+    }
+    public int CalculateTwoPairRank(Card[] _hand)
+    {
+        return (int)(Mathf.Pow(Mathf.Max(_hand[0].Value, _hand[2].Value), 2) + Mathf.Min(_hand[0].Value, _hand[2].Value));
+    }
     /// <summary>
     /// Must be called on sorted hand
     /// </summary>
     /// <param name="_hand">Must be sorted in value order</param>
     /// <returns>Value of 4 of a kind</returns>
-    public int CheckForFourOfAKind(Card[] _hand)
+    public List<Card> FindFourOfAKInd(Card[] _hand)
     {
+        List<Card> fourOfAKind = new List<Card>();
+
         int matchingCards = 1; // First card matches itself
         for (int i = 0; i < _hand.Length; i++)
         {
@@ -188,12 +222,18 @@ public class HandManager : MonoBehaviour
             {
                 matchingCards++;
                 if (matchingCards == 4)
-                    return _hand[i].Value;
+                {
+                    fourOfAKind.Add(_hand[i - 3]);
+                    fourOfAKind.Add(_hand[i - 2]);
+                    fourOfAKind.Add(_hand[i - 1]);
+                    fourOfAKind.Add(_hand[i]);
+                    return fourOfAKind;
+                }
             } 
             else
                 matchingCards = 1; // New value found so reset counter
         }
-        return 0;
+        return null;
     }
     /// <summary>
     /// Must be called on sorted hand
@@ -282,7 +322,7 @@ public class HandManager : MonoBehaviour
     /// Must be called on sorted hand 
     /// </summary>
     /// <param name="_hand">Must be sorted in value order</param>
-    /// <returns>Returns rank of found 2 pair</returns>
+    /// <returns>Returns list of cards making up 2 pair found</returns>
     public List<Card> FindTwoPair(Card[] _hand)
     {
         List<Card> twoPairHand = new List<Card>();
@@ -344,7 +384,7 @@ public class HandManager : MonoBehaviour
     }
 }
 
-enum HandRanks
+enum HandRank
 {
     HIGH_CARD,
     PAIR,
