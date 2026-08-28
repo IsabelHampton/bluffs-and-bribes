@@ -17,6 +17,9 @@ public class HandManager : MonoBehaviour
     private List<int> indexesToDrawFrom = new List<int>();
     private List<Card> cardsAvailableToMakeHandFrom = new List<Card>();
 
+    public int[] handRanks = new int[(int)PlayerOrder.NUM_OF_PLAYERS];
+    public int[] handValue = new int[(int)PlayerOrder.NUM_OF_PLAYERS];
+
     private void Awake()
     {
         Instance = this;
@@ -123,6 +126,153 @@ public class HandManager : MonoBehaviour
     {
         CreateCardPoolForHand(_currentHand);
         cardsAvailableToMakeHandFrom.Sort(CompareCardsByValue);
+
+    }
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="_hand">2 cards player has</param>
+    /// <returns>Higher value of card player is using for hand</returns>
+    public int HighestPlayerOwnedCardInHand(Card[] _hand)
+    {
+        int returnValue = 0;
+        foreach (Card card in _hand)
+            if (card == playerHand[0] && playerHand[0].Value > returnValue)
+            {
+                returnValue = playerHand[0].Value;
+            }
+            else if (card == playerHand[1] && playerHand[1].Value > returnValue)
+            {
+                returnValue = playerHand[1].Value;
+            }
+        return returnValue;
     }
 
+    /// <summary>
+    /// Must be called on sorted hand
+    /// </summary>
+    /// <param name="_hand">Must be sorted in value order</param>
+    /// <returns></returns>
+    public int ContainsStraightFlush(Card[] _hand)
+    {
+
+        return 0;
+    }
+    /// <summary>
+    /// Must be called on sorted hand
+    /// </summary>
+    /// <param name="_hand">Must be sorted in value order</param>
+    /// <returns>Value of 4 of a kind</returns>
+    public int ContainsFourOfAKind(Card[] _hand)
+    {
+        int matchingCards = 1; // First card matches itself
+        for (int i = 0; i < _hand.Length; i++)
+        {
+            if (i == 0)
+                continue; // Skip first card
+
+            if (_hand[i].Value == _hand[i - 1].Value)
+            {
+                matchingCards++;
+                if (matchingCards == 4)
+                    return _hand[i].Value;
+            } 
+            else
+                matchingCards = 1; // New value found so reset counter
+        }
+        return 0;
+    }
+    /// <summary>
+    /// Must be called on sorted hand
+    /// </summary>
+    /// <param name="_hand">Must be sorted in value order</param>
+    /// <returns></returns>
+    public int ContainsFullHouse(Card[] _hand)
+    {
+        return 0;
+    }
+    /// <summary>
+    /// Must be called on sorted hand
+    /// </summary>
+    /// <param name="_hand">Must be sorted in value suit</param>
+    /// <returns></returns>
+    public int ContainsFlush(Card[] _hand)
+    {
+        return 0;
+    }
+    /// <summary>
+    /// Must be called on sorted hand
+    /// </summary>
+    /// <param name="_hand">Must be sorted in value order</param>
+    /// <returns>Highest value in straight</returns>
+    public int ContainsStraight(Card[] _hand)
+    {
+        return 0;
+    }
+    /// <summary>
+    /// Must be called on sorted hand
+    /// </summary>
+    /// <param name="_hand">Must be sorted in value order</param>
+    /// <returns>Value of 3 of a kind</returns>
+    public int ContainsThreeOfAKind(Card[] _hand)
+    {
+        int matchingCards = 1; // First card matches itself
+        for (int i = 0; i < _hand.Length; i++)
+        {
+            if (i == 0)
+                continue; // Skip first card
+
+            if (_hand[i].Value == _hand[i - 1].Value)
+            {
+                matchingCards++;
+                if (matchingCards == 3)
+                    return _hand[i].Value;
+            }
+            else
+                matchingCards = 1; // New value found so reset counter
+        }
+        return 0;
+    }
+    /// <summary>
+    /// Must be called on sorted hand
+    /// </summary>
+    /// <param name="_hand">Must be sorted in value order</param>
+    /// <returns>Returns values of pairs</returns>
+    public int[] ContainsTwoPair(Card[] _hand)
+    {
+        return new int[2];
+    }
+    /// <summary>
+    /// Must be called on sorted hand
+    /// </summary>
+    /// <param name="_hand">Must be sorted in value order</param>
+    /// <returns>Value of pair</returns>
+    public int ContainsPair(Card[] _hand)
+    {
+        int matchingCards = 1; // First card matches itself
+        for (int i = 0; i < _hand.Length; i++)
+        {
+            if (i == 0)
+                continue; // Skip first card
+
+            if (_hand[i].Value == _hand[i - 1].Value)
+            {
+                matchingCards++;
+                if (matchingCards == 2)
+                    return _hand[i].Value;
+            }
+            else
+                matchingCards = 1; // New value found so reset counter
+        }
+        return 0;
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="_hand">Array of cards with length 2</param>
+    /// <returns></returns>
+    public int PlayerHighCard(Card[] _hand)
+    {
+        return Mathf.Max(_hand[0].Value, _hand[1].Value);
+    }
 }
