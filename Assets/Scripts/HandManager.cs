@@ -15,6 +15,7 @@ public class HandManager : MonoBehaviour
     public Card[] cardsOnTable = new Card[13];
 
     private List<int> indexesToDrawFrom = new List<int>();
+    private List<Card> cardsAvailableToMakeHandFrom = new List<Card>();
 
     private void Awake()
     {
@@ -25,7 +26,6 @@ public class HandManager : MonoBehaviour
     {
         GameManager.OnGameStateChanged -= GameManagerOnStateChanged;
     }
-
     private void GameManagerOnStateChanged(GameState _state)
     {
         switch (GameManager.Instance.state)
@@ -40,7 +40,6 @@ public class HandManager : MonoBehaviour
                 {
                     // TO DO: Cheating mechanics
                 }
-
                 RevealCards(playerHand);
                 RevealCards(flop);
 
@@ -55,7 +54,6 @@ public class HandManager : MonoBehaviour
                 break;
         }
     }
-
     public void CreateDeck()
     {
         indexesToDrawFrom.Clear();
@@ -74,7 +72,6 @@ public class HandManager : MonoBehaviour
             indexesToDrawFrom.RemoveAt(cardInt);
         }
     }
-
     public void RevealCards(Card[] _cardsToReveal)
     {
         foreach (Card card in _cardsToReveal)
@@ -85,7 +82,7 @@ public class HandManager : MonoBehaviour
     public void NextCardReveal()
     {
         bool cardWasRevealed = false;
-        foreach(Card card in centreCards)
+        foreach (Card card in centreCards)
         {
             if (card.faceDown)
             {
@@ -99,6 +96,33 @@ public class HandManager : MonoBehaviour
             GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
         else
             GameManager.Instance.UpdateGameState(GameState.END_ROUND);
+    }
+    public void CreateCardPoolForHand(Card[] _currentHand)
+    {
+        cardsAvailableToMakeHandFrom.Clear();
+        foreach (Card card in _currentHand)
+        {
+            cardsAvailableToMakeHandFrom.Add(card);
+        }
+        foreach (Card card in centreCards)
+        {
+            if (card.faceDown == false)
+                cardsAvailableToMakeHandFrom.Add(card);
+        }
+    }
+    private static int CompareCardsByValue(Card _card1, Card _card2)
+    {
+        if (_card1.Value > _card2.Value)
+            return 1;
+        else if (_card2.Value > _card1.Value)
+            return -1;
+        return 0;
+    }
+
+    public void DetermineCurrentHandRank(Card[] _currentHand)
+    {
+        CreateCardPoolForHand(_currentHand);
+        cardsAvailableToMakeHandFrom.Sort(CompareCardsByValue);
     }
 
 }
