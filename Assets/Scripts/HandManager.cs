@@ -270,17 +270,51 @@ public class HandManager : MonoBehaviour
         List<Card> threeOfAKind = new List<Card>();
         List<Card> pair = new List<Card>();
         List<Card> fullHouse = new List<Card>();
+        int matchingCards = 1; // Matching with itself
 
         for (int i = 0; i < _hand.Length; i++)
         {
             if (i == 0)
                 continue; // Skip 1st one
-            if (_hand[i].Value == _hand[i - 1])
+            if (_hand[i].Value == _hand[i - 1].Value)
             {
+                matchingCards++;
+                // If found pair AND no pair found yet
+                if (matchingCards == 2 && pair.Count == 0)
+                {
+                    pair.Add(_hand[i - 1]);
+                    pair.Add(_hand[i]);
+                }
+                else if (matchingCards == 3)
+                {
+                    threeOfAKind.Add(_hand[i - 2]);
+                    threeOfAKind.Add(_hand[i - 1]);
+                    threeOfAKind.Add(_hand[i]);
+                    // Check if found pair AND if pair is part of this 3 of a kind
+                    if (pair.Count > 0 && pair[0].Value == _hand[i].Value)
+                        pair.Clear();
+                }
 
+                // Check if full house has now been found
+                if (threeOfAKind.Count == 3 && pair.Count == 2)
+                {
+                    fullHouse = threeOfAKind;
+                    fullHouse.Add(pair[0]);
+                    fullHouse.Add(pair[1]);
+                    return fullHouse;
+                }
+            }
+            else
+            {
+                matchingCards = 1; // Reset counter
             }
         }
         return fullHouse;
+    }
+    public int CalculateRankForFullHouse(Card[] _fullHouse)
+    {
+        // 3 of a kind value squared + pair value
+        return (int)( Mathf.Pow(_fullHouse[0].Value, 2) + _fullHouse[3].Value);
     }
     /// <summary>
     /// Must be called on sorted hand
