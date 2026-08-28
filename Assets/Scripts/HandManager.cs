@@ -220,9 +220,16 @@ public class HandManager : MonoBehaviour
 
         return 0;
     }
-    public int CalculateStraightFlushRank(Card[] _hand)
+    public List<Card> CalculateStraightFlushRank(Card[] _hand)
     {
-        return 0;
+        List<Card> straightFlush = new List<Card>();
+
+        return straightFlush;
+    }
+    public int CalculateRankForStraightFlush(Card[] _straightFlush)
+    {
+        Array.Sort(_straightFlush, DescendingCardValue);
+        return _straightFlush[0].Value;
     }
     /// <summary>
     /// Must be called on sorted hand
