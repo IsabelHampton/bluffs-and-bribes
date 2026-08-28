@@ -36,19 +36,19 @@ public class ActionManager : MonoBehaviour
                 break;
             case GameState.PLAYER_TURN:
                 if (TurnNeedsSkipping((int)PlayerOrder.PLAYER))
-                    StartCoroutine(MoveToNextStage((int)PlayerOrder.PLAYER));
+                    MoveToNextStageWithoutDelay((int)PlayerOrder.PLAYER);
                 break;
 
             case GameState.ENEMY1_TURN:
                 if (TurnNeedsSkipping((int)PlayerOrder.ENEMY1))
-                    StartCoroutine(MoveToNextStage((int)PlayerOrder.ENEMY1));
+                    MoveToNextStageWithoutDelay((int)PlayerOrder.ENEMY1);
                 else
                     TakeTurn((int)PlayerOrder.ENEMY1);
                 break;
 
             case GameState.ENEMY2_TURN:
                 if (TurnNeedsSkipping((int)PlayerOrder.ENEMY2))
-                    StartCoroutine(MoveToNextStage((int)PlayerOrder.ENEMY2));
+                    MoveToNextStageWithoutDelay((int)PlayerOrder.ENEMY2);
                 else
                     TakeTurn((int)PlayerOrder.ENEMY2);
                 break;
@@ -56,8 +56,7 @@ public class ActionManager : MonoBehaviour
             case GameState.ENEMY3_TURN:
                 if (TurnNeedsSkipping((int)PlayerOrder.ENEMY3))
                 {
-                    // Check if play should got back to player or reveal
-                    HandleIfRoundCanEnd();
+                    MoveToNextStageWithoutDelay((int)PlayerOrder.ENEMY3);
                 }
                 else
                     TakeTurn((int)PlayerOrder.ENEMY3);
@@ -99,7 +98,12 @@ public class ActionManager : MonoBehaviour
 
         lastActions[_playerNumber] = (Actions)possibleActions[actionNumberIndex];
         Debug.Log($"Player {(PlayerOrder)_playerNumber} performed action {(Actions)possibleActions[actionNumberIndex]}");
-        StartCoroutine(MoveToNextStage(_playerNumber));
+
+        // Check if only one player remaining ask skip to end
+        if (foldedPlayers == (int)PlayerOrder.NUM_OF_PLAYERS - 1)
+            MoveToNextStageWithoutDelay(_playerNumber);
+        else
+            StartCoroutine(MoveToNextStageWithDelay(_playerNumber));
     }
     public bool TurnNeedsSkipping(int _playerNumber)
     {
@@ -152,6 +156,10 @@ public class ActionManager : MonoBehaviour
         // There are existing bets, determine if can physically raise 
         return BetManager.Instance.chips[_playerNumber] >= (BetManager.Instance.highestBet - BetManager.Instance.bets[_playerNumber]) + BetManager.Instance.minBet;
     }
+    public bool CanCallOrFold(int _playerNumber)
+    {
+        return BetManager.Instance.bets[_playerNumber] < BetManager.Instance.highestBet;
+    }
     public void Fold(int _playerNumber)
     {
         hasFolded[_playerNumber] = true;
@@ -162,12 +170,21 @@ public class ActionManager : MonoBehaviour
         Fold((int)PlayerOrder.PLAYER);
         lastActions[(int)PlayerOrder.PLAYER] = Actions.FOLD;
 
-        StartCoroutine(MoveToNextStage((int)PlayerOrder.PLAYER));
+        StartCoroutine(MoveToNextStageWithDelay((int)PlayerOrder.PLAYER));
     }
-    public IEnumerator MoveToNextStage(int _playerNumber)
+    public IEnumerator MoveToNextStageWithDelay(int _playerNumber)
     {
         yield return new WaitForSecondsRealtime(1.0f);
 
+        if (_playerNumber == (int)PlayerOrder.ENEMY3)
+        {
+            HandleIfRoundCanEnd();
+        }
+        else
+            GameManager.Instance.UpdateGameState((GameState)(GameManager.Instance.state + 1));
+    }
+    public void MoveToNextStageWithoutDelay(int _playerNumber)
+    {
         if (_playerNumber == (int)PlayerOrder.ENEMY3)
         {
             HandleIfRoundCanEnd();
@@ -179,7 +196,7 @@ public class ActionManager : MonoBehaviour
     {
         lastActions[(int)PlayerOrder.PLAYER] = Actions.CHECK;
 
-        StartCoroutine(MoveToNextStage((int)(PlayerOrder.PLAYER)));
+        StartCoroutine(MoveToNextStageWithDelay((int)(PlayerOrder.PLAYER)));
     }
     public void HandleIfRoundCanEnd()
     {
@@ -226,7 +243,7 @@ public class ActionManager : MonoBehaviour
         Call((int)PlayerOrder.PLAYER);
         lastActions[(int)PlayerOrder.PLAYER] = Actions.CALL;
 
-        StartCoroutine(MoveToNextStage((int)PlayerOrder.PLAYER));
+        StartCoroutine(MoveToNextStageWithDelay((int)PlayerOrder.PLAYER));
     }
     /// <summary>
     /// Checks for if call is valid shoud be performed before calling
@@ -262,7 +279,7 @@ public class ActionManager : MonoBehaviour
 
 
         lastActions[(int)PlayerOrder.PLAYER] = Actions.RAISE;
-        StartCoroutine(MoveToNextStage((int)PlayerOrder.PLAYER));
+        StartCoroutine(MoveToNextStageWithDelay((int)PlayerOrder.PLAYER));
     }
 }  
 
