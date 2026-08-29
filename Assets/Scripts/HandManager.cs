@@ -147,6 +147,12 @@ public class HandManager : MonoBehaviour
             return -1;
         return 0;
     }
+    private static int DescendingValueForAscendingSuit(Card _card1, Card _card2)
+    {
+        if (_card1.Suit != _card2.Suit)
+            return 0; // Don't swap as new suit foud
+        return DescendingCardValue(_card1, _card2);
+    }
 
     public void DetermineCurrentHandRank(Card[] _currentHand)
     {
@@ -215,10 +221,34 @@ public class HandManager : MonoBehaviour
     /// </summary>
     /// <param name="_hand">Must be sorted in value order</param>
     /// <returns></returns>
-    public int FindStraightFlush(Card[] _hand)
+    public List<Card> FindStraightFlush(Card[] _hand)
     {
+        Array.Sort(_hand, AscendingCardSuit); //sort by suit
+        Array.Sort(_hand, DescendingValueForAscendingSuit);
 
-        return 0;
+        List<Card> straightFlush = new List<Card>();
+        int consecutiveCards = 1;
+        for (int i = 0; i < _hand.Length; i++)
+        {
+            if (i == 0)
+                continue; // Skip 1st card
+            if (_hand[i].Value == _hand[i - 1].Value + 1 && _hand[i].Suit == _hand[i - 1].Suit)
+            {
+                consecutiveCards++;
+                if (consecutiveCards == 5)
+                {
+                    for (int j = i - 4; j < i + 1; j++)
+                    {
+                        straightFlush.Add(_hand[j]);
+                    }
+                    return straightFlush;
+                }
+            }
+            else
+                consecutiveCards = 1; // Reset counter ;
+            
+        }
+        return straightFlush;
     }
     public List<Card> CalculateStraightFlushRank(Card[] _hand)
     {
@@ -330,7 +360,8 @@ public class HandManager : MonoBehaviour
     /// <returns></returns>
     public List<Card> CheckForFlush(Card[] _hand)
     {
-        Array.Sort(_hand, AscendingCardSuit); // Sort cards by suit
+        Array.Sort(_hand, AscendingCardSuit); // Sort cards by suits
+        Array.Sort(_hand, DescendingValueForAscendingSuit);
 
         List<Card> flush = new List<Card>();
         int matchingSuit = 1;
