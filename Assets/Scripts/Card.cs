@@ -37,7 +37,7 @@ public class Card : MonoBehaviour
 
     public void Init(int _cardValue, bool _faceDown = true)
     {
-        Value = _cardValue % 13; ;
+        Value = (_cardValue % 13) + 2; // +2 as card values start from 2
         Suit = (int)(_cardValue / 13);
         faceDown = _faceDown;
 

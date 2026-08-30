@@ -21,6 +21,8 @@ public class HandManager : MonoBehaviour
 
     public PlayerHand[] playerHands = new PlayerHand[(int)PlayerOrder.NUM_OF_PLAYERS];
 
+    bool endOfRoundSequenceStarted = false; // Prevent sequence happening multiple times on event trigger? TO DO: Find better fix
+
     private void UpdateAllHands()
     {
         allHands = new Card[][]{ playerHand, e1Hand, e2Hand, e3Hand};
@@ -30,13 +32,13 @@ public class HandManager : MonoBehaviour
         UpdateAllHands();
         for (int i = 0; i < allHands.Length; i++)
         {
-            if (ActionManager.Instance.isAllIn[i])
+            if (ActionManager.Instance.hasFolded[i])
                 continue; // Skip reveal as has folded
 
             // Reveal cards in hand
             foreach (Card card in allHands[i])
             {
-                card.faceDown = false;
+                card.Reveal();
             }
         }
     }
@@ -55,6 +57,7 @@ public class HandManager : MonoBehaviour
         switch (GameManager.Instance.state)
         {
             case GameState.DEALING:
+                endOfRoundSequenceStarted = false; // Reset 
                 // 1st round normal deal cards
                 if (GameManager.Instance.roundNumber == 0)
                 {
@@ -73,6 +76,10 @@ public class HandManager : MonoBehaviour
                 NextCardReveal();
                 break;
             case GameState.END_ROUND:
+                if (endOfRoundSequenceStarted)
+                    break; // Stop doing multiple times 
+
+                endOfRoundSequenceStarted = true; // Now started so tell event thing to stop calling repeatedly
                 RevealEndOfRoundHands(); // Calls UpdateHands()
 
                 for (int i = 0; i < (int)PlayerOrder.NUM_OF_PLAYERS; i++)
@@ -98,15 +105,19 @@ public class HandManager : MonoBehaviour
                     // Must have same hand type
                     if (sortedHands[i].handRank < sortedHands[i].handRank)
                         break; // Has lower rank hand type so no more winners
+
                     // Must have same hand and rank
                     winningHands.Add(sortedHands[i]);
                 }
+
+                //  REMOVE: Check already done for folded players, will have no rank calculated
                 // Match up winning hands to players and remove any winners that folded
-                for (int i = 0; i < playerHands.Length; i++)
+                /*for (int i = 0; i < playerHands.Length; i++)
                 {
                     if (winningHands.Contains(playerHands[i]) && ActionManager.Instance.hasFolded[i])
                         winningHands.Remove(playerHands[i]);
-                }
+                }*/
+
                 // Iterate through list of player hands (in order of player number)
                 for (int i = 0; i < playerHands.Length; i++)
                 {
