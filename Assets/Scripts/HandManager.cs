@@ -68,8 +68,9 @@ public class HandManager : MonoBehaviour
                 }
 
                 // Sort ranks in descending order
-                PlayerHand[] sortedHands = Array.Sort(playerHands, ByDescendingHandType);
-                sortedHands = Array.Sort(sortedHands, ByDescendingRankPerHandType);
+                PlayerHand[] sortedHands = playerHands;
+                Array.Sort(sortedHands, ByDescendingHandType);
+                Array.Sort(sortedHands, ByDescendingRankPerHandType);
 
                 List<PlayerHand> winningHands = new List<PlayerHand> { sortedHands[0] } ; // 1st element in sorted list is winner
                 for (int i = 0; i < sortedHands.Length; i++)
@@ -85,9 +86,23 @@ public class HandManager : MonoBehaviour
                     // Must have same hand and rank
                     winningHands.Add(sortedHands[i]);
                 }
-                // Using winner list dish out pot 
+                // Iterate through list of player hands (in order of player number)
+                for (int i = 0; i < playerHands.Length; i++)
+                {
+                    // If hand is in winning hands list give spilt of pot
+                    if (winningHands.Contains(playerHands[i]))
+                    {
+                        int chipsWon = BetManager.Instance.pot / winningHands.Count;
+                        BetManager.Instance.AddPlayerChips(chipsWon, i);// Give player winnings split from pot
+                        Debug.Log($"{(PlayerOrder)i} wins {chipsWon} with a {playerHands[i].handType} of rank {playerHands[i].handRank}");
+                    }
+                    else
+                    {
+                        Debug.Log($"{(PlayerOrder)i} lost with a {playerHands[i].handType} of rank {playerHands[i].handRank}");
+                    }
+                }
+                // TO DO: Display next round button
 
-                // Reset round or have button?
                 break;
             default:
                 break;
@@ -167,12 +182,38 @@ public class HandManager : MonoBehaviour
             return -1;
         return 0;
     }
+    /// <summary>
+    /// Must be called on array sorted by ascending suit
+    /// </summary>
     private static int DescendingValueForAscendingSuit(Card _card1, Card _card2)
     {
         if (_card1.Suit != _card2.Suit)
             return 0; // Don't swap as new suit foud
         return DescendingCardValue(_card1, _card2);
     }
+    private static int ByDescendingHandType(PlayerHand _hand1, PlayerHand _hand2)
+    {
+        if (_hand1.handType > _hand2.handType)
+            return -1;
+        else if (_hand2.handType > _hand1.handType)
+            return 1;
+        return 0;
+    }
+    /// <summary>
+    /// Must be called on array sorted by descending rank
+    /// </summary>
+    private static int ByDescendingRankPerHandType(PlayerHand _hand1, PlayerHand _hand2)
+    {
+        if (_hand1.handType != _hand2.handType)
+            return 0; // Don't swap as new hand type found
+
+        if (_hand1.handRank > _hand2.handRank)
+            return -1;
+        else if (_hand2.handRank > _hand1.handRank)
+            return 1;
+        return 0; // Same hand type and rank no swap
+    }
+    
 
     public void DetermineCurrentHandRank(Card[] _currentHand, int _playerNumber)
     {

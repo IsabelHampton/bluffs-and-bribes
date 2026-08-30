@@ -225,10 +225,11 @@ public class ActionManager : MonoBehaviour
         // Player does not have enough chips to call so must go all in
         if (chipsNeededToCall >= BetManager.Instance.chips[_playerNumber])
         {
-            BetManager.Instance.bets[_playerNumber] += BetManager.Instance.chips[_playerNumber];
-            BetManager.Instance.pot += BetManager.Instance.chips[_playerNumber];
+            BetManager.Instance.AddPlayerBet(BetManager.Instance.chips[_playerNumber], _playerNumber);
+            BetManager.Instance.AddToPot(BetManager.Instance.chips[_playerNumber]);
 
-            BetManager.Instance.chips[_playerNumber] = 0;
+            BetManager.Instance.SetPlayerChips(0, _playerNumber);
+
             isAllIn[_playerNumber] = true;
         }
         else

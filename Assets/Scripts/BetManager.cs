@@ -24,6 +24,10 @@ public class BetManager : MonoBehaviour
     {
         switch (GameManager.Instance.state)
         {
+            case GameState.DEALING:
+                pot = 0; // Zero out pot for new round
+                ResetBets();
+                break;
             case GameState.REVEAL: // 1st turn of round
                 ResetBets();
                 break;
@@ -35,6 +39,36 @@ public class BetManager : MonoBehaviour
     {
         bets = new int[]{ 0, 0, 0, 0 };
         highestBet = 0;
+    }
+
+    public void SetPlayerChips(int _value, int _playerNumber)
+    {
+        chips[_playerNumber] = _value;
+    }
+
+    public void AddPlayerChips(int _value, int _playerNumber)
+    {
+        chips[_playerNumber] += _value;
+    }
+
+    public void SetPot(int _value)
+    {
+        pot = _value;
+    }
+
+    public void AddToPot(int _value)
+    {
+        pot += _value;
+    }
+
+    public void SetPlayerBet(int _value, int _playerNumber)
+    {
+        bets[_playerNumber] = _value;
+    }
+
+    public void AddPlayerBet(int _value, int _playerNumber)
+    {
+        bets[_playerNumber] += _value;
     }
 }
 
