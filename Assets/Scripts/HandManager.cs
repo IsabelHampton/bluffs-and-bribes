@@ -25,6 +25,21 @@ public class HandManager : MonoBehaviour
     {
         allHands = new Card[][]{ playerHand, e1Hand, e2Hand, e3Hand};
     }
+    private void RevealEndOfRoundHands()
+    {
+        UpdateAllHands();
+        for (int i = 0; i < allHands.Length; i++)
+        {
+            if (ActionManager.Instance.isAllIn[i])
+                continue; // Skip reveal as has folded
+
+            // Reveal cards in hand
+            foreach (Card card in allHands[i])
+            {
+                card.faceDown = false;
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -58,7 +73,7 @@ public class HandManager : MonoBehaviour
                 NextCardReveal();
                 break;
             case GameState.END_ROUND:
-                UpdateAllHands();
+                RevealEndOfRoundHands(); // Calls UpdateHands()
 
                 for (int i = 0; i < (int)PlayerOrder.NUM_OF_PLAYERS; i++)
                 {
@@ -80,11 +95,17 @@ public class HandManager : MonoBehaviour
                     if (sortedHands[i].handType != sortedHands[i - 1].handType)
                         break; // No more players with same hand type no need to check
 
-                    // <ush have same hand type
+                    // Must have same hand type
                     if (sortedHands[i].handRank < sortedHands[i].handRank)
                         break; // Has lower rank hand type so no more winners
                     // Must have same hand and rank
                     winningHands.Add(sortedHands[i]);
+                }
+                // Match up winning hands to players and remove any winners that folded
+                for (int i = 0; i < playerHands.Length; i++)
+                {
+                    if (winningHands.Contains(playerHands[i]) && ActionManager.Instance.hasFolded[i])
+                        winningHands.Remove(playerHands[i]);
                 }
                 // Iterate through list of player hands (in order of player number)
                 for (int i = 0; i < playerHands.Length; i++)
