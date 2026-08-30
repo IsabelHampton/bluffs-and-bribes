@@ -11,6 +11,7 @@ public class HandManager : MonoBehaviour
     public Card[] e1Hand = new Card[2];
     public Card[] e2Hand = new Card[2];
     public Card[] e3Hand = new Card[2];
+    public Card[][] allHands = new Card[(int)PlayerOrder.NUM_OF_PLAYERS][];
     public Card[] flop = new Card[3];
     public Card[] centreCards = new Card[5];
     public Card[] cardsOnTable = new Card[13];
@@ -18,8 +19,12 @@ public class HandManager : MonoBehaviour
     private List<int> indexesToDrawFrom = new List<int>();
     private List<Card> cardsAvailableToMakeHandFrom = new List<Card>();
 
-    public int[] handRanks = new int[(int)PlayerOrder.NUM_OF_PLAYERS];
-    public int[] handValue = new int[(int)PlayerOrder.NUM_OF_PLAYERS];
+    public PlayerHand[] playerHands = new PlayerHand[(int)PlayerOrder.NUM_OF_PLAYERS];
+
+    private void UpdateAllHands()
+    {
+        allHands = new Card[][]{ playerHand, e1Hand, e2Hand, e3Hand};
+    }
 
     private void Awake()
     {
@@ -46,30 +51,43 @@ public class HandManager : MonoBehaviour
                 }
                 RevealCards(playerHand);
                 RevealCards(flop);
-
+                UpdateAllHands();
                 GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
                 break;
             case GameState.REVEAL:
                 NextCardReveal();
                 break;
             case GameState.END_ROUND:
-                // REMOVE
-                centreCards[0].Init(14, (int)Suit.HEART, false);
-                centreCards[1].Init(14, (int)Suit.CLUB, false);
-                centreCards[2].Init(12, (int)Suit.HEART, false);
-                centreCards[3].Init(12, (int)Suit.DIAMOND, false);
-                centreCards[4].Init(9, (int)Suit.HEART, false);
+                UpdateAllHands();
 
-                playerHand[0].Init(10, (int)Suit.DIAMOND, false);
-                playerHand[1].Init(10, (int)Suit.CLUB, false);
+                for (int i = 0; i < (int)PlayerOrder.NUM_OF_PLAYERS; i++)
+                {
+                    // Check player hasn't folded
+                    if (!ActionManager.Instance.hasFolded[i])
+                        DetermineCurrentHandRank(allHands[i], i);
+                }
 
-                List<Card> testCards = new List<Card> { centreCards[0], centreCards[1], centreCards[2], centreCards[3], centreCards[4], playerHand[0], playerHand[1], };
-                testCards.Sort(DescendingCardValue);
-                foreach(Card card in testCards)
-                    Debug.Log($"{card.Value} {(Suit)card.Suit}");
-                //int rank = CheckForTwoPair(testCards, playerHand);
-                int rank = CheckForSpecificHand(testCards, playerHand, FindTwoPair, CalculateRankForTwoPair, 4, true);
-                Debug.Log($"Two pair rank from test {rank}");
+                // Sort ranks in descending order
+                PlayerHand[] sortedHands = Array.Sort(playerHands, ByDescendingHandType);
+                sortedHands = Array.Sort(sortedHands, ByDescendingRankPerHandType);
+
+                List<PlayerHand> winningHands = new List<PlayerHand> { sortedHands[0] } ; // 1st element in sorted list is winner
+                for (int i = 0; i < sortedHands.Length; i++)
+                {
+                    if (i == 0)
+                        continue; // Already know they are winner and are in list
+                    if (sortedHands[i].handType != sortedHands[i - 1].handType)
+                        break; // No more players with same hand type no need to check
+
+                    // <ush have same hand type
+                    if (sortedHands[i].handRank < sortedHands[i].handRank)
+                        break; // Has lower rank hand type so no more winners
+                    // Must have same hand and rank
+                    winningHands.Add(sortedHands[i]);
+                }
+                // Using winner list dish out pot 
+
+                // Reset round or have button?
                 break;
             default:
                 break;
@@ -129,6 +147,8 @@ public class HandManager : MonoBehaviour
         {
             if (card.faceDown == false)
                 cardsAvailableToMakeHandFrom.Add(card);
+            else
+                break; // Stop checking as no more face up cards
         }
     }
     private static int DescendingCardValue(Card _card1, Card _card2)
@@ -154,43 +174,66 @@ public class HandManager : MonoBehaviour
         return DescendingCardValue(_card1, _card2);
     }
 
-    public void DetermineCurrentHandRank(Card[] _currentHand)
+    public void DetermineCurrentHandRank(Card[] _currentHand, int _playerNumber)
     {
         CreateCardPoolForHand(_currentHand);
         cardsAvailableToMakeHandFrom.Sort(DescendingCardValue);
+        int score = 0;
+        // Check for straight flush
+        score = CheckForSpecificHand(cardsAvailableToMakeHandFrom, _currentHand, FindStraightFlush, CalculateRankForStraightFlush, 5, true);
+        if (ApplyScoreIfSpecificHandFound(score, HandType.STRAIGHT_FLUSH, _playerNumber))
+            return; // Exit out of method highest hand found
 
+        // Check for four of a kind
+        score = CheckForSpecificHand(cardsAvailableToMakeHandFrom, _currentHand, FindFourOfAKind, CalculateRankForFourOfAKind, 4, false); // Can't have multiple 4s of a king in one round
+        if (ApplyScoreIfSpecificHandFound(score, HandType.FOUR_OF_A_KIND, _playerNumber))
+            return; // Exit out of method highest hand found
+
+        // Check for full house
+        score = CheckForSpecificHand(cardsAvailableToMakeHandFrom, _currentHand, FindFullHouse, CalculateRankForFullHouse, 5, true);
+        if (ApplyScoreIfSpecificHandFound(score, HandType.FULL_HOUSE, _playerNumber))
+            return; // Exit out of method highest hand found
+
+        // Check for flush
+        score = CheckForSpecificHand(cardsAvailableToMakeHandFrom, _currentHand, FindFlush, CalculateRankForFlush, 5, true);
+        if (ApplyScoreIfSpecificHandFound(score, HandType.FLUSH, _playerNumber))
+            return; // Exit out of method highest hand found
+
+        // Check for straight
+        score = CheckForSpecificHand(cardsAvailableToMakeHandFrom, _currentHand, FindStraight, CalculateRankForStraight, 5, true);
+        if (ApplyScoreIfSpecificHandFound(score, HandType.STRAIGHT, _playerNumber))
+            return; // Exit out of method highest hand found
+
+        // Check three of a kind
+        score = CheckForSpecificHand(cardsAvailableToMakeHandFrom, _currentHand, FindThreeOfAKind, CalculateRankForThreeOfAKind, 3, true);
+        if (ApplyScoreIfSpecificHandFound(score, HandType.THREE_OF_A_KIND, _playerNumber))
+            return; // Exit out of method highest hand found
+
+        // Check for two pair
+        score = CheckForSpecificHand(cardsAvailableToMakeHandFrom, _currentHand, FindTwoPair, CalculateRankForTwoPair, 4, true);
+        if (ApplyScoreIfSpecificHandFound(score, HandType.TWO_PAIR, _playerNumber))
+            return; // Exit out of method highest hand found
+
+        // Check for pair
+        score = CheckForSpecificHand(cardsAvailableToMakeHandFrom, _currentHand, FindPair, CalculateRankForPair, 2, true);
+        if (ApplyScoreIfSpecificHandFound(score, HandType.PAIR, _playerNumber))
+            return; // Exit out of method highest hand found
+
+        // Get high card - no check needed as always can have high card
+        ApplyScoreIfSpecificHandFound(CalculateRankForHighCard(_currentHand), HandType.HIGH_CARD, _playerNumber);
     }
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="_hand">2 cards player has</param>
-    /// <returns>Higher value of card player is using for hand</returns>
-    public int HighestPlayerOwnedCardInHand(Card[] _hand)
+
+    private bool ApplyScoreIfSpecificHandFound(int _foundRank, HandType _checkedForHand, int _playerNumber)
     {
-        int returnValue = 0;
-        foreach (Card card in _hand)
-            if (card == playerHand[0] && playerHand[0].Value > returnValue)
-            {
-                returnValue = playerHand[0].Value;
-            }
-            else if (card == playerHand[1] && playerHand[1].Value > returnValue)
-            {
-                returnValue = playerHand[1].Value;
-            }
-        return returnValue;
+        if (_foundRank != 0)
+        {
+            playerHands[_playerNumber].handType = _checkedForHand;
+            playerHands[_playerNumber].handRank = _foundRank;
+            return true; // Hand found
+        }
+        return false;
     }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="_cardsAvailable">Needs to ve sorted in descending order by card value</param>
-    /// <param name="_playerHand"></param>
-    /// <param name="FindHand"></param>
-    /// <param name="CalculateHandRank"></param>
-    /// <param name="_cardsInHand"></param>
-    /// <param name="_useRecursion"></param>
-    /// <returns></returns>
-
-    public int CheckForSpecificHand(List<Card> _cardsAvailable, Card[] _playerHand, Func<Card[], List<Card>> FindHand, Func<Card[], int> CalculateHandRank, int _cardsInHand, bool _useRecursion = true)
+    public int CheckForSpecificHand(List<Card> _cardsAvailable, Card[] _playerHand, Func<Card[], List<Card>> FindHand, Func<Card[], Card[], int> CalculateHandRank, int _cardsInHand, bool _useRecursion = true)
     {
         List<Card> handToCheck = new List<Card>(FindHand(_cardsAvailable.ToArray()));
 
@@ -214,7 +257,7 @@ public class HandManager : MonoBehaviour
             return CheckForSpecificHand(_cardsAvailable, _playerHand, FindHand, CalculateHandRank, _cardsInHand, _useRecursion);
         }
 
-        return CalculateHandRank(handToCheck.ToArray());
+        return CalculateHandRank(handToCheck.ToArray(), _playerHand);
     }
     /// <summary>
     /// Must be called on sorted hand
@@ -250,13 +293,7 @@ public class HandManager : MonoBehaviour
         }
         return straightFlush;
     }
-    public List<Card> CalculateStraightFlushRank(Card[] _hand)
-    {
-        List<Card> straightFlush = new List<Card>();
-
-        return straightFlush;
-    }
-    public int CalculateRankForStraightFlush(Card[] _straightFlush)
+    public int CalculateRankForStraightFlush(Card[] _straightFlush, Card[] _playerHand)
     {
         Array.Sort(_straightFlush, DescendingCardValue);
         return _straightFlush[0].Value;
@@ -293,7 +330,7 @@ public class HandManager : MonoBehaviour
         }
         return fourOfAKind;
     }
-    public int CalculateRankForFourOfAKind(Card[] _fourOfAKind)
+    public int CalculateRankForFourOfAKind(Card[] _fourOfAKind, Card[] _playerHand)
     {
         return _fourOfAKind[0].Value;
     }
@@ -302,7 +339,7 @@ public class HandManager : MonoBehaviour
     /// </summary>
     /// <param name="_hand">Must be sorted in descending value order</param>
     /// <returns></returns>
-    public List<Card> CheckForFullHouse(Card[] _hand)
+    public List<Card> FindFullHouse(Card[] _hand)
     {
         List<Card> threeOfAKind = new List<Card>();
         List<Card> pair = new List<Card>();
@@ -348,7 +385,7 @@ public class HandManager : MonoBehaviour
         }
         return fullHouse;
     }
-    public int CalculateRankForFullHouse(Card[] _fullHouse)
+    public int CalculateRankForFullHouse(Card[] _fullHouse, Card[] _playerHand)
     {
         // 3 of a kind value squared + pair value
         return (int)( Mathf.Pow(_fullHouse[0].Value, 2) + _fullHouse[3].Value);
@@ -358,7 +395,7 @@ public class HandManager : MonoBehaviour
     /// </summary>
     /// <param name="_hand">Must be sorted in value suit</param>
     /// <returns></returns>
-    public List<Card> CheckForFlush(Card[] _hand)
+    public List<Card> FindFlush(Card[] _hand)
     {
         Array.Sort(_hand, AscendingCardSuit); // Sort cards by suits
         Array.Sort(_hand, DescendingValueForAscendingSuit);
@@ -404,7 +441,7 @@ public class HandManager : MonoBehaviour
     /// </summary>
     /// <param name="_hand">Must be sorted in descending value order</param>
     /// <returns>List of cards making up straight</returns>
-    public List<Card> CheckForStraight(Card[] _hand)
+    public List<Card> FindStraight(Card[] _hand)
     {
         List<Card> straight = new List<Card>();
         int consecutiveCards = 1; // 1st card starts order
@@ -430,7 +467,7 @@ public class HandManager : MonoBehaviour
         }
         return straight;
     }
-    public int CalculateRankForStraight(Card[] _straight)
+    public int CalculateRankForStraight(Card[] _straight, Card[] _playerHand)
     {
         Array.Sort(_straight, DescendingCardValue);
         return _straight[0].Value;
@@ -466,7 +503,7 @@ public class HandManager : MonoBehaviour
         }
         return threeOfAKind;
     }
-    public int CalculateRankForThreeOfAKind(Card[] _threeOfAKind)
+    public int CalculateRankForThreeOfAKind(Card[] _threeOfAKind, Card[] _playerHand)
     {
         return _threeOfAKind[0].Value;
     }
@@ -502,7 +539,7 @@ public class HandManager : MonoBehaviour
         }
         return twoPairHand; // No valid two pair found, this will be returned empty and picked up by later checks
     }
-    public int CalculateRankForTwoPair(Card[] _twoPair)
+    public int CalculateRankForTwoPair(Card[] _twoPair, Card[] _playerHand)
     {
         return (int)(Mathf.Pow(Mathf.Max(_twoPair[0].Value, _twoPair[2].Value), 2) + Mathf.Min(_twoPair[0].Value, _twoPair[2].Value));
     }
@@ -511,7 +548,7 @@ public class HandManager : MonoBehaviour
     /// </summary>
     /// <param name="_hand">Must be sorted in value order</param>
     /// <returns>Value of pair</returns>
-    public List<Card> CheckForPair(Card[] _hand)
+    public List<Card> FindPair(Card[] _hand)
     {
         List<Card> pair = new List<Card>();
 
@@ -536,7 +573,7 @@ public class HandManager : MonoBehaviour
         }
         return pair;
     }
-    public int CalculateRankForPair(Card[] _pair)
+    public int CalculateRankForPair(Card[] _pair, Card[] _playerHand)
     {
         return _pair[0].Value;
     }
@@ -551,7 +588,7 @@ public class HandManager : MonoBehaviour
     }
 }
 
-enum HandRank
+public enum HandType
 {
     HIGH_CARD,
     PAIR,
@@ -562,4 +599,10 @@ enum HandRank
     FULL_HOUSE,
     FOUR_OF_A_KIND, 
     STRAIGHT_FLUSH
+}
+
+public struct PlayerHand
+{
+    public HandType handType;
+    public int handRank;
 }
