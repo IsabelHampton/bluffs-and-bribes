@@ -99,24 +99,18 @@ public class HandManager : MonoBehaviour
                 {
                     if (i == 0)
                         continue; // Already know they are winner and are in list
-                    if (sortedHands[i].handType != sortedHands[i - 1].handType)
+
+                    // If next player has same hand and rank add to winners list
+                    if (sortedHands[i].handType == sortedHands[i - 1].handType && sortedHands[i].handRank == sortedHands[i - 1].handRank)
+                        winningHands.Add(sortedHands[i]);
+
+                    // No more players with same hand, stop checking for winner
+                    else
                         break; // No more players with same hand type no need to check
-
-                    // Must have same hand type
-                    if (sortedHands[i].handRank < sortedHands[i].handRank)
-                        break; // Has lower rank hand type so no more winners
-
-                    // Must have same hand and rank
-                    winningHands.Add(sortedHands[i]);
                 }
 
-                //  REMOVE: Check already done for folded players, will have no rank calculated
-                // Match up winning hands to players and remove any winners that folded
-                /*for (int i = 0; i < playerHands.Length; i++)
-                {
-                    if (winningHands.Contains(playerHands[i]) && ActionManager.Instance.hasFolded[i])
-                        winningHands.Remove(playerHands[i]);
-                }*/
+                // Work out split of pot to dish out
+                int chipsWon = BetManager.Instance.pot / winningHands.Count;
 
                 // Iterate through list of player hands (in order of player number)
                 for (int i = 0; i < playerHands.Length; i++)
@@ -124,7 +118,6 @@ public class HandManager : MonoBehaviour
                     // If hand is in winning hands list give spilt of pot
                     if (winningHands.Contains(playerHands[i]))
                     {
-                        int chipsWon = BetManager.Instance.pot / winningHands.Count;
                         BetManager.Instance.AddPlayerChips(chipsWon, i);// Give player winnings split from pot
                         Debug.Log($"{(PlayerOrder)i} wins {chipsWon} with a {playerHands[i].handType} of rank {playerHands[i].handRank}");
                     }
