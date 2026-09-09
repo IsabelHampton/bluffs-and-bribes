@@ -1415,8 +1415,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -1447,7 +1447,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 150.12338, w: 6.4691944}
+  m_margin: {x: -32.77697, y: 0, z: 150.12338, w: 6.4691944}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -7848,8 +7848,6 @@ MonoBehaviour:
   - {fileID: 1863835449}
   - {fileID: 1617943291}
   - {fileID: 1724013100}
-  handRanks: 00000000000000000000000000000000
-  handValue: 00000000000000000000000000000000
 --- !u!1 &2015916421
 GameObject:
   m_ObjectHideFlags: 0

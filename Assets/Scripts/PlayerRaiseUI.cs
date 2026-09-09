@@ -48,7 +48,10 @@ public class PlayerRaiseUI : MonoBehaviour
 
     public void UpdateButtonInteractability()
     {
-        if (chipsToBet + BetManager.Instance.minBet > BetManager.Instance.chips[(int)PlayerOrder.PLAYER])
+        int chipsNeededToCall = BetManager.Instance.highestBet - BetManager.Instance.bets[(int)PlayerOrder.PLAYER];
+        int chipsAvailableToRaise = BetManager.Instance.chips[(int)PlayerOrder.PLAYER] - chipsNeededToCall;
+
+        if (chipsToBet + BetManager.Instance.minBet > chipsAvailableToRaise)
             increaseBetButton.interactable = false;
         else
             increaseBetButton.interactable = true;

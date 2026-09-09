@@ -4,6 +4,8 @@ using TMPro;
 
 public class ChipsUI : MonoBehaviour
 {
+    public static ChipsUI Instance;
+
     public TMP_Text playerChipsDisplay;
     public TMP_Text e1ChipsDisplay;
     public TMP_Text e2ChipsDisplay;
@@ -11,6 +13,7 @@ public class ChipsUI : MonoBehaviour
     public TMP_Text potChipsDisplay;
     void Awake()
     {
+        Instance = this;
         GameManager.OnGameStateChanged += GameManagerOnStateChanged;
     }
     private void OnDestroy()

@@ -44,31 +44,37 @@ public class BetManager : MonoBehaviour
     public void SetPlayerChips(int _value, int _playerNumber)
     {
         chips[_playerNumber] = _value;
+        ChipsUI.Instance.UpdateElements();
     }
 
     public void AddPlayerChips(int _value, int _playerNumber)
     {
         chips[_playerNumber] += _value;
+        ChipsUI.Instance.UpdateElements();
     }
 
     public void SetPot(int _value)
     {
         pot = _value;
+        ChipsUI.Instance.UpdateElements();
     }
 
     public void AddToPot(int _value)
     {
         pot += _value;
+        ChipsUI.Instance.UpdateElements();
     }
 
     public void SetPlayerBet(int _value, int _playerNumber)
     {
         bets[_playerNumber] = _value;
+        ChipsUI.Instance.UpdateElements();
     }
 
     public void AddPlayerBet(int _value, int _playerNumber)
     {
         bets[_playerNumber] += _value;
+        ChipsUI.Instance.UpdateElements();
     }
 }
 
