@@ -383,7 +383,7 @@ public class HandManager : MonoBehaviour
         Array.Sort(_straightFlush, DescendingCardValue);
 
         // (Highest straight card value)^2 + kicker
-        return (int)Mathf.Pow(_straightFlush[0].Value, 2) + FindKickerValue(new List<Card>(_straightFlush), _playerHand);
+        return (_straightFlush[0].Value * 13) + FindKickerValue(new List<Card>(_straightFlush), _playerHand);
     }
     /// <summary>
     /// Must be called on sorted hand
@@ -420,7 +420,7 @@ public class HandManager : MonoBehaviour
     public int CalculateRankForFourOfAKind(Card[] _fourOfAKind, Card[] _playerHand)
     {
         // (Card value)^2 + kicker
-        return (int)Mathf.Pow(_fourOfAKind[0].Value, 2) + FindKickerValue(new List<Card>(_fourOfAKind), _playerHand);
+        return (_fourOfAKind[0].Value * 13) + FindKickerValue(new List<Card>(_fourOfAKind), _playerHand);
     }
     /// <summary>
     /// Must be called on sorted hand
@@ -476,7 +476,7 @@ public class HandManager : MonoBehaviour
     public int CalculateRankForFullHouse(Card[] _fullHouse, Card[] _playerHand)
     {
         // 3 of a kind value cubed + pair value squared + kicker
-        return (int)( Mathf.Pow(_fullHouse[0].Value, 3) + Mathf.Pow(_fullHouse[3].Value,2) + FindKickerValue(new List<Card>(_fullHouse), _playerHand));
+        return (_fullHouse[0].Value * 13 * 13) + (_fullHouse[3].Value * 13) + FindKickerValue(new List<Card>(_fullHouse), _playerHand);
     }
     /// <summary>
     /// Must be called on sorted hand
@@ -522,7 +522,7 @@ public class HandManager : MonoBehaviour
             return (int)Mathf.Pow(_playerHand[1].Value, 2) + FindKickerValue(new List<Card>(_flush), _playerHand);
 
         // Both cards must be in flush
-        return (int)Mathf.Pow(Mathf.Max(_playerHand[0].Value, _playerHand[1].Value), 2) + FindKickerValue(new List<Card>(_flush), _playerHand);
+        return (Mathf.Max(_playerHand[0].Value, _playerHand[1].Value) * 13) + FindKickerValue(new List<Card>(_flush), _playerHand);
     }
     /// <summary>
     ///
@@ -559,7 +559,7 @@ public class HandManager : MonoBehaviour
     {
         Array.Sort(_straight, DescendingCardValue);
 
-        return (int)Mathf.Pow(_straight[0].Value, 2) + FindKickerValue(new List<Card>(_straight), _playerHand);
+        return (_straight[0].Value * 13) + FindKickerValue(new List<Card>(_straight), _playerHand);
 
     }
     /// <summary>
@@ -595,7 +595,7 @@ public class HandManager : MonoBehaviour
     }
     public int CalculateRankForThreeOfAKind(Card[] _threeOfAKind, Card[] _playerHand)
     {
-        return (int)Mathf.Pow(_threeOfAKind[0].Value, 2) + FindKickerValue(new List<Card>(_threeOfAKind), _playerHand);
+        return (_threeOfAKind[0].Value * 13) + FindKickerValue(new List<Card>(_threeOfAKind), _playerHand);
     }
 
     /// <summary>
@@ -631,9 +631,9 @@ public class HandManager : MonoBehaviour
     }
     public int CalculateRankForTwoPair(Card[] _twoPair, Card[] _playerHand)
     {
-        return (int)(Mathf.Pow(Mathf.Max(_twoPair[0].Value, _twoPair[2].Value), 3) +
-            Mathf.Pow(Mathf.Min(_twoPair[0].Value, _twoPair[2].Value), 2) +
-            FindKickerValue(new List<Card>(_twoPair), _playerHand));
+        return (int)(Mathf.Max(_twoPair[0].Value, _twoPair[2].Value) * 13 * 13) +
+            (Mathf.Min(_twoPair[0].Value, _twoPair[2].Value) * 13) +
+            FindKickerValue(new List<Card>(_twoPair), _playerHand);
     }
     /// <summary>
     /// Must be called on sorted hand
@@ -667,7 +667,7 @@ public class HandManager : MonoBehaviour
     }
     public int CalculateRankForPair(Card[] _pair, Card[] _playerHand)
     {
-        return (int)Mathf.Pow(_pair[0].Value, 2) + FindKickerValue(new List<Card>(_pair), _playerHand);
+        return (_pair[0].Value * 13) + FindKickerValue(new List<Card>(_pair), _playerHand);
     }
     /// <summary>
     /// 
@@ -676,7 +676,7 @@ public class HandManager : MonoBehaviour
     /// <returns></returns>
     public int CalculateRankForHighCard(Card[] _hand)
     {
-        return (int)(Mathf.Pow(Mathf.Max(_hand[0].Value, _hand[1].Value), 2) + Mathf.Min(_hand[0].Value, _hand[1].Value));
+        return (int)(Mathf.Max(_hand[0].Value, _hand[1].Value) * 13) + Mathf.Min(_hand[0].Value, _hand[1].Value);
     }
 }
 
