@@ -15,6 +15,12 @@ public class ActionManager : MonoBehaviour
     
     public List<int> possibleActions = new List<int>();
 
+    public void UpdateAllIn(int _playerNumber)
+    {
+        isAllIn[_playerNumber] = true;
+        lastActions[_playerNumber] = Actions.ALL_IN;
+    }
+
     void Awake()
     {
         Instance = this;
@@ -78,10 +84,14 @@ public class ActionManager : MonoBehaviour
     {
         DeterminePossibleActionsForTurn(_playerNumber);
 
+        DetermineCurrentHand();
+
+
         int actionNumberIndex = Random.Range(0, possibleActions.Count);
         switch (possibleActions[actionNumberIndex])
         {
             case (int)Actions.CHECK:
+                Check(_playerNumber);
                 break;
             case (int)Actions.CALL:
                 Call(_playerNumber);
@@ -96,7 +106,7 @@ public class ActionManager : MonoBehaviour
                 break;
         }
 
-        lastActions[_playerNumber] = (Actions)possibleActions[actionNumberIndex];
+        //lastActions[_playerNumber] = (Actions)possibleActions[actionNumberIndex];
         Debug.Log($"Player {(PlayerOrder)_playerNumber} performed action {(Actions)possibleActions[actionNumberIndex]}");
 
         // Check if only one player remaining ask skip to end
@@ -116,7 +126,8 @@ public class ActionManager : MonoBehaviour
     {
         // Re-create lit of actions to chose from
         possibleActions.Clear();
-        for (int i = 0; i < (int)Actions.NUM_OF_ACTIONS; i++)
+        // Don't include all in as a possible actions
+        for (int i = 0; i < (int)Actions.NUM_OF_ACTIONS - 1; i++)
         {
             possibleActions.Add(i);
         }
@@ -136,12 +147,11 @@ public class ActionManager : MonoBehaviour
         // Determine if can't physically raise OR shouldn't be allowed to raise (previously players calling their last bet)
         if (!CanRaise(_playerNumber))
             possibleActions.Remove((int)Actions.RAISE);
+    }
 
-        // REMOVE
-        /*foreach (int action in possibleActions)
-        {
-            Debug.Log($"Player {(PlayerOrder)_playerNumber} can perform {(Actions)action}");
-        }*/
+    public void DetermineCurrentHand()
+    {
+
     }
     public bool CanCheck(int _playerNumber)
     {
@@ -164,11 +174,11 @@ public class ActionManager : MonoBehaviour
     {
         hasFolded[_playerNumber] = true;
         foldedPlayers++;
+        lastActions[_playerNumber] = Actions.FOLD;
     }
     public void PlayerFold()
     {
         Fold((int)PlayerOrder.PLAYER);
-        lastActions[(int)PlayerOrder.PLAYER] = Actions.FOLD;
 
         StartCoroutine(MoveToNextStageWithDelay((int)PlayerOrder.PLAYER));
     }
@@ -192,11 +202,15 @@ public class ActionManager : MonoBehaviour
         else
             GameManager.Instance.UpdateGameState((GameState)(GameManager.Instance.state + 1));
     }
+    public void Check(int _playerNumber)
+    {
+        lastActions[_playerNumber] = Actions.CHECK;
+    }
     public void PlayerCheck()
     {
-        lastActions[(int)PlayerOrder.PLAYER] = Actions.CHECK;
+        Check((int)PlayerOrder.PLAYER);
 
-        StartCoroutine(MoveToNextStageWithDelay((int)(PlayerOrder.PLAYER)));
+        StartCoroutine(MoveToNextStageWithDelay((int)PlayerOrder.PLAYER));
     }
     public void HandleIfRoundCanEnd()
     {
@@ -222,7 +236,7 @@ public class ActionManager : MonoBehaviour
     {
         int chipsNeededToCall = BetManager.Instance.highestBet - BetManager.Instance.bets[_playerNumber];
 
-        // Player does not have enough chips to call so must go all in
+        // Player does not have enough/ just enough chips to call so must go all in
         if (chipsNeededToCall >= BetManager.Instance.chips[_playerNumber])
         {
             BetManager.Instance.AddPlayerBet(BetManager.Instance.chips[_playerNumber], _playerNumber);
@@ -230,19 +244,20 @@ public class ActionManager : MonoBehaviour
 
             BetManager.Instance.SetPlayerChips(0, _playerNumber);
 
-            isAllIn[_playerNumber] = true;
+            UpdateAllIn(_playerNumber);
         }
         else
         {
             BetManager.Instance.chips[_playerNumber] -= chipsNeededToCall;
             BetManager.Instance.bets[_playerNumber] += chipsNeededToCall;
             BetManager.Instance.pot += chipsNeededToCall;
+
+            lastActions[_playerNumber] = Actions.CALL;
         }
     }
     public void PlayerCall()
     {
         Call((int)PlayerOrder.PLAYER);
-        lastActions[(int)PlayerOrder.PLAYER] = Actions.CALL;
 
         StartCoroutine(MoveToNextStageWithDelay((int)PlayerOrder.PLAYER));
     }
@@ -257,6 +272,11 @@ public class ActionManager : MonoBehaviour
         BetManager.Instance.bets[_playerNumber] += _value;
         BetManager.Instance.pot += _value;
         BetManager.Instance.highestBet = BetManager.Instance.bets[_playerNumber];
+
+        if (BetManager.Instance.chips[_playerNumber] == 0)
+            UpdateAllIn(_playerNumber);
+        else
+            lastActions[_playerNumber] = Actions.RAISE;
     }
     public int RandomRaiseValue(int _playerNumber)
     {
@@ -268,8 +288,7 @@ public class ActionManager : MonoBehaviour
         int raiseIncrement = Random.Range(1, incrementsAvailableForRaise + 1);
         if (raiseIncrement == incrementsAvailableForRaise)
         {
-            isAllIn[_playerNumber] = true;
-            // TO DO: Trigger UI for All in
+            UpdateAllIn(_playerNumber);
         }
         Debug.Log($"Player {_playerNumber} raised by {raiseIncrement * BetManager.Instance.minBet}");
         return raiseIncrement * BetManager.Instance.minBet;
@@ -278,8 +297,6 @@ public class ActionManager : MonoBehaviour
     {
         Raise((int)PlayerOrder.PLAYER, _value);
 
-
-        lastActions[(int)PlayerOrder.PLAYER] = Actions.RAISE;
         StartCoroutine(MoveToNextStageWithDelay((int)PlayerOrder.PLAYER));
     }
 }  
@@ -290,5 +307,6 @@ public enum Actions
     CALL,
     RAISE,
     FOLD,
+    ALL_IN, // Needs to be last, not a selectable option just a state for UI updating
     NUM_OF_ACTIONS
 }

@@ -12,12 +12,23 @@ public class PlayerRaiseUI : MonoBehaviour
     public Button decreaseBetButton;
     public Button betButton;
 
-    int chipsToBet;
+    int chipsToBet = 0;
 
     private void Awake()
     {
         SetUp();
         raiseMenu.SetActive(false); //initially hidden
+        GameManager.OnGameStateChanged += GameManagerOnStateChanged;
+    }
+    private void OnDestroy()
+    {
+        GameManager.OnGameStateChanged -= GameManagerOnStateChanged;
+    }
+
+    private void GameManagerOnStateChanged(GameState _state)
+    {
+        if (raiseMenu.activeInHierarchy)
+            raiseMenu.SetActive(false);
     }
 
     public void SetUp()
