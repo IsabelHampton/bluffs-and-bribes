@@ -84,9 +84,6 @@ public class ActionManager : MonoBehaviour
     {
         DeterminePossibleActionsForTurn(_playerNumber);
 
-        DetermineCurrentHand();
-
-
         int actionNumberIndex = Random.Range(0, possibleActions.Count);
         switch (possibleActions[actionNumberIndex])
         {
@@ -149,9 +146,25 @@ public class ActionManager : MonoBehaviour
             possibleActions.Remove((int)Actions.RAISE);
     }
 
-    public void DetermineCurrentHand()
+    public void FindHandSoFar(int _playerNumber)
     {
+        // Get all visible cards in middle
+        List<Card> visibleCards = new List<Card>();
+        foreach (Card card in HandManager.Instance.centreCards)
+        {
+            if (card.faceDown)
+                break; // stop loop no more visible cards
+            else
+                visibleCards.Add(card);
+        }
+        // Add cards in player's hand
+        foreach (Card card in HandManager.Instance.allHands[_playerNumber])
+            visibleCards.Add(card);
+        // Detemrine hand rank
+        HandManager.Instance.DetermineCurrentHandRank(visibleCards.ToArray(), _playerNumber);
 
+        // Output player's current hand
+        Debug.Log($"Player currently has {(HandType)HandManager.Instance.playerHands[_playerNumber].handType} with rank {HandManager.Instance.playerHands[_playerNumber].handType}");
     }
     public bool CanCheck(int _playerNumber)
     {
