@@ -1,14 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class BribeManager : MonoBehaviour
 {
-    public BribeManager Instance;
-    public Button bribeButton;
+    public static BribeManager Instance;
 
-    public void UpdateInteractability(bool _isInteractable)
+    private int[] bribes = new int[(int)PlayerOrder.NUM_OF_PLAYERS];
+
+    public void ResetBribes()
     {
-        bribeButton.interactable = _isInteractable;
+        bribes = new int[(int)PlayerOrder.NUM_OF_PLAYERS];
     }
 
     private void Awake()
@@ -22,16 +24,16 @@ public class BribeManager : MonoBehaviour
     }
     private void GameManagerOnStateChanged(GameState _state)
     {
-        UpdateInteractability(GameManager.Instance.state == GameState.BRIBE);
+        ResetBribes();
 
         if (GameManager.Instance.state == GameState.BRIBE)
         {
-        }
-        else
-        {
 
         }
+        
     }
-
-
+    public void SetBribeAmount(int _bribeAmount, int _playerNumber)
+    {
+        bribes[_playerNumber] = _bribeAmount;
+    }
 }
