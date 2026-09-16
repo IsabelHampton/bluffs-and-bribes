@@ -49,6 +49,7 @@ public class HandManager : MonoBehaviour
     {
         Instance = this;
         GameManager.OnGameStateChanged += GameManagerOnStateChanged;
+        UpdateAllHands();
     }
     private void OnDestroy()
     {
