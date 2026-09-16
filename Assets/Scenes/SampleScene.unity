@@ -5290,9 +5290,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Bet
-
-'
+  m_text: Bribe
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9083,6 +9081,7 @@ MonoBehaviour:
   increaseBribeButton: {fileID: 103403758}
   decreaseBribeButton: {fileID: 413057224}
   bribeButton: {fileID: 738242081}
+  skipBribeButton: {fileID: 2820402}
   submitBribeButton: {fileID: 537747951}
 --- !u!1001 &1863835447
 PrefabInstance:
@@ -9486,6 +9485,7 @@ MonoBehaviour:
   - {fileID: 1863835449}
   - {fileID: 1617943291}
   - {fileID: 1724013100}
+  alreadyDealtCards: []
 --- !u!1 &2015916421
 GameObject:
   m_ObjectHideFlags: 0

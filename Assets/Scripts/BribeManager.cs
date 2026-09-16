@@ -49,4 +49,24 @@ public class BribeManager : MonoBehaviour
         bribes[_playerNumber] = _bribeAmount;
         BetManager.Instance.AddPlayerChips(-_bribeAmount, _playerNumber);
     }
+    public int HighestBribePlayerNumber() 
+    {
+        int highestBribe = 0;
+        int highestPlayer = 0;
+        for (int i = 0; i < bribes.Length; i++)
+        {
+            if (bribes[i] > highestBribe)
+            {
+                highestBribe = bribes[i];
+                highestPlayer = i;
+            }
+        }
+
+        Debug.Log($"Highest bribe is {highestBribe} and highest player is {(PlayerOrder)(highestPlayer)}");
+
+        if (highestBribe == 0)
+            return -1; // No highest bribe
+
+        return highestPlayer;
+    }
 }

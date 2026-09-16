@@ -12,6 +12,7 @@ public class PlayerBribeUI : MonoBehaviour
     public Button increaseBribeButton;
     public Button decreaseBribeButton;
     public Button bribeButton;
+    public Button skipBribeButton;
     public Button submitBribeButton;
 
     int chipsToBribe = 0;
@@ -29,7 +30,7 @@ public class PlayerBribeUI : MonoBehaviour
 
     private void GameManagerOnStateChanged(GameState _state)
     {
-        UpdateButtonToAllowBetting(); // Enables / disables bribe button
+        UpdateButtonToAllowBribing(); // Enables / disables bribe button
         bribeMenu.SetActive(false);
     }
 
@@ -44,6 +45,7 @@ public class PlayerBribeUI : MonoBehaviour
     public void OnBribeClicked()
     {
         bribeMenu.SetActive(true);
+        bribeButton.interactable = false; // Menu open should not be clickable again
     }
 
     public void OnIncreaseBribe()
@@ -59,12 +61,19 @@ public class PlayerBribeUI : MonoBehaviour
         UpdateButtonInteractability();
     }
 
-    public void UpdateButtonToAllowBetting()
+    public void UpdateButtonToAllowBribing()
     {
         if (GameManager.Instance.state == GameState.BRIBE && BetManager.Instance.chips[(int)PlayerOrder.PLAYER] > BetManager.Instance.minBet * 2)
+        {
             bribeButton.interactable = true;
+            skipBribeButton.interactable = true;
+        }
+
         else
+        {
             bribeButton.interactable = false;
+            skipBribeButton.interactable = false;
+        }
     }
 
     public void UpdateButtonInteractability()
@@ -84,9 +93,9 @@ public class PlayerBribeUI : MonoBehaviour
 
     public void OnConfirmBribeAmount()
     {
-        bribeMenu.SetActive(false);
-
         BribeManager.Instance.SetBribeAmount(chipsToBribe, (int)PlayerOrder.PLAYER);
+
+        bribeMenu.SetActive(false);
 
         GameManager.Instance.UpdateGameState(GameState.DEALING); // Move stage on
     }

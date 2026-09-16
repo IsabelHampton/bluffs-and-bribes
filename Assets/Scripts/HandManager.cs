@@ -16,6 +16,8 @@ public class HandManager : MonoBehaviour
     public Card[] centreCards = new Card[5];
     public Card[] cardsOnTable = new Card[13];
 
+    public List<Card> alreadyDealtCards = new List<Card>();
+
     private List<int> indexesToDrawFrom = new List<int>();
     private List<Card> cardsAvailableToMakeHandFrom = new List<Card>();
 
@@ -59,14 +61,24 @@ public class HandManager : MonoBehaviour
             case GameState.DEALING:
                 endOfRoundSequenceStarted = false; // Reset 
                 // 1st round normal deal cards
-                if (GameManager.Instance.roundNumber == 0)
+                /*if (GameManager.Instance.roundNumber == 0)
                 {
                     RandomDealCards();
                 }
                 else
-                {
-                    // TO DO: Cheating mechanics
-                }
+                {*/
+                    // Check if there is a highest bribe
+                    int highestPlayer = BribeManager.Instance.HighestBribePlayerNumber();
+                    if (highestPlayer == -1)
+                        RandomDealCards();
+                    else
+                    {
+                        // Rig their cards
+                        CheatDealHighCards(highestPlayer);
+                        // Random deal the rest
+                        RandomDealFromSelection();
+                    }
+                //}
                 RevealCards(playerHand);
                 RevealCards(flop);
                 UpdateAllHands();
@@ -148,6 +160,7 @@ public class HandManager : MonoBehaviour
             indexesToDrawFrom.Add(i);
         }
     }
+
     public void RandomDealCards()
     {
         CreateDeck();
@@ -157,6 +170,39 @@ public class HandManager : MonoBehaviour
             cardsOnTable[i].Init(indexesToDrawFrom[cardInt]);
             indexesToDrawFrom.RemoveAt(cardInt);
         }
+    }
+    public void RandomDealFromSelection()
+    { 
+        // DOes not call CreateDEck as this has already been altered by previous cheatdeal method
+
+        for (int i = 0; i < cardsOnTable.Length; i++)
+        {
+            // SKip cards that have already been dealt from cheating
+            if (alreadyDealtCards.Contains(cardsOnTable[i]))
+                continue; 
+
+            int cardInt = UnityEngine.Random.Range(0, indexesToDrawFrom.Count);
+            cardsOnTable[i].Init(indexesToDrawFrom[cardInt]);
+            indexesToDrawFrom.RemoveAt(cardInt);
+        }
+    }
+
+    public void CheatDealHighCards(int _playerNumber)
+    {
+        CreateDeck();
+        List<int> highIndexes = new List<int> { 9, 10, 11, 12, 22, 23, 24, 25, 35, 36, 37, 38, 48, 48, 50, 51 };
+
+        for (int i = 0; i < allHands[_playerNumber].Length; i++)
+        {
+            int index = (int)UnityEngine.Random.Range(0, highIndexes.Count);
+            int cardValue = highIndexes[index];
+            highIndexes.RemoveAt(index); // Remove so player not dealt duplicate
+            indexesToDrawFrom.Remove(cardValue); // Remove from general deck so other players can't be dealt duplicate
+
+            allHands[_playerNumber][i].Init(cardValue);
+            alreadyDealtCards.Add(allHands[_playerNumber][i]);
+        }
+        Debug.Log($"Dealt highest cards to {(PlayerOrder)(_playerNumber)}");
     }
     public void RevealCards(Card[] _cardsToReveal)
     {
