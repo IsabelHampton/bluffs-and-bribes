@@ -1,7 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-
 public class BribeManager : MonoBehaviour
 {
     public static BribeManager Instance;
@@ -28,12 +25,28 @@ public class BribeManager : MonoBehaviour
 
         if (GameManager.Instance.state == GameState.BRIBE)
         {
+            // TO DO: Add check if bribes are acceptable this round
+            for (int i = 0; i < (int)PlayerOrder.NUM_OF_PLAYERS; i++)
+            {
+                // Skip player as this is done with UI
+                if (i == (int)PlayerOrder.PLAYER)
+                    continue;
 
+                // PLace bribes for enemies
+                int avaialbleBribeIncrements = Mathf.Max(0, (BetManager.Instance.chips[i] / BetManager.Instance.minBet) - 3 );
+
+                if (avaialbleBribeIncrements == 0)
+                    continue; // Skip this enemy as does not have enough chips to bribe
+
+                int bribeIncrement = Random.Range(0, avaialbleBribeIncrements);
+                SetBribeAmount(BetManager.Instance.minBet * bribeIncrement, i);
+            }
         }
         
     }
     public void SetBribeAmount(int _bribeAmount, int _playerNumber)
     {
         bribes[_playerNumber] = _bribeAmount;
+        BetManager.Instance.AddPlayerChips(-_bribeAmount, _playerNumber);
     }
 }

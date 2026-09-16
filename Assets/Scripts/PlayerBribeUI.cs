@@ -12,6 +12,7 @@ public class PlayerBribeUI : MonoBehaviour
     public Button increaseBribeButton;
     public Button decreaseBribeButton;
     public Button bribeButton;
+    public Button submitBribeButton;
 
     int chipsToBribe = 0;
 
@@ -28,8 +29,8 @@ public class PlayerBribeUI : MonoBehaviour
 
     private void GameManagerOnStateChanged(GameState _state)
     {
-        if (bribeMenu.activeInHierarchy)
-            bribeMenu.SetActive(false);
+        UpdateButtonToAllowBetting(); // Enables / disables bribe button
+        bribeMenu.SetActive(false);
     }
 
     public void SetUp()
@@ -40,7 +41,7 @@ public class PlayerBribeUI : MonoBehaviour
         bribeDisplay.text = Convert.ToString(chipsToBribe);
     }
 
-    public void OnRaiseClicked()
+    public void OnBribeClicked()
     {
         bribeMenu.SetActive(true);
     }
@@ -58,7 +59,7 @@ public class PlayerBribeUI : MonoBehaviour
         UpdateButtonInteractability();
     }
 
-    public void UpdateButtonInteractability()
+    public void UpdateButtonToAllowBetting()
     {
         if (GameManager.Instance.state == GameState.BRIBE && BetManager.Instance.chips[(int)PlayerOrder.PLAYER] > BetManager.Instance.minBet * 2)
             bribeButton.interactable = true;
@@ -66,10 +67,32 @@ public class PlayerBribeUI : MonoBehaviour
             bribeButton.interactable = false;
     }
 
+    public void UpdateButtonInteractability()
+    {
+        // Player shouldn't able to leave themsleves without at least 3x the min bet
+        if (chipsToBribe + BetManager.Instance.minBet > BetManager.Instance.chips[(int)PlayerOrder.PLAYER] - ( BetManager.Instance.minBet * 3) ) 
+            increaseBribeButton.interactable = false;
+        else
+            increaseBribeButton.interactable = true;
+
+
+        if (chipsToBribe - BetManager.Instance.minBet < BetManager.Instance.minBet)
+            decreaseBribeButton.interactable = false;
+        else
+            decreaseBribeButton.interactable = true;
+    }
+
     public void OnConfirmBribeAmount()
     {
         bribeMenu.SetActive(false);
-        // TO DO: Submit bribe funcitonality
+
         BribeManager.Instance.SetBribeAmount(chipsToBribe, (int)PlayerOrder.PLAYER);
+
+        GameManager.Instance.UpdateGameState(GameState.DEALING); // Move stage on
+    }
+
+    public void SkipBribe()
+    {
+        GameManager.Instance.UpdateGameState(GameState.DEALING); // Move stage on
     }
 }

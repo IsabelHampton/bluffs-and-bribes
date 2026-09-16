@@ -25,10 +25,10 @@ public class GameManager : MonoBehaviour
             case GameState.TIPOFF:
                 break;
             case GameState.BRIBE:
-                if (roundNumber == 0)
+                /*if (roundNumber == 0)
                 {
                     UpdateGameState(GameState.DEALING);
-                }
+                }*/
                 break;
             case GameState.DEALING:
                 break;
