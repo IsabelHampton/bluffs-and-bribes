@@ -77,7 +77,7 @@ public class HandManager : MonoBehaviour
                     else
                     {
                         // Rig their cards
-                        CheatDealStraight(highestPlayer);
+                        CheatDealStraight(highestPlayer, false);
                         // Random deal the rest
                         RandomDealFromSelection();
                     }
@@ -208,7 +208,7 @@ public class HandManager : MonoBehaviour
         Debug.Log($"Dealt highest cards to {(PlayerOrder)(_playerNumber)}");
     }
 
-    public void CheatDealStraight(int _playerNumber)
+    public void CheatDealStraight(int _playerNumber, bool _suitChange = true)
     {
         // create straight holder
         List<int> straightIndices = new List<int>();
@@ -216,16 +216,20 @@ public class HandManager : MonoBehaviour
         CreateDeck(); // Creates all cards to slect from
         // Pick high value for straight
         int highValue = Random.Range(6, 15);
+        int cardSuit = Random.Range(0, (int)Suit.NUM_OF_SUITS);
         // Determine indices for cards
         for (int i = 0; i < 5; i++)
         {
             int cardValue = highValue - i;
-            int cardSuit = Random.Range(0, (int)Suit.NUM_OF_SUITS);
             // Gets corrected card value (-2 for arrray index), -i as we are descending values for the staright and then getting a random suit
             int cardIndexValue = (cardValue - 2) + (13 * cardSuit);
             straightIndices.Add(cardIndexValue);
 
             indexesToDrawFrom.Remove(cardIndexValue); // remove these from deck to avoid duplicates
+
+            // If suit change this will not be a straight flush, change the suit
+            if (_suitChange)
+                cardSuit = Random.Range(0, (int)Suit.NUM_OF_SUITS);
         }
         // Deal 2 at random into player hand
         for (int i = 0; i < allHands[_playerNumber].Length; i++)
