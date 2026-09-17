@@ -63,7 +63,7 @@ public class PlayerBribeUI : MonoBehaviour
 
     public void UpdateButtonToAllowBribing()
     {
-        if (GameManager.Instance.state == GameState.BRIBE && BetManager.Instance.chips[(int)PlayerOrder.PLAYER] > BetManager.Instance.minBet * 2)
+        if (GameManager.Instance.State == GameState.BRIBE && BetManager.Instance.chips[(int)PlayerOrder.PLAYER] > BetManager.Instance.minBet * 2)
         {
             bribeButton.interactable = true;
             skipBribeButton.interactable = true;

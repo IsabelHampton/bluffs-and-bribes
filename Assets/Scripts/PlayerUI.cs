@@ -26,7 +26,7 @@ public class PlayerUI : MonoBehaviour
 
     private void GameManagerOnStateChanged(GameState _state)
     {
-        UpdateButtonInteractability(GameManager.Instance.state == GameState.PLAYER_TURN); //events fire in wrong order here so needs to reference instance
+        UpdateButtonInteractability(GameManager.Instance.State == GameState.PLAYER_TURN); //events fire in wrong order here so needs to reference instance
     }
     private void UpdateButtonInteractability(bool _isInteractable)
     {

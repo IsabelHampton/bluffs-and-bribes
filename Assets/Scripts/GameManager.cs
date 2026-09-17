@@ -4,10 +4,21 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public GameState state;
+    public GameState State;
     public static event Action<GameState> OnGameStateChanged;
 
-    public int roundNumber;
+    // RUN SPECIFIC VARS
+    private int roundNumber = 0;
+    private int enemiesElimatedThisRun = 0;
+    private int maxChipsThisRun = 0;
+
+    // PERSISTENT VALUES
+
+    private int maxRoundsComplete;
+    private int maxChipsAchiebed;
+    private int maxEnemiesEliminated;
+    private int runsPlayed;
+
 
     private void Awake()
     {
@@ -19,8 +30,8 @@ public class GameManager : MonoBehaviour
     }
     public void UpdateGameState(GameState _state)
     {
-        state = _state;
-        switch (state)
+        State = _state;
+        switch (State)
         {
             case GameState.TIPOFF:
                 break;
@@ -43,11 +54,12 @@ public class GameManager : MonoBehaviour
             case GameState.REVEAL:
                 break;
             case GameState.END_ROUND:
+                roundNumber++;
                 break;
             default:
                 break;
         }
-        OnGameStateChanged?.Invoke(state);
+        OnGameStateChanged?.Invoke(State);
     }
 
 }

@@ -59,7 +59,7 @@ public class HandManager : MonoBehaviour
     private void GameManagerOnStateChanged(GameState _state)
     {
         UpdateAllHands();
-        switch (GameManager.Instance.state)
+        switch (GameManager.Instance.State)
         {
             case GameState.DEALING:
                 endOfRoundSequenceStarted = false; // Reset 

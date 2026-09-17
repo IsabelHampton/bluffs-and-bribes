@@ -21,7 +21,7 @@ public class BribeManager : MonoBehaviour
     }
     private void GameManagerOnStateChanged(GameState _state)
     {
-        if (GameManager.Instance.state == GameState.BRIBE)
+        if (GameManager.Instance.State == GameState.BRIBE)
         {
             ResetBribes();
             // TO DO: Add check if bribes are acceptable this round

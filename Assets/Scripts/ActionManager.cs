@@ -34,8 +34,8 @@ public class ActionManager : MonoBehaviour
 
     private void GameManagerOnStateChanged(GameState _state)
     {
-        Debug.Log($"Game state changed to {GameManager.Instance.state} ");
-        switch (GameManager.Instance.state)
+        Debug.Log($"Game state changed to {GameManager.Instance.State} ");
+        switch (GameManager.Instance.State)
         {
             case GameState.DEALING:
                 ResetPlayerStates();
@@ -204,7 +204,7 @@ public class ActionManager : MonoBehaviour
             HandleIfRoundCanEnd();
         }
         else
-            GameManager.Instance.UpdateGameState((GameState)(GameManager.Instance.state + 1));
+            GameManager.Instance.UpdateGameState((GameState)(GameManager.Instance.State + 1));
     }
     public void MoveToNextStageWithoutDelay(int _playerNumber)
     {
@@ -213,7 +213,7 @@ public class ActionManager : MonoBehaviour
             HandleIfRoundCanEnd();
         }
         else
-            GameManager.Instance.UpdateGameState((GameState)(GameManager.Instance.state + 1));
+            GameManager.Instance.UpdateGameState((GameState)(GameManager.Instance.State + 1));
     }
     public void Check(int _playerNumber)
     {
@@ -238,7 +238,7 @@ public class ActionManager : MonoBehaviour
             }
         }
         if (roundCanEnd)
-            GameManager.Instance.UpdateGameState((GameState)(GameManager.Instance.state + 1));
+            GameManager.Instance.UpdateGameState((GameState)(GameManager.Instance.State + 1));
         else
             GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
     }

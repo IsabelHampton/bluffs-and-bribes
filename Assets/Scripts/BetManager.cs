@@ -22,7 +22,7 @@ public class BetManager : MonoBehaviour
 
     private void GameManagerOnStateChanged(GameState _state)
     {
-        switch (GameManager.Instance.state)
+        switch (GameManager.Instance.State)
         {
             case GameState.DEALING:
                 pot = 0; // Zero out pot for new round
@@ -75,6 +75,16 @@ public class BetManager : MonoBehaviour
     {
         bets[_playerNumber] += _value;
         ChipsUI.Instance.UpdateElements();
+    }
+    public int BankruptPlayers()
+    {
+        int bankruptPlayers = 0;
+        foreach (int amount in chips)
+        {
+            if (amount == 0)
+                bankruptPlayers++;
+        }
+        return 
     }
 }
 

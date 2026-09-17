@@ -18,7 +18,7 @@ public class ActionUI : MonoBehaviour
     }
     private void GameManagerOnStateChanged(GameState _state)
     {
-        switch (GameManager.Instance.state)
+        switch (GameManager.Instance.State)
         {
             case GameState.PLAYER_TURN:
                 UpdateElements();

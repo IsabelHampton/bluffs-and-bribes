@@ -22,7 +22,7 @@ public class ChipsUI : MonoBehaviour
     }
     private void GameManagerOnStateChanged(GameState _state)
     {
-        switch (GameManager.Instance.state)
+        switch (GameManager.Instance.State)
         {
             case GameState.BRIBE:
                 UpdateElements();
