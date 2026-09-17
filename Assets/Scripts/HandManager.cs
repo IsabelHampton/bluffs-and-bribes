@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class HandManager : MonoBehaviour
 {
@@ -57,6 +58,7 @@ public class HandManager : MonoBehaviour
     }
     private void GameManagerOnStateChanged(GameState _state)
     {
+        UpdateAllHands();
         switch (GameManager.Instance.state)
         {
             case GameState.DEALING:
@@ -75,7 +77,7 @@ public class HandManager : MonoBehaviour
                     else
                     {
                         // Rig their cards
-                        CheatDealHighCards(highestPlayer);
+                        CheatDealStraight(highestPlayer);
                         // Random deal the rest
                         RandomDealFromSelection();
                     }
@@ -204,6 +206,52 @@ public class HandManager : MonoBehaviour
             alreadyDealtCards.Add(allHands[_playerNumber][i]);
         }
         Debug.Log($"Dealt highest cards to {(PlayerOrder)(_playerNumber)}");
+    }
+
+    public void CheatDealStraight(int _playerNumber)
+    {
+        // create straight holder
+        List<int> straightIndices = new List<int>();
+
+        CreateDeck(); // Creates all cards to slect from
+        // Pick high value for straight
+        int highValue = Random.Range(6, 15);
+        // Determine indices for cards
+        for (int i = 0; i < 5; i++)
+        {
+            int cardValue = highValue - i;
+            int cardSuit = Random.Range(0, (int)Suit.NUM_OF_SUITS);
+            // Gets corrected card value (-2 for arrray index), -i as we are descending values for the staright and then getting a random suit
+            int cardIndexValue = (cardValue - 2) + (13 * cardSuit);
+            straightIndices.Add(cardIndexValue);
+
+            indexesToDrawFrom.Remove(cardIndexValue); // remove these from deck to avoid duplicates
+        }
+        // Deal 2 at random into player hand
+        for (int i = 0; i < allHands[_playerNumber].Length; i++)
+        {
+            int cardIndex = Random.Range(0, straightIndices.Count);
+            allHands[_playerNumber][i].Init(straightIndices[cardIndex]);
+            straightIndices.RemoveAt(cardIndex);
+
+            alreadyDealtCards.Add(allHands[_playerNumber][i]); // add player card to already dealt list
+        }
+        // Scatter remaining 3 in table cards
+        List<int> cardPositions = new List<int>() { 0, 1, 2, 3, 4 }; // positions for cards in centre
+        // Remove 2 positions as only 3 cards need to be dealt 
+        for (int i = 0; i < 2; i++)
+        {
+            cardPositions.RemoveAt(Random.Range(0, cardPositions.Count));
+        }
+        // Iterate through selected card positions
+        for (int i = 0; i < cardPositions.Count; i++)
+        {
+            int straightCardIndex = Random.Range(0, straightIndices.Count); // get random card in remaining straight hand to deal
+            centreCards[cardPositions[i]].Init(straightIndices[straightCardIndex]);
+            straightIndices.RemoveAt(straightCardIndex);
+
+            alreadyDealtCards.Add(centreCards[cardPositions[i]]); //add this centre card to already delat list
+        }
     }
     public void RevealCards(Card[] _cardsToReveal)
     {

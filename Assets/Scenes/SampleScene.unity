@@ -9705,6 +9705,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 32cc0073419c4554fbb53d7dc8edd23f, type: 3}
   - {fileID: 21300000, guid: 2f075437c8551a94b9c82c07a9f2b891, type: 3}
   - {fileID: 21300000, guid: 8f12c7575128b414f91955c753592885, type: 3}
+  faceDownSprite: {fileID: 21300000, guid: 08449ea0ba0dbf04fb13bc356c3a1933, type: 3}
 --- !u!4 &2026461463
 Transform:
   m_ObjectHideFlags: 0
