@@ -77,7 +77,7 @@ public class HandManager : MonoBehaviour
                     else
                     {
                         // Rig their cards
-                        CheatDealStraight(highestPlayer, false);
+                        CheatDealMatchingValue(highestPlayer, CardsNeededForHand.PAIR);
                         // Random deal the rest
                         RandomDealFromSelection();
                     }
@@ -155,6 +155,9 @@ public class HandManager : MonoBehaviour
                 break;
         }
     }
+    /// <summary>
+    /// Sets indexesToDrawFrom to 0-51, full deck to select cards from
+    /// </summary>
     public void CreateDeck()
     {
         indexesToDrawFrom.Clear();
@@ -213,7 +216,8 @@ public class HandManager : MonoBehaviour
         // create straight holder
         List<int> straightIndices = new List<int>();
 
-        CreateDeck(); // Creates all cards to slect from
+        CreateDeck();
+
         // Pick high value for straight
         int highValue = Random.Range(6, 15);
         int cardSuit = Random.Range(0, (int)Suit.NUM_OF_SUITS);
@@ -231,28 +235,98 @@ public class HandManager : MonoBehaviour
             if (_suitChange)
                 cardSuit = Random.Range(0, (int)Suit.NUM_OF_SUITS);
         }
+
+        DealRiggedCards(_playerNumber, straightIndices, (int)CardsNeededForHand.STRAIGHT);
+    }
+
+    public void CheatDealFlush(int _playerNumber)
+    {
+        // create flush holder
+        List<int> flushIndices = new List<int>();
+
+        CreateDeck();
+
+        // Pick suit for flush
+        int cardSuit = Random.Range(0, (int)Suit.NUM_OF_SUITS);
+
+        List<int> possibleIndices = new List<int>();
+        //Get list odf 13 indices insleected suit
+        for (int i = cardSuit * 13; i < (cardSuit * 13) + 13; i++)
+        {
+            possibleIndices.Add(i);
+        }
+
+        // Determine indices for cards
+        for (int i = 0; i < 5; i++)
+        {
+            int index = Random.Range(0, possibleIndices.Count); // Pick random value
+            flushIndices.Add(possibleIndices[index]); // Add to list of inideces used for created hand
+            possibleIndices.RemoveAt(index); // Remove from possible list now to avoid duplicate
+        }
+
+        DealRiggedCards(_playerNumber, flushIndices, (int)CardsNeededForHand.FLUSH);
+    }
+    public void CheatDealMatchingValue(int _playerNumber, CardsNeededForHand _numOfMatchingCards)
+    {
+        // create list of cards 
+        List<int> matchingIndices = new List<int>();
+        CreateDeck();
+
+        // Pick value for set
+        int cardValue = Random.Range(2, 15);
+
+        // Add all indices of these cards to list
+        for (int i = 0; i < (int)Suit.NUM_OF_SUITS; i++)
+        {
+            matchingIndices.Add((cardValue - 2) + (i * 13));
+        }
+
+        // Depending on how many should be matching, remove some indices
+        if ((int)_numOfMatchingCards < (int)Suit.NUM_OF_SUITS)
+        {
+            for (int i = 0; i < (int)Suit.NUM_OF_SUITS - (int)_numOfMatchingCards; i++)
+            {
+                int index = Random.Range(0, matchingIndices.Count); // Pick random value
+                matchingIndices.RemoveAt(index); // Add to list of indices used for created hand
+            }
+        }
+
+        // go through remaining cards in hand and remove from deck to avoid duplicates
+        foreach (int value in matchingIndices)
+        {
+            indexesToDrawFrom.Remove(value);
+        }
+
+        DealRiggedCards(_playerNumber, matchingIndices, (int)_numOfMatchingCards);
+    }
+
+    public void DealRiggedCards(int _playerNumber, List<int> _handInidices, int _cardsInHand)
+    {
         // Deal 2 at random into player hand
         for (int i = 0; i < allHands[_playerNumber].Length; i++)
         {
-            int cardIndex = Random.Range(0, straightIndices.Count);
-            allHands[_playerNumber][i].Init(straightIndices[cardIndex]);
-            straightIndices.RemoveAt(cardIndex);
+            int cardIndex = Random.Range(0, _handInidices.Count);
+            allHands[_playerNumber][i].Init(_handInidices[cardIndex]);
+            _handInidices.RemoveAt(cardIndex);
 
             alreadyDealtCards.Add(allHands[_playerNumber][i]); // add player card to already dealt list
         }
-        // Scatter remaining 3 in table cards
+        // Scatter remaining cards in table cards
         List<int> cardPositions = new List<int>() { 0, 1, 2, 3, 4 }; // positions for cards in centre
-        // Remove 2 positions as only 3 cards need to be dealt 
-        for (int i = 0; i < 2; i++)
+
+        // Number of possible positions needed to deal to in centree = total cards in centre - amount left to make hand
+        int positionsToRemove = cardPositions.Count - (_cardsInHand - allHands[_playerNumber].Length);
+        // Remove uneeded amount positions as less than 5 cards need to be dealt 
+        for (int i = 0; i < positionsToRemove; i++)
         {
             cardPositions.RemoveAt(Random.Range(0, cardPositions.Count));
         }
         // Iterate through selected card positions
         for (int i = 0; i < cardPositions.Count; i++)
         {
-            int straightCardIndex = Random.Range(0, straightIndices.Count); // get random card in remaining straight hand to deal
-            centreCards[cardPositions[i]].Init(straightIndices[straightCardIndex]);
-            straightIndices.RemoveAt(straightCardIndex);
+            int cardIndex = Random.Range(0, _handInidices.Count); // get random card in remaining straight hand to deal
+            centreCards[cardPositions[i]].Init(_handInidices[cardIndex]);
+            _handInidices.RemoveAt(cardIndex);
 
             alreadyDealtCards.Add(centreCards[cardPositions[i]]); //add this centre card to already delat list
         }
@@ -791,6 +865,19 @@ public enum HandType
     FOUR_OF_A_KIND, 
     STRAIGHT_FLUSH,
     HAND_TYPES
+}
+
+public enum CardsNeededForHand
+{
+    HIGH_CARD = 1,
+    PAIR = 2,
+    TWO_PAIR = 4,
+    THREE_OF_A_KIND = 3,
+    STRAIGHT = 5,
+    FLUSH = 5,
+    FULL_HOUSE = 5,
+    FOUR_OF_A_KIND = 4,
+    STRAIGHT_FLUSH = 5,
 }
 
 public struct PlayerHand
