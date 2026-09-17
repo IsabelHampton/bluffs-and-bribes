@@ -73,14 +73,17 @@ public class HandManager : MonoBehaviour
                     // Check if there is a highest bribe
                     int highestPlayer = BribeManager.Instance.HighestBribePlayerNumber();
                     if (highestPlayer == -1)
-                        RandomDealCards();
-                    else
                     {
-                    // Rig their cards
-                        CheatDeal(highestPlayer, (CheatHandOptions)Random.Range(0, (int)CheatHandOptions.CHEAT_OPTIONS));
-                        // Random deal the rest
-                        RandomDealFromSelection();
+                        RandomDealCards();
                     }
+                else
+                {
+                    // Rig their cards
+                    CheatDeal(highestPlayer, CheatHandOptions.STRAIGHT_FLUSH);
+                    //CheatDeal(highestPlayer, (CheatHandOptions)Random.Range(0, (int)CheatHandOptions.CHEAT_OPTIONS));
+                    // Random deal the rest
+                    RandomDealFromSelection();
+                }
                 //}
                 RevealCards(playerHand);
                 RevealCards(flop);
@@ -148,7 +151,7 @@ public class HandManager : MonoBehaviour
                 // Empty pot
                 BetManager.Instance.SetPot(0);
 
-                // TO DO: Display next round button
+                GameManager.Instance.UpdateGameState(GameState.ON_MENU_BETWEEN_ROUNDS); // Trigger UI for moving between rounds
 
                 break;
             default:

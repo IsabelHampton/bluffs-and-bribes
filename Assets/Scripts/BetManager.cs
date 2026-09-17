@@ -4,9 +4,10 @@ public class BetManager : MonoBehaviour
 {
     public static BetManager Instance;
     public int pot = 0;
+    public static int startAmount = 100;
 
     public int[] bets  = {0, 0, 0, 0 };
-    public int[] chips = {100, 100, 100, 100 };
+    public int[] chips = { startAmount, startAmount, startAmount, startAmount };
     public int highestBet = 0;
     public int minBet = 5;
 
@@ -76,6 +77,11 @@ public class BetManager : MonoBehaviour
         bets[_playerNumber] += _value;
         ChipsUI.Instance.UpdateElements();
     }
+
+    public bool IsPlayerBankrupt()
+    {
+        return chips[(int)PlayerOrder.PLAYER] == 0;
+    }
     public int BankruptPlayers()
     {
         int bankruptPlayers = 0;
@@ -84,7 +90,20 @@ public class BetManager : MonoBehaviour
             if (amount == 0)
                 bankruptPlayers++;
         }
-        return 
+        return bankruptPlayers;
+    }
+
+    public void IntroduceNewPlayers()
+    {
+        for (int i = 0; i < chips.Length; i++)
+        {
+            if (chips[i] == 0)
+            {
+                SetPlayerChips(startAmount, i);
+                ChipsUI.Instance.UpdateElements();
+            }
+                
+        }
     }
 }
 

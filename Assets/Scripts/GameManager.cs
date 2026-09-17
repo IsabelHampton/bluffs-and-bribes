@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static event Action<GameState> OnGameStateChanged;
 
     // RUN SPECIFIC VARS
-    private int roundNumber = 0;
+    public int RoundNumber = 0;
     private int enemiesElimatedThisRun = 0;
     private int maxChipsThisRun = 0;
 
@@ -54,12 +54,27 @@ public class GameManager : MonoBehaviour
             case GameState.REVEAL:
                 break;
             case GameState.END_ROUND:
-                roundNumber++;
+                break;
+            case GameState.ON_MENU_BETWEEN_ROUNDS:
+                if (BetManager.Instance.IsPlayerBankrupt())
+                {
+                    // TO DO: Display results menu, save data, allow option to start new run
+                }
+                else
+                {
+                    // TO DO: Display menu to go on next round, show current stats 
+                }
+                RoundNumber++;
                 break;
             default:
                 break;
         }
         OnGameStateChanged?.Invoke(State);
+    }
+
+    public void UpdateElimatedEnemyCount()
+    {
+        enemiesElimatedThisRun += BetManager.Instance.BankruptPlayers();
     }
 
 }
@@ -74,5 +89,7 @@ public enum GameState
     ENEMY2_TURN,
     ENEMY3_TURN,
     REVEAL,
-    END_ROUND
+    END_ROUND, 
+    ON_MENU_BETWEEN_ROUNDS,
+    NUM_OF_ROUNDS
 }
