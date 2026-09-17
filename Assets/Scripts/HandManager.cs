@@ -76,8 +76,8 @@ public class HandManager : MonoBehaviour
                         RandomDealCards();
                     else
                     {
-                        // Rig their cards
-                        CheatDealMatchingValue(highestPlayer, CardsNeededForHand.PAIR);
+                    // Rig their cards
+                        CheatDeal(highestPlayer, (CheatHandOptions)Random.Range(0, (int)CheatHandOptions.CHEAT_OPTIONS));
                         // Random deal the rest
                         RandomDealFromSelection();
                     }
@@ -193,6 +193,36 @@ public class HandManager : MonoBehaviour
         }
     }
 
+    public void CheatDeal(int _playerNumber, CheatHandOptions _cheatHand)
+    {
+        Debug.Log($"{(PlayerOrder)_playerNumber} has a rigged {_cheatHand} this round");
+        switch (_cheatHand)
+        {
+            case CheatHandOptions.HIGH_CARD:
+                CheatDealHighCards(_playerNumber);
+                break;
+            case CheatHandOptions.PAIR:
+                CheatDealMatchingValue(_playerNumber, (CardsNeededForHand.PAIR));
+                break;
+            case CheatHandOptions.THREE_OF_A_KIND:
+                CheatDealMatchingValue(_playerNumber, (CardsNeededForHand.THREE_OF_A_KIND));
+                break;
+            case CheatHandOptions.STRAIGHT:
+                CheatDealStraight(_playerNumber);
+                break;
+            case CheatHandOptions.FLUSH:
+                CheatDealFlush(_playerNumber);
+                break;
+            case CheatHandOptions.FOUR_OF_A_KIND:
+                CheatDealMatchingValue(_playerNumber, (CardsNeededForHand.FOUR_OF_A_KIND));
+                break;
+            case CheatHandOptions.STRAIGHT_FLUSH:
+                CheatDealStraight(_playerNumber, false);
+                break;
+            default:
+                break;
+        }
+    }
     public void CheatDealHighCards(int _playerNumber)
     {
         CreateDeck();
@@ -260,7 +290,9 @@ public class HandManager : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             int index = Random.Range(0, possibleIndices.Count); // Pick random value
-            flushIndices.Add(possibleIndices[index]); // Add to list of inideces used for created hand
+            flushIndices.Add(possibleIndices[index]); // Add to list of inidices used for created hand
+
+            indexesToDrawFrom.Remove(possibleIndices[index]); // Remove from deck so others don't get duplicates
             possibleIndices.RemoveAt(index); // Remove from possible list now to avoid duplicate
         }
 
@@ -879,7 +911,17 @@ public enum CardsNeededForHand
     FOUR_OF_A_KIND = 4,
     STRAIGHT_FLUSH = 5,
 }
-
+public enum CheatHandOptions
+{
+    HIGH_CARD,
+    PAIR,
+    THREE_OF_A_KIND,
+    STRAIGHT,
+    FLUSH,
+    FOUR_OF_A_KIND,
+    STRAIGHT_FLUSH,
+    CHEAT_OPTIONS
+}
 public struct PlayerHand
 {
     public HandType handType;
