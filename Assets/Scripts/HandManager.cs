@@ -565,7 +565,7 @@ public class HandManager : MonoBehaviour
         {
             if (i == 0)
                 continue; // Skip 1st card
-            if (_hand[i].Value == _hand[i - 1].Value + 1 && _hand[i].Suit == _hand[i - 1].Suit)
+            if (_hand[i].Value == _hand[i - 1].Value - 1 && _hand[i].Suit == _hand[i - 1].Suit)
             {
                 consecutiveCards++;
                 if (consecutiveCards == 5)
@@ -742,7 +742,7 @@ public class HandManager : MonoBehaviour
         {
             if (i == 0 || _hand[i].Value == _hand[i-1].Value)
                 continue; // Skip 1st card or cards of same value
-            if (_hand[i].Value == _hand[i - 1].Value + 1)
+            if (_hand[i].Value == _hand[i - 1].Value - 1)
             {
                 consecutiveCards++;
                 if (consecutiveCards == 5)
