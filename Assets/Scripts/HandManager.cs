@@ -61,6 +61,9 @@ public class HandManager : MonoBehaviour
         UpdateAllHands();
         switch (GameManager.Instance.State)
         {
+            case GameState.BRIBE: //happens before dealing
+                HideAllCards();
+                break;
             case GameState.DEALING:
                 endOfRoundSequenceStarted = false; // Reset 
                 // 1st round normal deal cards
@@ -363,6 +366,13 @@ public class HandManager : MonoBehaviour
             _handInidices.RemoveAt(cardIndex);
 
             alreadyDealtCards.Add(centreCards[cardPositions[i]]); //add this centre card to already delat list
+        }
+    }
+    public void HideAllCards()
+    {
+        foreach (Card card in cardsOnTable)
+        {
+            card.Hide();
         }
     }
     public void RevealCards(Card[] _cardsToReveal)

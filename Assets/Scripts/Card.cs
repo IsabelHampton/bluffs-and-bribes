@@ -22,21 +22,6 @@ public class Card : MonoBehaviour
 
     [SerializeField] private Sprite faceUpSprite;
 
-
-/*    public Card()
-    {
-        cardImages = FindFirstObjectByType<CardImages>();
-        faceDownSprite = cardImages.faceDownSprite;
-        
-        Value = 0;
-        Suit = 0;
-        faceDown = true;
-
-        displayedImage = new Image();
-        displayedImage.sprite = faceDownSprite;
-        faceUpSprite = cardImages.cardSprites[0];
-    }*/
-
     public void Init (int _value, int _suit, bool _faceDown = true)
     {
         Value = _value;
@@ -74,4 +59,11 @@ public class Card : MonoBehaviour
         faceDown = false;
         displayedImage.sprite = faceUpSprite;
     }
+
+    public void Hide()
+    {
+        faceDown = true;
+        displayedImage.sprite = faceDownSprite;
+    }
+
 }
