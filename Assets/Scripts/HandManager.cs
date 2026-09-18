@@ -79,8 +79,7 @@ public class HandManager : MonoBehaviour
                 else
                 {
                     // Rig their cards
-                    CheatDeal(highestPlayer, CheatHandOptions.STRAIGHT_FLUSH);
-                    //CheatDeal(highestPlayer, (CheatHandOptions)Random.Range(0, (int)CheatHandOptions.CHEAT_OPTIONS));
+                    CheatDeal(highestPlayer, (CheatHandOptions)Random.Range(0, (int)CheatHandOptions.CHEAT_OPTIONS));
                     // Random deal the rest
                     RandomDealFromSelection();
                 }
