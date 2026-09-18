@@ -9,14 +9,14 @@ public class GameManager : MonoBehaviour
 
     // RUN SPECIFIC VARS
     public int RoundNumber = 0;
-    public int EnemiesElimatedThisRun = 0;
+    public int OpponentsElimatedThisRun = 0;
     public int MaxChipsThisRun = 0;
 
     // PERSISTENT VALUES
 
     private int maxRoundsComplete;
-    private int maxChipsAchiebed;
-    private int maxEnemiesEliminated;
+    private int maxChipsAchieved;
+    private int maxOpponentsEliminated;
     private int runsPlayed;
 
 
@@ -54,16 +54,26 @@ public class GameManager : MonoBehaviour
             case GameState.REVEAL:
                 break;
             case GameState.END_ROUND:
-                break;
-            case GameState.ON_MENU_BETWEEN_ROUNDS:
+                // TO DO: Update run vars
+
                 if (BetManager.Instance.IsPlayerBankrupt())
                 {
-                    // TO DO: Display results menu, save data, allow option to start new run
+                    UpdateAllTimeStats();
+                    // Trigger end of run state - this will display menu
+                    UpdateGameState(GameState.END_OF_RUN_MENU);
                 }
                 else
                 {
-                    // TO DO: Display menu to go on next round, show current stats 
+                    // Update run vars for end of round 
+                    UpdateCurrentRunStats();
+
+                    UpdateGameState(GameState.END_OF_ROUND_MENU);
                 }
+                
+                break;
+            case GameState.END_OF_ROUND_MENU:
+                break;
+            case GameState.END_OF_RUN_MENU:
                 break;
             default:
                 break;
@@ -74,9 +84,36 @@ public class GameManager : MonoBehaviour
     {
         RoundNumber++;
     }
+    public void IncrementRunsPlayed()
+    {
+        runsPlayed++;
+    }
+    public void UpdateAllTimeStats()
+    {
+        IncrementRunsPlayed(); 
+
+        maxOpponentsEliminated = Mathf.Max(maxOpponentsEliminated, OpponentsElimatedThisRun);
+        maxChipsAchieved = Mathf.Max(maxChipsAchieved, MaxChipsThisRun);
+        maxRoundsComplete = Mathf.Max(RoundNumber, maxRoundsComplete);
+    }
+
+    public void UpdateCurrentRunStats()
+    {
+        IncrementRoundNumber();
+
+        MaxChipsThisRun = Mathf.Max(BetManager.Instance.chips[(int)PlayerOrder.PLAYER], MaxChipsThisRun);
+        OpponentsElimatedThisRun += BetManager.Instance.BankruptPlayers();
+
+    }
+    public void ResetRunStats()
+    {
+        RoundNumber = 0;
+        OpponentsElimatedThisRun = 0;
+        MaxChipsThisRun = 0;
+    }
     public void UpdateElimatedEnemyCount()
     {
-        EnemiesElimatedThisRun += BetManager.Instance.BankruptPlayers();
+        OpponentsElimatedThisRun += BetManager.Instance.BankruptPlayers();
     }
 
 }
@@ -92,6 +129,7 @@ public enum GameState
     OPPONENT3_TURN,
     REVEAL,
     END_ROUND, 
-    ON_MENU_BETWEEN_ROUNDS,
+    END_OF_ROUND_MENU,
+    END_OF_RUN_MENU,
     NUM_OF_ROUNDS
 }

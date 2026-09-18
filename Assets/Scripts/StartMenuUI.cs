@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class StartMenuUI : MonoBehaviour
 {
+    public static StartMenuUI Instance; 
     public GameObject newRunConfirmationPanel;
     public GameObject startMenuPanel;
     public GameObject tablePanel;
     public GameObject tipoffPanel;
+    public GameObject endOfRunPanel;
+    public GameObject endOfRoundPanel;
 
     public HandManager handManager;
     private void Start()
     {
+        Instance = this;
         GameManager.OnGameStateChanged += GameManagerOnStateChanged;
         SetUp();
         
@@ -49,11 +53,13 @@ public class StartMenuUI : MonoBehaviour
     /// <summary>
     /// Set up which panels are hidden
     /// </summary>
-    private void SetUp()
+    public void SetUp()
     {
         tablePanel.SetActive(false);
         newRunConfirmationPanel.SetActive(false);
         tipoffPanel.SetActive(false);
+        endOfRunPanel.SetActive(false);
+        endOfRoundPanel.SetActive(false);
         startMenuPanel.SetActive(true);
     }
     public void OnNewRun()

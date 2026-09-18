@@ -382,7 +382,7 @@ GameObject:
   - component: {fileID: 23725229}
   - component: {fileID: 23725228}
   m_Layer: 5
-  m_Name: Btn_Quit
+  m_Name: Btn_BackToMainMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1361,7 +1361,7 @@ GameObject:
   - component: {fileID: 300744115}
   - component: {fileID: 300744114}
   m_Layer: 5
-  m_Name: Txt_Quit
+  m_Name: Txt_Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1407,7 +1407,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: 'Back
-
 
 '
   m_isRightToLeft: 0
@@ -8423,7 +8422,7 @@ GameObject:
   - component: {fileID: 1658487640}
   - component: {fileID: 1658487639}
   m_Layer: 5
-  m_Name: Txt_EnemiesElimated
+  m_Name: Txt_OpponentsElimated
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8468,7 +8467,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Enemies eliminated:'
+  m_text: 'Opponents eliminated:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10165,6 +10164,8 @@ MonoBehaviour:
   startMenuPanel: {fileID: 1896837325}
   tablePanel: {fileID: 1743794860}
   tipoffPanel: {fileID: 1930957159}
+  endOfRunPanel: {fileID: 344484459}
+  endOfRoundPanel: {fileID: 2016716229}
   handManager: {fileID: 1973094539}
 --- !u!4 &1858078669
 Transform:
@@ -10282,9 +10283,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f77e119be7724f4e8364e289b0390ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RunOverUI
-  roundsCompletedDisplay: {fileID: 0}
-  maxChipsDisplay: {fileID: 0}
-  enemiesElimatedDisplay: {fileID: 0}
+  runOverPanel: {fileID: 344484459}
+  roundsCompletedDisplay: {fileID: 283697641}
+  maxChipsDisplay: {fileID: 195920404}
+  opponentsElimatedDisplay: {fileID: 1658487639}
 --- !u!1001 &1863835447
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10433,7 +10435,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   State: 0
   RoundNumber: 0
-  EnemiesElimatedThisRun: 0
+  OpponentsElimatedThisRun: 0
   MaxChipsThisRun: 0
 --- !u!4 &1875373224
 Transform:
@@ -10656,15 +10658,15 @@ MonoBehaviour:
   playerHand:
   - {fileID: 1571746081}
   - {fileID: 290994909}
-  e1Hand:
-  - {fileID: 828199327}
-  - {fileID: 149285035}
-  e2Hand:
-  - {fileID: 478416464}
-  - {fileID: 589328567}
-  e3Hand:
-  - {fileID: 1351430547}
-  - {fileID: 20097257}
+  o1Hand:
+  - {fileID: 0}
+  - {fileID: 0}
+  o2Hand:
+  - {fileID: 0}
+  - {fileID: 0}
+  o3Hand:
+  - {fileID: 0}
+  - {fileID: 0}
   flop:
   - {fileID: 521404912}
   - {fileID: 1811088818}

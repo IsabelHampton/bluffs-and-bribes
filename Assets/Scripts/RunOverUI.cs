@@ -3,13 +3,28 @@ using TMPro;
 
 public class RunOverUI : MonoBehaviour
 {
+    public static RunOverUI Instance;
+
     [SerializeField] public GameObject runOverPanel; 
 
     public TMP_Text roundsCompletedDisplay;
     public TMP_Text maxChipsDisplay;
     public TMP_Text opponentsElimatedDisplay;
+    private void Awake()
+    {
+        Instance = this;
+        GameManager.OnGameStateChanged += GameManagerOnStateChanged;
+    }
+    private void OnDestroy()
+    {
+        GameManager.OnGameStateChanged -= GameManagerOnStateChanged;
+    }
 
-    public void UpdateTextDisplayed()
+    private void GameManagerOnStateChanged(GameState _state)
+    {
+    }
+
+        public void UpdateTextDisplayed()
     {
         roundsCompletedDisplay.text = $"Rounds completed: {GameManager.Instance.RoundNumber}";
         maxChipsDisplay.text = $"Max chips achieved: {GameManager.Instance.RoundNumber}";
@@ -17,10 +32,18 @@ public class RunOverUI : MonoBehaviour
     }
     public void OnNewRun()
     {
-
+        // Restart run 
+        GameManager.Instance.ResetRunStats();
+        GameManager.Instance.UpdateGameState(GameState.TIPOFF);
     }
     public void QuitToStartMenu()
     {
-
+        StartMenuUI.Instance.SetUp();
+        GameManager.Instance.UpdateGameState(GameState.IN_START_MENU);
+    }
+    public void OpenEndOfRunMenu()
+    {
+        runOverPanel.SetActive(true);
+        UpdateTextDisplayed();
     }
 }
