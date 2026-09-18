@@ -151,7 +151,7 @@ public class HandManager : MonoBehaviour
                 // Empty pot
                 BetManager.Instance.SetPot(0);
 
-                GameManager.Instance.UpdateGameState(GameState.ON_MENU_BETWEEN_ROUNDS); // Trigger UI for moving between rounds
+                GameManager.Instance.UpdateGameState(GameState.CHECK_IF_RUN_CONTINUE); // Trigger UI for moving between rounds
 
                 break;
             default:

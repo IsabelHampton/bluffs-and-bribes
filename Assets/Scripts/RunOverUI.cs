@@ -22,6 +22,10 @@ public class RunOverUI : MonoBehaviour
 
     private void GameManagerOnStateChanged(GameState _state)
     {
+        if (GameManager.Instance.State == GameState.END_OF_RUN_MENU)
+        {
+            OpenEndOfRunMenu();
+        }
     }
 
         public void UpdateTextDisplayed()

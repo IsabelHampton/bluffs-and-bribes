@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
             case GameState.REVEAL:
                 break;
             case GameState.END_ROUND:
+                break;
+            case GameState.CHECK_IF_RUN_CONTINUE:
                 // TO DO: Update run vars
 
                 if (BetManager.Instance.IsPlayerBankrupt())
@@ -129,6 +131,7 @@ public enum GameState
     OPPONENT3_TURN,
     REVEAL,
     END_ROUND, 
+    CHECK_IF_RUN_CONTINUE,
     END_OF_ROUND_MENU,
     END_OF_RUN_MENU,
     NUM_OF_ROUNDS
