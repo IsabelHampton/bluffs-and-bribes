@@ -110,8 +110,8 @@ public class BetManager : MonoBehaviour
 public enum PlayerOrder
 {
     PLAYER,
-    ENEMY1,
-    ENEMY2,
-    ENEMY3,
+    OPPONENT1,
+    OPPONENT2,
+    OPPONENT3,
     NUM_OF_PLAYERS
 }

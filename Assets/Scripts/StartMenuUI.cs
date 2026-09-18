@@ -31,11 +31,11 @@ public class StartMenuUI : MonoBehaviour
                 break;
             case GameState.PLAYER_TURN:
                 break;
-            case GameState.ENEMY1_TURN:
+            case GameState.OPPONENT1_TURN:
                 break;
-            case GameState.ENEMY2_TURN:
+            case GameState.OPPONENT2_TURN:
                 break;
-            case GameState.ENEMY3_TURN:
+            case GameState.OPPONENT3_TURN:
                 break;
             case GameState.REVEAL:
                 break;

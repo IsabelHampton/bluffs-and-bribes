@@ -9,9 +9,9 @@ public class HandManager : MonoBehaviour
     public static HandManager Instance;
 
     public Card[] playerHand = new Card[2];
-    public Card[] e1Hand = new Card[2];
-    public Card[] e2Hand = new Card[2];
-    public Card[] e3Hand = new Card[2];
+    public Card[] o1Hand = new Card[2];
+    public Card[] o2Hand = new Card[2];
+    public Card[] o3Hand = new Card[2];
     public Card[][] allHands = new Card[(int)PlayerOrder.NUM_OF_PLAYERS][];
     public Card[] flop = new Card[3];
     public Card[] centreCards = new Card[5];
@@ -28,7 +28,7 @@ public class HandManager : MonoBehaviour
 
     private void UpdateAllHands()
     {
-        allHands = new Card[][]{ playerHand, e1Hand, e2Hand, e3Hand};
+        allHands = new Card[][]{ playerHand, o1Hand, o2Hand, o3Hand};
     }
     private void RevealEndOfRoundHands()
     {

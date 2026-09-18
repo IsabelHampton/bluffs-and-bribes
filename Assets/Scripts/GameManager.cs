@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
 
     // RUN SPECIFIC VARS
     public int RoundNumber = 0;
-    private int enemiesElimatedThisRun = 0;
-    private int maxChipsThisRun = 0;
+    public int EnemiesElimatedThisRun = 0;
+    public int MaxChipsThisRun = 0;
 
     // PERSISTENT VALUES
 
@@ -45,11 +45,11 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.PLAYER_TURN:
                 break;
-            case GameState.ENEMY1_TURN:
+            case GameState.OPPONENT1_TURN:
                 break;
-            case GameState.ENEMY2_TURN:
+            case GameState.OPPONENT2_TURN:
                 break;
-            case GameState.ENEMY3_TURN:
+            case GameState.OPPONENT3_TURN:
                 break;
             case GameState.REVEAL:
                 break;
@@ -64,17 +64,19 @@ public class GameManager : MonoBehaviour
                 {
                     // TO DO: Display menu to go on next round, show current stats 
                 }
-                RoundNumber++;
                 break;
             default:
                 break;
         }
         OnGameStateChanged?.Invoke(State);
     }
-
+    public void IncrementRoundNumber()
+    {
+        RoundNumber++;
+    }
     public void UpdateElimatedEnemyCount()
     {
-        enemiesElimatedThisRun += BetManager.Instance.BankruptPlayers();
+        EnemiesElimatedThisRun += BetManager.Instance.BankruptPlayers();
     }
 
 }
@@ -85,9 +87,9 @@ public enum GameState
     BRIBE,
     DEALING,
     PLAYER_TURN,
-    ENEMY1_TURN,
-    ENEMY2_TURN,
-    ENEMY3_TURN,
+    OPPONENT1_TURN,
+    OPPONENT2_TURN,
+    OPPONENT3_TURN,
     REVEAL,
     END_ROUND, 
     ON_MENU_BETWEEN_ROUNDS,

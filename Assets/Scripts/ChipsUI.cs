@@ -30,13 +30,13 @@ public class ChipsUI : MonoBehaviour
             case GameState.PLAYER_TURN:
                 UpdateElements();
                 break;
-            case GameState.ENEMY1_TURN:
+            case GameState.OPPONENT1_TURN:
                 UpdateElements();
                 break;
-            case GameState.ENEMY2_TURN:
+            case GameState.OPPONENT2_TURN:
                 UpdateElements();
                 break;
-            case GameState.ENEMY3_TURN:
+            case GameState.OPPONENT3_TURN:
                 UpdateElements();
                 break;
             case GameState.REVEAL:
@@ -52,9 +52,9 @@ public class ChipsUI : MonoBehaviour
     public void UpdateElements()
     {
         playerChipsDisplay.text = Convert.ToString(BetManager.Instance.chips[(int)PlayerOrder.PLAYER]);
-        e1ChipsDisplay.text = Convert.ToString(BetManager.Instance.chips[(int)PlayerOrder.ENEMY1]);
-        e2ChipsDisplay.text = Convert.ToString(BetManager.Instance.chips[(int)PlayerOrder.ENEMY2]);
-        e3ChipsDisplay.text = Convert.ToString(BetManager.Instance.chips[(int)PlayerOrder.ENEMY3]);
+        e1ChipsDisplay.text = Convert.ToString(BetManager.Instance.chips[(int)PlayerOrder.OPPONENT1]);
+        e2ChipsDisplay.text = Convert.ToString(BetManager.Instance.chips[(int)PlayerOrder.OPPONENT2]);
+        e3ChipsDisplay.text = Convert.ToString(BetManager.Instance.chips[(int)PlayerOrder.OPPONENT3]);
         potChipsDisplay.text = Convert.ToString(BetManager.Instance.pot);
     }
 }

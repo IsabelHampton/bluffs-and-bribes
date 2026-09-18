@@ -23,13 +23,13 @@ public class ActionUI : MonoBehaviour
             case GameState.PLAYER_TURN:
                 UpdateElements();
                 break;
-            case GameState.ENEMY1_TURN:
+            case GameState.OPPONENT1_TURN:
                 UpdateElements();
                 break;
-            case GameState.ENEMY2_TURN:
+            case GameState.OPPONENT2_TURN:
                 UpdateElements();
                 break;
-            case GameState.ENEMY3_TURN:
+            case GameState.OPPONENT3_TURN:
                 UpdateElements();
                 break;
             case GameState.REVEAL:
@@ -42,8 +42,8 @@ public class ActionUI : MonoBehaviour
     public void UpdateElements()
     {
         playerActionDisplay.text = Convert.ToString(ActionManager.Instance.lastActions[(int)PlayerOrder.PLAYER]);
-        e1ActionDisplay.text = Convert.ToString(ActionManager.Instance.lastActions[(int)PlayerOrder.ENEMY1]);
-        e2ActionDisplay.text = Convert.ToString(ActionManager.Instance.lastActions[(int)PlayerOrder.ENEMY2]);
-        e3ActionDisplay.text = Convert.ToString(ActionManager.Instance.lastActions[(int)PlayerOrder.ENEMY3]);
+        e1ActionDisplay.text = Convert.ToString(ActionManager.Instance.lastActions[(int)PlayerOrder.OPPONENT1]);
+        e2ActionDisplay.text = Convert.ToString(ActionManager.Instance.lastActions[(int)PlayerOrder.OPPONENT2]);
+        e3ActionDisplay.text = Convert.ToString(ActionManager.Instance.lastActions[(int)PlayerOrder.OPPONENT3]);
     }
 }

@@ -45,27 +45,27 @@ public class ActionManager : MonoBehaviour
                     MoveToNextStageWithoutDelay((int)PlayerOrder.PLAYER);
                 break;
 
-            case GameState.ENEMY1_TURN:
-                if (TurnNeedsSkipping((int)PlayerOrder.ENEMY1))
-                    MoveToNextStageWithoutDelay((int)PlayerOrder.ENEMY1);
+            case GameState.OPPONENT1_TURN:
+                if (TurnNeedsSkipping((int)PlayerOrder.OPPONENT1))
+                    MoveToNextStageWithoutDelay((int)PlayerOrder.OPPONENT1);
                 else
-                    TakeTurn((int)PlayerOrder.ENEMY1);
+                    TakeTurn((int)PlayerOrder.OPPONENT1);
                 break;
 
-            case GameState.ENEMY2_TURN:
-                if (TurnNeedsSkipping((int)PlayerOrder.ENEMY2))
-                    MoveToNextStageWithoutDelay((int)PlayerOrder.ENEMY2);
+            case GameState.OPPONENT2_TURN:
+                if (TurnNeedsSkipping((int)PlayerOrder.OPPONENT2))
+                    MoveToNextStageWithoutDelay((int)PlayerOrder.OPPONENT2);
                 else
-                    TakeTurn((int)PlayerOrder.ENEMY2);
+                    TakeTurn((int)PlayerOrder.OPPONENT2);
                 break;
 
-            case GameState.ENEMY3_TURN:
-                if (TurnNeedsSkipping((int)PlayerOrder.ENEMY3))
+            case GameState.OPPONENT3_TURN:
+                if (TurnNeedsSkipping((int)PlayerOrder.OPPONENT3))
                 {
-                    MoveToNextStageWithoutDelay((int)PlayerOrder.ENEMY3);
+                    MoveToNextStageWithoutDelay((int)PlayerOrder.OPPONENT3);
                 }
                 else
-                    TakeTurn((int)PlayerOrder.ENEMY3);
+                    TakeTurn((int)PlayerOrder.OPPONENT3);
                 break;
 
             default:
@@ -199,7 +199,7 @@ public class ActionManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(1.0f);
 
-        if (_playerNumber == (int)PlayerOrder.ENEMY3)
+        if (_playerNumber == (int)PlayerOrder.OPPONENT3)
         {
             HandleIfRoundCanEnd();
         }
@@ -208,7 +208,7 @@ public class ActionManager : MonoBehaviour
     }
     public void MoveToNextStageWithoutDelay(int _playerNumber)
     {
-        if (_playerNumber == (int)PlayerOrder.ENEMY3)
+        if (_playerNumber == (int)PlayerOrder.OPPONENT3)
         {
             HandleIfRoundCanEnd();
         }
