@@ -5,7 +5,7 @@ using System;
 
 public class PlayerBribeUI : MonoBehaviour
 {
-
+    public static PlayerBribeUI Instance; 
     public GameObject bribeMenu;
 
     public TMP_Text bribeDisplay;
@@ -16,9 +16,12 @@ public class PlayerBribeUI : MonoBehaviour
     public Button submitBribeButton;
 
     int chipsToBribe = 0;
+    public bool PlayerSelectedOption = false;
 
     private void Awake()
     {
+        Instance = this;
+
         SetUp();
         bribeMenu.SetActive(false); //initially hidden
         GameManager.OnGameStateChanged += GameManagerOnStateChanged;
@@ -97,11 +100,16 @@ public class PlayerBribeUI : MonoBehaviour
 
         bribeMenu.SetActive(false);
 
-        GameManager.Instance.UpdateGameState(GameState.DEALING); // Move stage on
+        AttemptMoveToDealing();
     }
 
     public void SkipBribe()
     {
-        GameManager.Instance.UpdateGameState(GameState.DEALING); // Move stage on
+        AttemptMoveToDealing();
+    }
+    public void AttemptMoveToDealing()
+    {
+        PlayerSelectedOption = true;
+        BribeManager.Instance.AttemptMoveToDealing();
     }
 }

@@ -36,6 +36,7 @@ public class RunOverUI : MonoBehaviour
     }
     public void OnNewRun()
     {
+        runOverPanel.SetActive(false); //hide this menu
         // Restart run 
         GameManager.Instance.ResetRunStats();
         GameManager.Instance.UpdateGameState(GameState.TIPOFF);

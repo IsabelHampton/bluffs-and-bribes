@@ -4,6 +4,7 @@ public class BribeManager : MonoBehaviour
     public static BribeManager Instance;
 
     private int[] bribes = new int[(int)PlayerOrder.NUM_OF_PLAYERS];
+    public bool BribeSetUpComplete;
 
     public void ResetBribes()
     {
@@ -31,7 +32,7 @@ public class BribeManager : MonoBehaviour
                 if (i == (int)PlayerOrder.PLAYER)
                     continue;
 
-                // PLace bribes for enemies
+                // Place bribes for enemies
                 int avaialbleBribeIncrements = Mathf.Max(0, (BetManager.Instance.chips[i] / BetManager.Instance.minBet) - 3 );
 
                 if (avaialbleBribeIncrements == 0)
@@ -40,8 +41,18 @@ public class BribeManager : MonoBehaviour
                 int bribeIncrement = Random.Range(0, avaialbleBribeIncrements);
                 SetBribeAmount(BetManager.Instance.minBet * bribeIncrement, i);
             }
+
+            // Bribe set up complete - attempt to move to dealing 
+            BribeSetUpComplete = true;
+            AttemptMoveToDealing();
+
         }
         
+    }
+    public void AttemptMoveToDealing()
+    {
+        if (GameManager.Instance.State != GameState.DEALING && PlayerBribeUI.Instance.PlayerSelectedOption && BribeSetUpComplete)
+            GameManager.Instance.UpdateGameState(GameState.DEALING);
     }
     public void SetBribeAmount(int _bribeAmount, int _playerNumber)
     {
@@ -52,7 +63,7 @@ public class BribeManager : MonoBehaviour
     {
         int highestBribe = 0;
         int highestPlayer = 0;
-        for (int i = 0; i < bribes.Length; i++)
+        for (int i = 0; i < (int)PlayerOrder.NUM_OF_PLAYERS; i++)
         {
             if (bribes[i] > highestBribe)
             {
