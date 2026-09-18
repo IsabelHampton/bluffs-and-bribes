@@ -56,8 +56,6 @@ public class GameManager : MonoBehaviour
             case GameState.END_ROUND:
                 break;
             case GameState.CHECK_IF_RUN_CONTINUE:
-                // TO DO: Update run vars
-
                 if (BetManager.Instance.IsPlayerBankrupt())
                 {
                     UpdateAllTimeStats();
@@ -68,7 +66,7 @@ public class GameManager : MonoBehaviour
                 {
                     // Update run vars for end of round 
                     UpdateCurrentRunStats();
-
+                    // Trigger end of round state - this will display menu
                     UpdateGameState(GameState.END_OF_ROUND_MENU);
                 }
                 
