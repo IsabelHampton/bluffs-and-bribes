@@ -4,6 +4,7 @@ public class BribeManager : MonoBehaviour
     public static BribeManager Instance;
 
     private int[] bribes = new int[(int)PlayerOrder.NUM_OF_PLAYERS];
+    public bool bribeStateReached = false;
     public bool BribeSetUpComplete;
 
     public void ResetBribes()
@@ -22,8 +23,10 @@ public class BribeManager : MonoBehaviour
     }
     private void GameManagerOnStateChanged(GameState _state)
     {
-        if (GameManager.Instance.State == GameState.BRIBE)
+        if (GameManager.Instance.State == GameState.BRIBE && !bribeStateReached) // Event triggered multiple times added check to prevent this
         {
+            bribeStateReached = true;
+
             ResetBribes();
             // TO DO: Add check if bribes are acceptable this round
             for (int i = 0; i < (int)PlayerOrder.NUM_OF_PLAYERS; i++)

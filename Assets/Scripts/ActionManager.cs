@@ -199,7 +199,7 @@ public class ActionManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(1.0f);
 
-        if (_playerNumber == (int)PlayerOrder.OPPONENT3)
+        if (_playerNumber == (int)PlayerOrder.NUM_OF_PLAYERS - 1) // if on last player
         {
             HandleIfRoundCanEnd();
         }
@@ -208,7 +208,7 @@ public class ActionManager : MonoBehaviour
     }
     public void MoveToNextStageWithoutDelay(int _playerNumber)
     {
-        if (_playerNumber == (int)PlayerOrder.OPPONENT3)
+        if (_playerNumber == (int)PlayerOrder.NUM_OF_PLAYERS - 1) // On last player
         {
             HandleIfRoundCanEnd();
         }
@@ -261,9 +261,10 @@ public class ActionManager : MonoBehaviour
         }
         else
         {
-            BetManager.Instance.chips[_playerNumber] -= chipsNeededToCall;
-            BetManager.Instance.bets[_playerNumber] += chipsNeededToCall;
-            BetManager.Instance.pot += chipsNeededToCall;
+
+            BetManager.Instance.AddPlayerBet(chipsNeededToCall, _playerNumber);
+            BetManager.Instance.AddToPot(chipsNeededToCall);
+            BetManager.Instance.AddPlayerChips(-chipsNeededToCall, _playerNumber);
 
             lastActions[_playerNumber] = Actions.CALL;
         }
