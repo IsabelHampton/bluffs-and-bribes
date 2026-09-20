@@ -23,7 +23,10 @@ public class BribeManager : MonoBehaviour
     }
     private void GameManagerOnStateChanged(GameState _state)
     {
-        if (GameManager.Instance.State == GameState.BRIBE && !bribeStateReached) // Event triggered multiple times added check to prevent this
+        if (GameManager.Instance.State != GameState.BRIBE)
+            bribeStateReached = false; // will allow to be retriggered next time state is reached
+
+        else if (GameManager.Instance.State == GameState.BRIBE && !bribeStateReached) // Event triggered multiple times added check to prevent this
         {
             bribeStateReached = true;
 

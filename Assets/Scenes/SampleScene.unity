@@ -2024,7 +2024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.74213827, g: 0.049009025, b: 0.049009025, a: 1}
+  m_Color: {r: 0.74213827, g: 0.049009025, b: 0.049009025, a: 0.46666667}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6783,7 +6783,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1858078676}
         m_TargetAssemblyTypeName: RoundOverUI, Assembly-CSharp
-        m_MethodName: OnNewRun
+        m_MethodName: OnNewRound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11355,7 +11355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7924528, g: 0.07725156, b: 0.07725156, a: 1}
+  m_Color: {r: 0.7924528, g: 0.07725156, b: 0.07725156, a: 0.46666667}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

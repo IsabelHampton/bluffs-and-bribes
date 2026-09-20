@@ -31,8 +31,8 @@ public class RunOverUI : MonoBehaviour
         public void UpdateTextDisplayed()
     {
         roundsCompletedDisplay.text = $"Rounds completed: {GameManager.Instance.RoundNumber}";
-        maxChipsDisplay.text = $"Max chips achieved: {GameManager.Instance.RoundNumber}";
-        opponentsElimatedDisplay.text = $"Opponents eliminated: {GameManager.Instance.RoundNumber}";
+        maxChipsDisplay.text = $"Max chips achieved: {GameManager.Instance.MaxChipsThisRun}";
+        opponentsElimatedDisplay.text = $"Opponents eliminated: {GameManager.Instance.OpponentsElimatedThisRun}";
     }
     public void OnNewRun()
     {

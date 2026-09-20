@@ -35,6 +35,9 @@ public class PlayerBribeUI : MonoBehaviour
     {
         UpdateButtonToAllowBribing(); // Enables / disables bribe button
         bribeMenu.SetActive(false);
+
+        if (GameManager.Instance.State != GameState.BRIBE)
+            PlayerSelectedOption = false; // Reset for next round
     }
 
     public void SetUp()

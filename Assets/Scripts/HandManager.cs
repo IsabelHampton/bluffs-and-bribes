@@ -66,7 +66,7 @@ public class HandManager : MonoBehaviour
                 break;
             case GameState.DEALING:
                 endOfRoundSequenceStarted = false; // Reset 
-                // 1st round normal deal cards
+                // 1st round normal deal cards            
                 /*if (GameManager.Instance.roundNumber == 0)
                 {
                     RandomDealCards();

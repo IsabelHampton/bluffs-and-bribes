@@ -23,7 +23,7 @@ public class RoundOverUI : MonoBehaviour
             OpenEndOfRoundMenu();
         }
     }
-    public void OnNewRun()
+    public void OnNewRound()
     {
         roundOverPanel.SetActive(false); // hide this menu
         GameManager.Instance.UpdateGameState(GameState.TIPOFF); // all bet resetting handled in BetManager

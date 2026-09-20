@@ -25,6 +25,9 @@ public class BetManager : MonoBehaviour
     {
         switch (GameManager.Instance.State)
         {
+            case GameState.TIPOFF: // Before dealing
+                IntroduceNewPlayers();
+                break;
             case GameState.DEALING:
                 pot = 0; // Zero out pot for new round
                 ResetBets();
@@ -85,10 +88,12 @@ public class BetManager : MonoBehaviour
     public int BankruptPlayers()
     {
         int bankruptPlayers = 0;
-        foreach (int amount in chips)
+        for (int i = 0; i < chips.Length; i++)
         {
-            if (amount == 0)
-                bankruptPlayers++;
+            if (i == (int)PlayerOrder.PLAYER) // Do not count player
+                continue;
+
+            bankruptPlayers++;
         }
         return bankruptPlayers;
     }

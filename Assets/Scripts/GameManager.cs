@@ -100,9 +100,8 @@ public class GameManager : MonoBehaviour
     public void UpdateCurrentRunStats()
     {
         IncrementRoundNumber();
-
-        MaxChipsThisRun = Mathf.Max(BetManager.Instance.chips[(int)PlayerOrder.PLAYER], MaxChipsThisRun);
-        OpponentsElimatedThisRun += BetManager.Instance.BankruptPlayers();
+        UpdateMaxChipsThisRun();
+        UpdateElimatedOpponentCount();
 
     }
     public void ResetRunStats()
@@ -111,11 +110,14 @@ public class GameManager : MonoBehaviour
         OpponentsElimatedThisRun = 0;
         MaxChipsThisRun = 0;
     }
-    public void UpdateElimatedEnemyCount()
+    public void UpdateElimatedOpponentCount()
     {
         OpponentsElimatedThisRun += BetManager.Instance.BankruptPlayers();
     }
-
+    public void UpdateMaxChipsThisRun()
+    {
+        MaxChipsThisRun = Mathf.Max(BetManager.Instance.chips[(int)PlayerOrder.PLAYER], MaxChipsThisRun);
+    }
 }
 public enum GameState
 {
