@@ -4,6 +4,10 @@ public class DeviceInfoOverlay : MonoBehaviour
 {
     float smoothedDelta = 1f / 30f;
     GUIStyle style;
+    private void Awake()
+    {
+        Application.targetFrameRate = 30;
+    }
     void Update()
     {
         // TODO: blend Time.unscaledDeltaTime into smoothedDelta

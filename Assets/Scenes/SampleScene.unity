@@ -7946,6 +7946,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1450996974}
   - component: {fileID: 1450996973}
+  - component: {fileID: 1450996975}
   m_Layer: 0
   m_Name: Debug
   m_TagString: Untagged
@@ -7980,6 +7981,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1450996975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450996972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f15c574168ae940a0aaded0232bcdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LifecycleLogger
 --- !u!1 &1489363297
 GameObject:
   m_ObjectHideFlags: 0
