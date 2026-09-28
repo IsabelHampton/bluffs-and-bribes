@@ -9,6 +9,7 @@ public class StartMenuUI : MonoBehaviour
     public GameObject tipoffPanel;
     public GameObject endOfRunPanel;
     public GameObject endOfRoundPanel;
+    public GameObject shufflingPanel;
 
     public HandManager handManager;
     private void Start()
@@ -60,6 +61,7 @@ public class StartMenuUI : MonoBehaviour
         tipoffPanel.SetActive(false);
         endOfRunPanel.SetActive(false);
         endOfRoundPanel.SetActive(false);
+        shufflingPanel.SetActive(false);
         startMenuPanel.SetActive(true);
     }
     public void OnNewRun()

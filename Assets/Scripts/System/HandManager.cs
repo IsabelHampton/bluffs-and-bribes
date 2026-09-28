@@ -90,7 +90,8 @@ public class HandManager : MonoBehaviour
                 RevealCards(playerHand);
                 RevealCards(flop);
                 UpdateAllHands();
-                GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
+                // TO DO: UNCOMMENT
+                //GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
                 break;
             case GameState.REVEAL:
                 NextCardReveal();
