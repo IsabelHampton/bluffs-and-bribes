@@ -4,7 +4,9 @@ public class ShufflingUI : MonoBehaviour
 {
     // TO DO: Replace with 2D animation instead of different game objects - performance diff?
     public GameObject[] CardsToShuffle;
-    public GameObject ShufflingPanel; 
+    public GameObject ShufflingPanel;
+    public float creationTime;
+    public float lifetime = 5.0f;
 
     public static ShufflingUI Instance;
     void Awake()
@@ -25,15 +27,27 @@ public class ShufflingUI : MonoBehaviour
     }
     public void Update()
     {
-        PerformShakeAnimation();
+        if (ShufflingPanel.activeInHierarchy)
+        {
+            if (Time.time - creationTime > lifetime)
+            {
+                HideShufflingPanel();
+                GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
+            }
+            else
+                PerformShakeAnimation();
+        }
     }
     public void ShowShufflingPanel()
     {
+        creationTime = Time.time;
         ShufflingPanel.SetActive(true);
+        GyroscopeManager.Instance.EnableGyroSensor();
     }
     public void HideShufflingPanel()
     {
         ShufflingPanel.SetActive(false);
+        GyroscopeManager.Instance.DisableGyroSensor();
     }
 
     public void PerformShakeAnimation()
@@ -43,8 +57,8 @@ public class ShufflingUI : MonoBehaviour
             foreach (GameObject card in CardsToShuffle)
             {
                 card.transform.position = new Vector3(
-                card.transform.position.x + Random.Range(5, 10),
-                card.transform.position.y + Random.Range(5, 10),
+                card.transform.position.x + Random.Range(-10, 10),
+                card.transform.position.y + Random.Range(-10, 10),
                 card.transform.position.z
                 );
             }

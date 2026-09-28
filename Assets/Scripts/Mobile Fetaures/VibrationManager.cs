@@ -1,4 +1,5 @@
 using UnityEngine;
+using CandyCoded.HapticFeedback;
 
 public class VibrationManager : MonoBehaviour
 {
@@ -7,8 +8,16 @@ public class VibrationManager : MonoBehaviour
     {
         Instance = this;
     }
-    public void VibratePhone()
+    public void LightVibrate()
     {
-        Handheld.Vibrate();
+        HapticFeedback.LightFeedback();
+    }
+    public void MediumVibrate()
+    {
+        HapticFeedback.MediumFeedback();
+    }
+    public void HeavyVibrate()
+    {
+        HapticFeedback.HeavyFeedback();
     }
 }

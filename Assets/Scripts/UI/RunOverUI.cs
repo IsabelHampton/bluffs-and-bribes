@@ -49,7 +49,7 @@ public class RunOverUI : MonoBehaviour
     public void OpenEndOfRunMenu()
     {
         // Vibrate phone to show end of run
-        VibrationManager.Instance.VibratePhone();
+        VibrationManager.Instance.HeavyVibrate();
 
         runOverPanel.SetActive(true);
         UpdateTextDisplayed();
