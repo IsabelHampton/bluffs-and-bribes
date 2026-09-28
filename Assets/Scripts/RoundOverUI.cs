@@ -30,6 +30,9 @@ public class RoundOverUI : MonoBehaviour
     }
     public void OpenEndOfRoundMenu()
     {
+        // Vibrate phone to show end of round
+        VibrationManager.Instance.VibratePhone();
+
         roundOverPanel.SetActive(true);
     }
 }
