@@ -14,6 +14,7 @@ public class PlayerBribeUI : MonoBehaviour
     public Button bribeButton;
     public Button skipBribeButton;
     public Button submitBribeButton;
+    public Button cancelBribeButton;
 
     int chipsToBribe = 0;
     public bool PlayerSelectedOption = false;
@@ -114,5 +115,12 @@ public class PlayerBribeUI : MonoBehaviour
     {
         PlayerSelectedOption = true;
         BribeManager.Instance.AttemptMoveToDealing();
+    }
+
+    public void OnCancelBribe()
+    {
+        chipsToBribe = 0;
+        bribeDisplay.text = BetManager.Instance.minBet.ToString();
+        bribeMenu.SetActive(false);
     }
 }
