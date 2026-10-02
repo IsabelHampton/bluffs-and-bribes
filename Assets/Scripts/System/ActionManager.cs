@@ -18,7 +18,7 @@ public class ActionManager : MonoBehaviour
     public void UpdateAllIn(int _playerNumber)
     {
         isAllIn[_playerNumber] = true;
-        lastActions[_playerNumber] = Actions.ALL_IN;
+        UpdateLastActions(_playerNumber, Actions.ALL_IN);
     }
 
     void Awake()
@@ -187,7 +187,7 @@ public class ActionManager : MonoBehaviour
     {
         hasFolded[_playerNumber] = true;
         foldedPlayers++;
-        lastActions[_playerNumber] = Actions.FOLD;
+        UpdateLastActions(_playerNumber, Actions.FOLD);
     }
     public void PlayerFold()
     {
@@ -217,7 +217,7 @@ public class ActionManager : MonoBehaviour
     }
     public void Check(int _playerNumber)
     {
-        lastActions[_playerNumber] = Actions.CHECK;
+        UpdateLastActions(_playerNumber, Actions.CHECK);
     }
     public void PlayerCheck()
     {
@@ -261,12 +261,11 @@ public class ActionManager : MonoBehaviour
         }
         else
         {
+            UpdateLastActions(_playerNumber, Actions.CALL);
 
             BetManager.Instance.AddPlayerBet(chipsNeededToCall, _playerNumber);
             BetManager.Instance.AddToPot(chipsNeededToCall);
             BetManager.Instance.AddPlayerChips(-chipsNeededToCall, _playerNumber);
-
-            lastActions[_playerNumber] = Actions.CALL;
         }
     }
     public void PlayerCall()
@@ -290,7 +289,7 @@ public class ActionManager : MonoBehaviour
         if (BetManager.Instance.chips[_playerNumber] == 0)
             UpdateAllIn(_playerNumber);
         else
-            lastActions[_playerNumber] = Actions.RAISE;
+            UpdateLastActions(_playerNumber, Actions.RAISE);
     }
     public int RandomRaiseValue(int _playerNumber)
     {
@@ -312,6 +311,12 @@ public class ActionManager : MonoBehaviour
         Raise((int)PlayerOrder.PLAYER, _value);
 
         MoveToNextStageWithoutDelay((int)PlayerOrder.PLAYER);
+    }
+
+    public void UpdateLastActions(int _playerNumber, Actions _action)
+    {
+        lastActions[_playerNumber] = _action;
+        ActionUI.Instance.DisplayActionUI(_playerNumber, _action);
     }
 }  
 

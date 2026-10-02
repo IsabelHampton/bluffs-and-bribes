@@ -6,7 +6,7 @@ public class ShufflingUI : MonoBehaviour
     public GameObject[] CardsToShuffle;
     public GameObject ShufflingPanel;
     public float creationTime;
-    public float lifetime = 5.0f;
+    float lifetime = 0.2f; // TO DO: chage - this is for testign as currently not implemented
 
     public static ShufflingUI Instance;
     void Awake()
