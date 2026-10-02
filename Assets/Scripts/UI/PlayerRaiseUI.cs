@@ -11,6 +11,7 @@ public class PlayerRaiseUI : MonoBehaviour
     public Button increaseBetButton;
     public Button decreaseBetButton;
     public Button betButton;
+    public Button raiseButton;
 
     int chipsToBet = 0;
 
@@ -42,6 +43,7 @@ public class PlayerRaiseUI : MonoBehaviour
     public void OnRaiseClicked()
     {
         raiseMenu.SetActive(true);
+        raiseButton.enabled = false; // Menu open can't press again
     }
 
     public void OnIncreaseBet()
@@ -77,6 +79,13 @@ public class PlayerRaiseUI : MonoBehaviour
     {
         raiseMenu.SetActive(false);
         ActionManager.Instance.PlayerRaise(chipsToBet);
+    }
+    public void OnCancelRaise()
+    {
+        chipsToBet = 0;
+        chipsDisplay.text = BetManager.Instance.minBet.ToString();
+        raiseMenu.SetActive(false);
+        raiseButton.enabled = true; // Menu closed offer to press again press again
     }
 
 }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: edab8e92ec66e18419bfdea94837e3cc
+guid: 6fe9a8b8fd6120e4d927a27f7e96e589
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Matcha Style
+  - Ithaca
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

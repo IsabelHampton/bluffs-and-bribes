@@ -11,8 +11,6 @@ public class PlayerBribeUI : MonoBehaviour
     public TMP_Text bribeDisplay;
     public Button increaseBribeButton;
     public Button decreaseBribeButton;
-    public Button bribeButton;
-    public Button skipBribeButton;
     public Button submitBribeButton;
     public Button cancelBribeButton;
 
@@ -34,11 +32,19 @@ public class PlayerBribeUI : MonoBehaviour
 
     private void GameManagerOnStateChanged(GameState _state)
     {
-        UpdateButtonToAllowBribing(); // Enables / disables bribe button
-        bribeMenu.SetActive(false);
+        if (GameManager.Instance.State == GameState.BRIBE)
+        {
+            SetUp();
+            UpdateButtonToAllowBribing(); // Enables / disables bribe button
+            UpdateButtonInteractability(); //Updates increase/ decrease button availability
 
-        if (GameManager.Instance.State != GameState.BRIBE)
+            bribeMenu.SetActive(true); // Show menu
+        }
+        else
+        {
             PlayerSelectedOption = false; // Reset for next round
+            bribeMenu.SetActive(false);
+        }
     }
 
     public void SetUp()
@@ -47,12 +53,6 @@ public class PlayerBribeUI : MonoBehaviour
         increaseBribeButton.interactable = true;
         chipsToBribe = BetManager.Instance.minBet;
         bribeDisplay.text = Convert.ToString(chipsToBribe);
-    }
-
-    public void OnBribeClicked()
-    {
-        bribeMenu.SetActive(true);
-        bribeButton.interactable = false; // Menu open should not be clickable again
     }
 
     public void OnIncreaseBribe()
@@ -70,16 +70,19 @@ public class PlayerBribeUI : MonoBehaviour
 
     public void UpdateButtonToAllowBribing()
     {
+        // If bribing allowed
         if (GameManager.Instance.State == GameState.BRIBE && BetManager.Instance.chips[(int)PlayerOrder.PLAYER] > BetManager.Instance.minBet * 2)
         {
-            bribeButton.interactable = true;
-            skipBribeButton.interactable = true;
+            submitBribeButton.enabled = true;
+            cancelBribeButton.enabled = true;
         }
 
         else
         {
-            bribeButton.interactable = false;
-            skipBribeButton.interactable = false;
+            submitBribeButton.enabled = false;
+            increaseBribeButton.enabled = false;
+            decreaseBribeButton.enabled = false;
+            cancelBribeButton.enabled = true;
         }
     }
 
@@ -106,11 +109,6 @@ public class PlayerBribeUI : MonoBehaviour
 
         AttemptMoveToDealing();
     }
-
-    public void SkipBribe()
-    {
-        AttemptMoveToDealing();
-    }
     public void AttemptMoveToDealing()
     {
         PlayerSelectedOption = true;
@@ -119,8 +117,7 @@ public class PlayerBribeUI : MonoBehaviour
 
     public void OnCancelBribe()
     {
-        chipsToBribe = 0;
-        bribeDisplay.text = BetManager.Instance.minBet.ToString();
         bribeMenu.SetActive(false);
+        AttemptMoveToDealing();
     }
 }

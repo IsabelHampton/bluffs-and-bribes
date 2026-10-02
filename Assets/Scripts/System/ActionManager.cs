@@ -193,7 +193,7 @@ public class ActionManager : MonoBehaviour
     {
         Fold((int)PlayerOrder.PLAYER);
 
-        StartCoroutine(MoveToNextStageWithDelay((int)PlayerOrder.PLAYER));
+        MoveToNextStageWithoutDelay((int)PlayerOrder.PLAYER);
     }
     public IEnumerator MoveToNextStageWithDelay(int _playerNumber)
     {
@@ -273,7 +273,7 @@ public class ActionManager : MonoBehaviour
     {
         Call((int)PlayerOrder.PLAYER);
 
-        StartCoroutine(MoveToNextStageWithDelay((int)PlayerOrder.PLAYER));
+        MoveToNextStageWithoutDelay((int)PlayerOrder.PLAYER);
     }
     /// <summary>
     /// Checks for if call is valid shoud be performed before calling
@@ -311,7 +311,7 @@ public class ActionManager : MonoBehaviour
     {
         Raise((int)PlayerOrder.PLAYER, _value);
 
-        StartCoroutine(MoveToNextStageWithDelay((int)PlayerOrder.PLAYER));
+        MoveToNextStageWithoutDelay((int)PlayerOrder.PLAYER);
     }
 }  
 
