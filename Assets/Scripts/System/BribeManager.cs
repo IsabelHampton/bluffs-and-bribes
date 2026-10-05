@@ -9,6 +9,9 @@ public class BribeManager : MonoBehaviour
 
     public void ResetBribes()
     {
+        if (GameManager.Instance.ignoreResets)
+            return;
+
         bribes = new int[(int)PlayerOrder.NUM_OF_PLAYERS];
     }
 

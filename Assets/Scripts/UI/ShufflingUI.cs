@@ -6,7 +6,10 @@ public class ShufflingUI : MonoBehaviour
     public GameObject[] CardsToShuffle;
     public GameObject ShufflingPanel;
     public float creationTime;
-    float lifetime = 3f; // TO DO: chage - this is for testign as currently not implemented
+    float lifetime = 3f; // TO DO: chnage - this is for testign as currently not implemented
+
+    public float shakeCheckCooldown = 0.2f;
+    public float lastShakeCheck;
 
     public static ShufflingUI Instance;
     void Awake()
@@ -52,16 +55,30 @@ public class ShufflingUI : MonoBehaviour
 
     public void PerformShakeAnimation()
     {
-        if (GyroscopeManager.Instance.IsShaking())
+        int xVelocity = 0;
+        int yVelocity = 0;
+
+        // If need to do new shake check
+        if (Time.time - lastShakeCheck > shakeCheckCooldown)
         {
-            foreach (GameObject card in CardsToShuffle)
+            if (GyroscopeManager.Instance.IsShaking())
             {
+                xVelocity = Random.Range(-10, 10);
+                yVelocity = Random.Range(-10, 10);
+            }
+            else
+            {
+                xVelocity = 0;
+                yVelocity = 0;
+            }
+        }
+        foreach (GameObject card in CardsToShuffle)
+        {
                 card.transform.position = new Vector3(
-                card.transform.position.x + Random.Range(-10, 10),
-                card.transform.position.y + Random.Range(-10, 10),
+                card.transform.position.x + xVelocity,
+                card.transform.position.y + yVelocity,
                 card.transform.position.z
                 );
-            }
         }
     }
     

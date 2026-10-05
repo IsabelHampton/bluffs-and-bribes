@@ -74,7 +74,9 @@ public class StartMenuUI : MonoBehaviour
     }
     public void OnContinueRun()
     {
+        SaveManager.Instance.LoadInSaveData();
 
+        OnNewRunConfirmation();
     }
     public void OnQuit()
     {

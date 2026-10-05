@@ -1,8 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 public class DoubleTapArea : MonoBehaviour
 {
+    public static DoubleTapArea Instance;
+
     public float lastValidTouchTime;
     public GameObject checkArea;
     Vector2 checkAreaScreenPos;
@@ -11,6 +14,8 @@ public class DoubleTapArea : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
+
         GameManager.OnGameStateChanged += GameManagerOnStateChanged;
 
         RectTransform rectTransform = checkArea.GetComponent<RectTransform>();
@@ -18,7 +23,7 @@ public class DoubleTapArea : MonoBehaviour
         checkAreaWidth = rectTransform.rect.width;
         checkAreaHeight = rectTransform.rect.height;
 
-        checkArea.SetActive(false); // Should be hidden at start
+        HideArea(); // Should be hidden at start
     }
     private void OnDestroy()
     {
@@ -30,11 +35,14 @@ public class DoubleTapArea : MonoBehaviour
         // Only show area when player can check
         if (GameManager.Instance.State == GameState.PLAYER_TURN && ActionManager.Instance.CanCheck((int)PlayerOrder.PLAYER)) // TO DO: Add check that interctaive UI selected
         {
-            checkArea.SetActive(true);
+            ShowArea();
         }
     }
     private void Update()
     {
+        if (checkArea.activeInHierarchy && GameManager.Instance.State != GameState.PLAYER_TURN)
+            HideArea();
+
         // Only check if area active
         if (!checkArea.activeInHierarchy)
             return;
@@ -47,7 +55,7 @@ public class DoubleTapArea : MonoBehaviour
 
             if (touch.isTap && touch.tapCount > 1 && TouchIsInCheckArea(touch))
             {
-                    checkArea.SetActive(false);
+                HideArea();
                     ActionManager.Instance.PlayerCheck();
                     Debug.Log("Check complete by double tap");  
             }
@@ -60,5 +68,20 @@ public class DoubleTapArea : MonoBehaviour
                 _touch.screenPosition.x < checkAreaScreenPos.x &&
                 _touch.screenPosition.y > checkAreaScreenPos.y - checkAreaHeight &&
                 _touch.screenPosition.y < checkAreaScreenPos.y;
+    }
+
+    public void HideArea()
+    {
+        checkArea.SetActive(false);
+    }
+    public void ShowArea()
+    {
+        checkArea.SetActive(true);
+    }
+
+    public IEnumerator ShowAreaWithDelay(float _delayInSeconds)
+    {
+        yield return new WaitForSeconds(_delayInSeconds);
+        ShowArea();
     }
 }

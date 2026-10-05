@@ -9,6 +9,7 @@ public enum Suit
     SPADE,
     NUM_OF_SUITS
 }
+
 public class Card : MonoBehaviour
 {
     // preset values assigned in inpector - never change

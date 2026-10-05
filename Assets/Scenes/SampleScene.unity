@@ -1739,7 +1739,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba1647de5fca6e14b8f229d782198df2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GyroscopeManager
-  shakeSpeed: 0
 --- !u!114 &296973359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10235,9 +10234,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1858078668}
-        m_TargetAssemblyTypeName: StartMenuUI, Assembly-CSharp
-        m_MethodName: OnContinueRun
+      - m_Target: {fileID: 1875373225}
+        m_TargetAssemblyTypeName: SaveManager, Assembly-CSharp
+        m_MethodName: LoadInSaveData
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10576,7 +10575,7 @@ MonoBehaviour:
   increaseBetButton: {fileID: 1097713647}
   decreaseBetButton: {fileID: 1572431272}
   betButton: {fileID: 2082375225}
-  raiseButton: {fileID: 75681869}
+  raiseButton: {fileID: 930172838}
 --- !u!114 &1858078674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10650,6 +10649,8 @@ MonoBehaviour:
   - {fileID: 287862368}
   ShufflingPanel: {fileID: 1455238178}
   creationTime: 0
+  shakeCheckCooldown: 0
+  lastShakeCheck: 0
 --- !u!114 &1858078678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10793,6 +10794,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1875373224}
   - component: {fileID: 1875373223}
+  - component: {fileID: 1875373225}
   m_Layer: 0
   m_Name: GameManger
   m_TagString: Untagged
@@ -10816,6 +10818,10 @@ MonoBehaviour:
   RoundNumber: 0
   OpponentsElimatedThisRun: 0
   MaxChipsThisRun: 0
+  maxRoundsComplete: 0
+  maxChipsAchieved: 0
+  maxOpponentsEliminated: 0
+  runsPlayed: 0
 --- !u!4 &1875373224
 Transform:
   m_ObjectHideFlags: 0
@@ -10831,6 +10837,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1875373225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875373222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c980a79da57c62845a4edc9a12bd9a1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveManager
 --- !u!1 &1896837325
 GameObject:
   m_ObjectHideFlags: 0

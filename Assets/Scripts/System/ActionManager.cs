@@ -75,6 +75,9 @@ public class ActionManager : MonoBehaviour
 
     public void ResetPlayerStates()
     {
+        if (GameManager.Instance.ignoreResets)
+            return;
+
         hasFolded = new bool[(int)PlayerOrder.NUM_OF_PLAYERS];
         isAllIn = new bool[(int)PlayerOrder.NUM_OF_PLAYERS];
         lastActions = new Actions[(int)PlayerOrder.NUM_OF_PLAYERS];

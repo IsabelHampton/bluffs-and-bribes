@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     public GameState State;
     public static event Action<GameState> OnGameStateChanged;
 
+    public bool ignoreResets;
+
     // RUN SPECIFIC VARS
     public int RoundNumber = 0;
     public int OpponentsElimatedThisRun = 0;
@@ -14,11 +16,10 @@ public class GameManager : MonoBehaviour
 
     // PERSISTENT VALUES
 
-    private int maxRoundsComplete;
-    private int maxChipsAchieved;
-    private int maxOpponentsEliminated;
-    private int runsPlayed;
-
+    public int maxRoundsComplete;
+    public int maxChipsAchieved;
+    public int maxOpponentsEliminated;
+    public int runsPlayed;
 
     private void Awake()
     {
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
             case GameState.REVEAL:
                 break;
             case GameState.END_ROUND:
+                ignoreResets = false; // Round over so resets need to happen
                 break;
             case GameState.CHECK_IF_RUN_CONTINUE:
                 if (BetManager.Instance.IsPlayerBankrupt())
@@ -118,6 +120,7 @@ public class GameManager : MonoBehaviour
     {
         MaxChipsThisRun = Mathf.Max(BetManager.Instance.chips[(int)PlayerOrder.PLAYER], MaxChipsThisRun);
     }
+
 }
 public enum GameState
 {
