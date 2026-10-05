@@ -13,6 +13,10 @@ public class TipOffManager : MonoBehaviour
     {
         Instance = this;
         GameManager.OnGameStateChanged += GameManagerOnStateChanged;
+
+        // REMOVE
+        unlockedTipOffs.Add(tipoffs[0]);
+        unlockedTipOffs.Add(tipoffs[1]);
     }
     private void OnDestroy()
     {
@@ -23,7 +27,8 @@ public class TipOffManager : MonoBehaviour
     {
         if (GameManager.Instance.State == GameState.TIPOFF)
         {
-            ReceiveTipOff(GameManager.Instance.RoundNumber);
+            /*ReceiveTipOff(GameManager.Instance.RoundNumber);
+            ReceiveTipOff(1); // REMOVE*/
 
             GameManager.Instance.UpdateGameState(GameState.BRIBE);
         }
