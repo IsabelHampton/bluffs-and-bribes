@@ -10234,9 +10234,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1875373225}
-        m_TargetAssemblyTypeName: SaveManager, Assembly-CSharp
-        m_MethodName: LoadInSaveData
+      - m_Target: {fileID: 1858078668}
+        m_TargetAssemblyTypeName: StartMenuUI, Assembly-CSharp
+        m_MethodName: OnContinueRun
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10430,6 +10430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e98e7b2390b92d418a5127640f5d439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BribeManager
+  bribes: 00000000000000000000000000000000
   bribeStateReached: 0
   BribeSetUpComplete: 0
 --- !u!4 &1811308568
@@ -10815,6 +10816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   State: 0
+  ignoreResets: 0
   RoundNumber: 0
   OpponentsElimatedThisRun: 0
   MaxChipsThisRun: 0

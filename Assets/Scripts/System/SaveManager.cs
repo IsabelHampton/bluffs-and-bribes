@@ -28,11 +28,9 @@ public class SaveManager : MonoBehaviour
     }*/
     public void UpdateSaveData()
     {
-        saveData.chips = BetManager.Instance.chips;
-        saveData.bets = BetManager.Instance.bets;
-        saveData.pot = BetManager.Instance.pot;
+
+         // Game Manager
         saveData.state = (int)GameManager.Instance.State;
-        saveData.cardsOnTable = HandManager.Instance.cardsOnTable;
 
         saveData.currentRoundNumber = GameManager.Instance.RoundNumber;
         saveData.currentOpponentsEliminated = GameManager.Instance.OpponentsElimatedThisRun;
@@ -42,6 +40,28 @@ public class SaveManager : MonoBehaviour
         saveData.maxChipsAchieved = GameManager.Instance.maxChipsAchieved;
         saveData.maxOpponentsEliminated = GameManager.Instance.maxOpponentsEliminated;
         saveData.runsPlayed = GameManager.Instance.runsPlayed;
+
+        // Action Manager
+
+        saveData.hasFolded = ActionManager.Instance.hasFolded;
+        saveData.isAllin = ActionManager.Instance.isAllIn;
+
+        // Bribe Manager
+
+        saveData.bribes = BribeManager.Instance.bribes;
+
+        // Tip Off Manager
+
+        saveData.unlockedTipOffs = TipOffManager.Instance.unlockedTipOffs.ToArray();
+
+        // Bet Manager
+
+        saveData.pot = BetManager.Instance.pot;
+        saveData.chips = BetManager.Instance.chips;
+        saveData.bets = BetManager.Instance.bets;
+
+        // Hand Manager
+        saveData.cardsOnTable = HandManager.Instance.cardsOnTable;
     }
     public void Save()
     {
@@ -76,13 +96,8 @@ public class SaveManager : MonoBehaviour
             HandManager.Instance.cardsOnTable[i].Init(saveData.cardsOnTable[i]);
         }
 
-        // Set up all chips
-        BetManager.Instance.SetPot(saveData.pot);
-        BetManager.Instance.ReplaceChips(saveData.chips);
-        BetManager.Instance.ReplaceBets(saveData.bets);
+        // Game Manager
 
-
-        // Reset up all stat trackers
         GameManager.Instance.RoundNumber = saveData.currentRoundNumber;
         GameManager.Instance.OpponentsElimatedThisRun = saveData.currentOpponentsEliminated;
         GameManager.Instance.MaxChipsThisRun = saveData.currentMaxChips;
@@ -91,6 +106,29 @@ public class SaveManager : MonoBehaviour
         GameManager.Instance.maxChipsAchieved = saveData.maxChipsAchieved;
         GameManager.Instance.maxOpponentsEliminated = saveData.maxOpponentsEliminated;
         GameManager.Instance.runsPlayed = saveData.runsPlayed;
+
+        // Action Manager
+
+         ActionManager.Instance.hasFolded = saveData.hasFolded;
+         ActionManager.Instance.isAllIn = saveData.isAllin;
+
+        // Bribe Manager
+
+        BribeManager.Instance.bribes = saveData.bribes;
+
+        // Tip Off Manager
+
+        TipOffManager.Instance.unlockedTipOffs.Clear();
+        foreach (GameObject tipOff in saveData.unlockedTipOffs)
+        {
+            TipOffManager.Instance.unlockedTipOffs.Add(tipOff);
+        }
+
+        // Bet Manager
+
+        BetManager.Instance.SetPot(saveData.pot);
+        BetManager.Instance.ReplaceChips(saveData.chips);
+        BetManager.Instance.ReplaceBets(saveData.bets);
 
         // Put game on correct state
         GameManager.Instance.UpdateGameState((GameState)saveData.state);
@@ -116,11 +154,8 @@ public class SaveManager : MonoBehaviour
 [Serializable] 
 public class SaveData
 {
-    public int pot;
-    public int[] chips;
-    public int[] bets;
+    // Game Manager
     public int state;
-    public Card[] cardsOnTable;
 
     public int currentRoundNumber;
     public int currentOpponentsEliminated;
@@ -130,4 +165,27 @@ public class SaveData
     public int maxChipsAchieved;
     public int maxOpponentsEliminated;
     public int runsPlayed;
+
+    // Action Manager
+
+    public bool[] hasFolded;
+    public bool[] isAllin;
+
+    // Bribe Manager
+
+    public int[] bribes;
+
+    // Tip Off Manager
+
+    public GameObject[] unlockedTipOffs;
+
+    // Bet Manager
+
+    public int pot;
+    public int[] chips;
+    public int[] bets;
+
+    // Hand Manager
+    public Card[] cardsOnTable;
+
 }

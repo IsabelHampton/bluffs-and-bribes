@@ -76,7 +76,10 @@ public class StartMenuUI : MonoBehaviour
     {
         SaveManager.Instance.LoadInSaveData();
 
-        OnNewRunConfirmation();
+        // Set up UI
+        startMenuPanel.SetActive(false);
+
+        tablePanel.SetActive(true);
     }
     public void OnQuit()
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+using System;
 public enum Suit
 {
     HEART,
@@ -10,6 +10,7 @@ public enum Suit
     NUM_OF_SUITS
 }
 
+[Serializable]
 public class Card : MonoBehaviour
 {
     // preset values assigned in inpector - never change

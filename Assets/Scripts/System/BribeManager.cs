@@ -3,7 +3,7 @@ public class BribeManager : MonoBehaviour
 {
     public static BribeManager Instance;
 
-    private int[] bribes = new int[(int)PlayerOrder.NUM_OF_PLAYERS];
+    public int[] bribes = new int[(int)PlayerOrder.NUM_OF_PLAYERS];
     public bool bribeStateReached = false;
     public bool BribeSetUpComplete;
 
