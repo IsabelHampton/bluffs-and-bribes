@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using Gyroscope = UnityEngine.InputSystem.Gyroscope;
 
 public class GyroscopeManager : MonoBehaviour
 {
     public static GyroscopeManager Instance;
-    public float shakeSpeed = 100.0f;
+    private float shakeSpeed = 10.0f;
     private void Awake()
     {
         Instance = this;
@@ -11,11 +13,17 @@ public class GyroscopeManager : MonoBehaviour
     }
     public bool IsShaking()
     {
-        bool isShaking = false;
-        //Input.gyro.enabled = true; // Turn on gyro sensor
-        Debug.Log($" rotation rate magnitude = {Input.gyro.rotationRate.magnitude}");
+        // If gyro sensor off, enable before check
 
-        if (Input.gyro.rotationRate.magnitude > shakeSpeed)
+        if(!Gyroscope.current.enabled)
+            EnableGyroSensor();
+
+        bool isShaking = false;
+        Debug.Log($"Gyro present: {Gyroscope.current}");
+        Debug.Log($"Gyro velovity: {Gyroscope.current?.angularVelocity.ReadValue()}");
+        Debug.Log($"Gyro speed: {Gyroscope.current?.angularVelocity.ReadValue().magnitude}");
+
+        if (Gyroscope.current?.angularVelocity.ReadValue().magnitude > shakeSpeed)
             isShaking = true;
 
         Debug.Log($"Checking for shaking, result: {isShaking}");
@@ -24,12 +32,16 @@ public class GyroscopeManager : MonoBehaviour
 
     public void EnableGyroSensor()
     {
-        if(SystemInfo.supportsGyroscope)
-            Input.gyro.enabled = true;
+        if (Gyroscope.current != null)
+        {
+            InputSystem.EnableDevice(Gyroscope.current);
+        }
     }
     public void DisableGyroSensor()
     {
-        if (SystemInfo.supportsGyroscope)
-            Input.gyro.enabled = false;
+        if (Gyroscope.current != null)
+        {
+            InputSystem.DisableDevice(Gyroscope.current);
+        }
     }
 }
