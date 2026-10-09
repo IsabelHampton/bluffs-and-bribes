@@ -5,6 +5,8 @@ public class ShufflingUI : MonoBehaviour
     // TO DO: Replace with 2D animation instead of different game objects - performance diff?
     public GameObject[] CardsToShuffle;
     public GameObject ShufflingPanel;
+    public GameObject ShakeText;
+
     public float creationTime;
     float lifetime = 3f; // TO DO: chnage - this is for testign as currently not implemented
 
@@ -63,11 +65,13 @@ public class ShufflingUI : MonoBehaviour
         {
             if (GyroscopeManager.Instance.IsShaking())
             {
+                ShakeText.SetActive(true);
                 xVelocity = Random.Range(-10, 10);
                 yVelocity = Random.Range(-10, 10);
             }
             else
             {
+                ShakeText.SetActive(false);
                 xVelocity = 0;
                 yVelocity = 0;
             }
