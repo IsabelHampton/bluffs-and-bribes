@@ -8,7 +8,7 @@ public class ShufflingUI : MonoBehaviour
     public GameObject ShakeText;
 
     public float creationTime;
-    float lifetime = 3f; // TO DO: chnage - this is for testign as currently not implemented
+    float lifetime = 3f; // TO DO: chnage - this is for testing
 
     public float shakeCheckCooldown = 0.2f;
     public float lastShakeCheck;
@@ -36,27 +36,27 @@ public class ShufflingUI : MonoBehaviour
         if (ShufflingPanel.activeInHierarchy)
         {
             Debug.Log($"Accelerator detect shaking: {AccelerometerManager.Instance.IsShaking()}");
-            Debug.Log($"Gyroscope detect shaking: {GyroscopeManager.Instance.IsShaking()}");
+  
             if (Time.time - creationTime > lifetime)
             {
                 HideShufflingPanel();
                 GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
             }
-            /*else
-                PerformShakeAnimation();*/
+            else
+                PerformShakeAnimation();
         }
     }
     public void ShowShufflingPanel()
     {
         creationTime = Time.time;
         ShufflingPanel.SetActive(true);
-        GyroscopeManager.Instance.EnableGyroSensor();
+
         AccelerometerManager.Instance.EnableAccelerometer();
     }
     public void HideShufflingPanel()
     {
         ShufflingPanel.SetActive(false);
-        GyroscopeManager.Instance.DisableGyroSensor();
+
         AccelerometerManager.Instance.DisableAccelerometer();
     }
 
@@ -68,7 +68,8 @@ public class ShufflingUI : MonoBehaviour
         // If need to do new shake check
         if (Time.time - lastShakeCheck > shakeCheckCooldown)
         {
-            if (GyroscopeManager.Instance.IsShaking())
+            lastShakeCheck = Time.time;
+            if (AccelerometerManager.Instance.IsShaking())
             {
                 ShakeText.SetActive(true);
                 xVelocity = Random.Range(-10, 10);

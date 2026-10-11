@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class AccelerometerManager : MonoBehaviour
 {
     public static AccelerometerManager Instance;
-    private float shakingThreshold = 10;
+    private float shakingThreshold = 2.0f;
 
     private void Awake()
     {
@@ -24,6 +24,7 @@ public class AccelerometerManager : MonoBehaviour
     }
     public bool IsShaking()
     {
-        return Accelerometer.current.acceleration.magnitude > shakingThreshold;
+        Debug.Log(GetAcceleration().magnitude);
+        return GetAcceleration().magnitude > shakingThreshold;
     }
 }
