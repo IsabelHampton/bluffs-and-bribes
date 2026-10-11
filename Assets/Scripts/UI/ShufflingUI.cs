@@ -19,6 +19,7 @@ public class ShufflingUI : MonoBehaviour
         Instance = this;
         GameManager.OnGameStateChanged += GameManagerOnStateChanged;
     }
+
     private void OnDestroy()
     {
         GameManager.OnGameStateChanged -= GameManagerOnStateChanged;
@@ -34,13 +35,15 @@ public class ShufflingUI : MonoBehaviour
     {
         if (ShufflingPanel.activeInHierarchy)
         {
+            Debug.Log($"Accelerator detect shaking: {AccelerometerManager.Instance.IsShaking()}");
+            Debug.Log($"Gyroscope detect shaking: {GyroscopeManager.Instance.IsShaking()}");
             if (Time.time - creationTime > lifetime)
             {
                 HideShufflingPanel();
                 GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
             }
-            else
-                PerformShakeAnimation();
+            /*else
+                PerformShakeAnimation();*/
         }
     }
     public void ShowShufflingPanel()
@@ -48,11 +51,13 @@ public class ShufflingUI : MonoBehaviour
         creationTime = Time.time;
         ShufflingPanel.SetActive(true);
         GyroscopeManager.Instance.EnableGyroSensor();
+        AccelerometerManager.Instance.EnableAccelerometer();
     }
     public void HideShufflingPanel()
     {
         ShufflingPanel.SetActive(false);
         GyroscopeManager.Instance.DisableGyroSensor();
+        AccelerometerManager.Instance.DisableAccelerometer();
     }
 
     public void PerformShakeAnimation()
