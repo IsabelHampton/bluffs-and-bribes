@@ -61,7 +61,10 @@ public class SaveManager : MonoBehaviour
         saveData.bets = BetManager.Instance.bets;
 
         // Hand Manager
-        saveData.cardsOnTable = HandManager.Instance.cardsOnTable;
+        for (int i = 0; i < HandManager.Instance.cardsOnTable.Length; i++)
+        {
+            saveData.cardsOnTableSaveData[i] = new CardSaveData(HandManager.Instance.cardsOnTable[i]);
+        }
     }
     public void Save()
     {
@@ -93,7 +96,8 @@ public class SaveManager : MonoBehaviour
         // Initialise all cards on table
         for (int i = 0; i < HandManager.Instance.cardsOnTable.Length; i++)
         {
-            HandManager.Instance.cardsOnTable[i].Init(saveData.cardsOnTable[i]);
+            Debug.Log($"Card read from file: {saveData.cardsOnTableSaveData[i].Value}, {(Suits)saveData.cardsOnTableSaveData[i].Suit}");
+            HandManager.Instance.cardsOnTable[i].Init(saveData.cardsOnTableSaveData[i]);
         }
 
         // Game Manager
@@ -186,6 +190,30 @@ public class SaveData
     public int[] bets;
 
     // Hand Manager
-    public Card[] cardsOnTable;
+    public CardSaveData[] cardsOnTableSaveData = new CardSaveData[13];
 
+}
+
+[Serializable]
+public class CardSaveData
+{
+    public int Value;
+    public int Suit;
+    public bool FaceDown;
+
+    public CardSaveData(Card? _card)
+    {
+        if (_card == null)
+        {
+            Value = 2;
+            Suit = (int)Suits.HEART;
+            FaceDown = false;
+        }
+        else
+        {
+            Value = _card.Value;
+            Suit = _card.Suit;
+            FaceDown = _card.faceDown;
+        }
+    }
 }

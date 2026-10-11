@@ -256,7 +256,7 @@ public class HandManager : MonoBehaviour
 
         // Pick high value for straight
         int highValue = Random.Range(6, 15);
-        int cardSuit = Random.Range(0, (int)Suit.NUM_OF_SUITS);
+        int cardSuit = Random.Range(0, (int)Suits.NUM_OF_SUITS);
         // Determine indices for cards
         for (int i = 0; i < 5; i++)
         {
@@ -269,7 +269,7 @@ public class HandManager : MonoBehaviour
 
             // If suit change this will not be a straight flush, change the suit
             if (_suitChange)
-                cardSuit = Random.Range(0, (int)Suit.NUM_OF_SUITS);
+                cardSuit = Random.Range(0, (int)Suits.NUM_OF_SUITS);
         }
 
         DealRiggedCards(_playerNumber, straightIndices, (int)CardsNeededForHand.STRAIGHT);
@@ -283,7 +283,7 @@ public class HandManager : MonoBehaviour
         CreateDeck();
 
         // Pick suit for flush
-        int cardSuit = Random.Range(0, (int)Suit.NUM_OF_SUITS);
+        int cardSuit = Random.Range(0, (int)Suits.NUM_OF_SUITS);
 
         List<int> possibleIndices = new List<int>();
         //Get list odf 13 indices insleected suit
@@ -314,15 +314,15 @@ public class HandManager : MonoBehaviour
         int cardValue = Random.Range(2, 15);
 
         // Add all indices of these cards to list
-        for (int i = 0; i < (int)Suit.NUM_OF_SUITS; i++)
+        for (int i = 0; i < (int)Suits.NUM_OF_SUITS; i++)
         {
             matchingIndices.Add((cardValue - 2) + (i * 13));
         }
 
         // Depending on how many should be matching, remove some indices
-        if ((int)_numOfMatchingCards < (int)Suit.NUM_OF_SUITS)
+        if ((int)_numOfMatchingCards < (int)Suits.NUM_OF_SUITS)
         {
-            for (int i = 0; i < (int)Suit.NUM_OF_SUITS - (int)_numOfMatchingCards; i++)
+            for (int i = 0; i < (int)Suits.NUM_OF_SUITS - (int)_numOfMatchingCards; i++)
             {
                 int index = Random.Range(0, matchingIndices.Count); // Pick random value
                 matchingIndices.RemoveAt(index); // Add to list of indices used for created hand

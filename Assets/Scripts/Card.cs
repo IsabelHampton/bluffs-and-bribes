@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-public enum Suit
+public enum Suits
 {
     HEART,
     DIAMOND,
@@ -55,6 +55,10 @@ public class Card : MonoBehaviour
             displayedImage.sprite = faceDownSprite;
         else
             displayedImage.sprite = faceUpSprite;
+    }
+    public void Init(CardSaveData _data)
+    {
+        Init(_data.Value, _data.Suit, _data.FaceDown);
     }
     public void Reveal()
     {
