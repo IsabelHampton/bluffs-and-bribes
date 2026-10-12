@@ -15,7 +15,7 @@ public class SettingsManager : MonoBehaviour
 
     [SerializeField] private Toggle limitedMotionToggle;
     public bool LimitedMotionEnabled = false;
-;
+
     [SerializeField] private Toggle simpleFontToggle;
     public bool SimpleFontEnabled = false;
 

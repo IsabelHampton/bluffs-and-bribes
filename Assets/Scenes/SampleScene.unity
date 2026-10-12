@@ -13833,6 +13833,7 @@ MonoBehaviour:
   endOfRoundPanel: {fileID: 2016716229}
   shufflingPanel: {fileID: 1455238178}
   handManager: {fileID: 1973094539}
+  continueRunButton: {fileID: 1802630348}
 --- !u!4 &1858078669
 Transform:
   m_ObjectHideFlags: 0

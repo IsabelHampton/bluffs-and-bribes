@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StartMenuUI : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class StartMenuUI : MonoBehaviour
     public GameObject shufflingPanel;
 
     public HandManager handManager;
+
+    public Button continueRunButton;
     private void Start()
     {
         Instance = this;
@@ -29,6 +32,7 @@ public class StartMenuUI : MonoBehaviour
         {
             case GameState.IN_START_MENU:
                 SetUp();
+                UpdateContinueRunButton();
                 break;
             case GameState.TIPOFF:
                 break;
@@ -99,5 +103,13 @@ public class StartMenuUI : MonoBehaviour
     public void OnNewRunCancellation()
     {
         newRunConfirmationPanel.SetActive(false);
+    }
+
+    public void UpdateContinueRunButton()
+    {
+        if (SaveManager.Instance == null)
+            continueRunButton.interactable = false;
+        else
+            continueRunButton.interactable = SaveManager.Instance.ReadSaveData();
     }
 }
