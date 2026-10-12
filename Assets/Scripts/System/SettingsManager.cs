@@ -9,30 +9,29 @@ public class SettingsManager : MonoBehaviour
     // General
 
     [SerializeField] private Toggle powerSavingToggle;
-    public bool PowerSavingEnabled;
+    public bool PowerSavingEnabled = false;
 
     // Accessibility
 
     [SerializeField] private Toggle limitedMotionToggle;
-    public bool LimitedMotionEnabled;
-
-    public static event Action<bool> OnSimpleFontToggleChanged;
+    public bool LimitedMotionEnabled = false;
+;
     [SerializeField] private Toggle simpleFontToggle;
-    public bool SimpleFontEnabled;
+    public bool SimpleFontEnabled = false;
 
     [SerializeField] private Slider textScaleSlider;
-    public float TextScale;
+    public float TextScale = 1;
 
     // Audio & Haptics
 
     [SerializeField] private Slider musicVolumeSlider;
-    public float MusicMutliplier;
+    public float MusicMutliplier = 1;
 
     [SerializeField] private Slider sfxVolumeSlider;
-    public float SFXMultiplier;
+    public float SFXMultiplier = 1;
 
     [SerializeField] private Toggle vibrationsEnabledToggle;
-    public bool VibrationsEnabled;
+    public bool VibrationsEnabled = false;
     private void Awake()
     {
         Instance = this;
@@ -51,7 +50,6 @@ public class SettingsManager : MonoBehaviour
     public void UpdateSimpleFont()
     {
         SimpleFontEnabled = simpleFontToggle.isOn;
-        OnSimpleFontToggleChanged?.Invoke(SimpleFontEnabled);
     }
     public void UpdateTextScale()
     {

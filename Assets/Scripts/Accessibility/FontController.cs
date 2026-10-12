@@ -7,10 +7,18 @@ public class FontController : MonoBehaviour
     private TMP_FontAsset defaultFontAsset;
     private void Awake()
     {
-        text = GetComponent<TMP_Text>();
-        defaultFontAsset = text.font;
         //UpdateFont(SettingsManager.Instance.SimpleFontEnabled);
         //SettingsManager.OnSimpleFontToggleChanged += UpdateFont;
+    }
+    private void OnEnable()
+    {
+        if (text == null)
+            text = GetComponent<TMP_Text>();
+
+        if (defaultFontAsset == null)
+            defaultFontAsset = text.font;
+        if (SettingsManager.Instance != null) 
+            UpdateFont(SettingsManager.Instance.SimpleFontEnabled);
     }
     private void OnDestroy()
     {
