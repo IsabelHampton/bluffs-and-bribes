@@ -3,21 +3,44 @@ using TMPro;
 
 public class FontController : MonoBehaviour
 {
-    [SerializeField] private TMP_FontAsset defaultFontAsset;
-    [SerializeField] private TMP_Text text;
+    private TMP_Text text;
+    private TMP_FontAsset defaultFontAsset;
     private void Awake()
     {
         text = GetComponent<TMP_Text>();
+        defaultFontAsset = text.font;
+        //UpdateFont(SettingsManager.Instance.SimpleFontEnabled);
+        //SettingsManager.OnSimpleFontToggleChanged += UpdateFont;
     }
-    private void OnEnable()
+    private void OnDestroy()
     {
-        UpdateFont();
+        //SettingsManager.OnSimpleFontToggleChanged -= UpdateFont;
     }
-    public void UpdateFont()
+    private void Update()
     {
-        if (AccessibilityManager.Instance.accessibleFontActive)
-            text.font = AccessibilityManager.Instance.accessibleFontAsset;
-        else
-            text.font = defaultFontAsset;
+        UpdateFont(SettingsManager.Instance.SimpleFontEnabled);
+    }
+
+    public void ChangeToAccessibleFont()
+    {
+        text.font = AccessibilityManager.Instance.accessibleFontAsset;
+        text.fontSize *= 0.75f;
+    }
+
+    public void ChangeToDefaultFont()
+    {
+        text.font = AccessibilityManager.Instance.defaultFontAsset;
+        text.fontSize /= 0.75f;
+    }
+    public void UpdateFont(bool _isSimpleFont)
+    {
+        if (_isSimpleFont && text.font != AccessibilityManager.Instance.accessibleFontAsset)
+        {
+            ChangeToAccessibleFont();
+        }
+        else if (!_isSimpleFont && text.font != defaultFontAsset)
+        {
+            ChangeToDefaultFont();
+        }
     }
 }
