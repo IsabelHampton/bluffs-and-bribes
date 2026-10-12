@@ -7,9 +7,6 @@ public class ShufflingUI : MonoBehaviour
     public GameObject ShufflingPanel;
     public GameObject ShakeText;
 
-    public float creationTime;
-    float lifetime = 3f; // TO DO: chnage - this is for testing
-
     public float shakeCheckCooldown = 0.2f;
     public float lastShakeCheck;
 
@@ -36,28 +33,30 @@ public class ShufflingUI : MonoBehaviour
         if (ShufflingPanel.activeInHierarchy)
         {
             Debug.Log($"Accelerator detect shaking: {AccelerometerManager.Instance.IsShaking()}");
-  
-            if (Time.time - creationTime > lifetime)
-            {
-                HideShufflingPanel();
-                GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
-            }
-            else
+
+            if (!SettingsManager.Instance.LimitedMotionEnabled && !SettingsManager.Instance.PowerSavingEnabled) // Check if should have shake detection
                 PerformShakeAnimation();
+            //else
+                // TO DO: Animate without motion
         }
+    }
+    public void MoveOnFromShuffling()
+    {
+        HideShufflingPanel();
+        GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
     }
     public void ShowShufflingPanel()
     {
-        creationTime = Time.time;
         ShufflingPanel.SetActive(true);
 
-        AccelerometerManager.Instance.EnableAccelerometer();
+        if (!SettingsManager.Instance.LimitedMotionEnabled && !SettingsManager.Instance.PowerSavingEnabled) // Check if should have shake detection
+            AccelerometerManager.Instance.EnableAccelerometer();
     }
     public void HideShufflingPanel()
     {
         ShufflingPanel.SetActive(false);
 
-        AccelerometerManager.Instance.DisableAccelerometer();
+        AccelerometerManager.Instance.DisableAccelerometer(); // Do always just in case
     }
 
     public void PerformShakeAnimation()
