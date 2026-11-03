@@ -3,7 +3,7 @@ using UnityEngine;
 public class ShufflingUI : MonoBehaviour
 {
     // TO DO: Replace with 2D animation instead of different game objects - performance diff?
-    public GameObject[] CardsToShuffle;
+   // public GameObject[] CardsToShuffle;
     public GameObject ShufflingPanel;
     public GameObject ShakeText;
 
@@ -61,9 +61,6 @@ public class ShufflingUI : MonoBehaviour
 
     public void PerformShakeAnimation()
     {
-        int xVelocity = 0;
-        int yVelocity = 0;
-
         // If need to do new shake check
         if (Time.time - lastShakeCheck > shakeCheckCooldown)
         {
@@ -71,24 +68,13 @@ public class ShufflingUI : MonoBehaviour
             if (AccelerometerManager.Instance.IsShaking())
             {
                 ShakeText.SetActive(true);
-                xVelocity = Random.Range(-10, 10);
-                yVelocity = Random.Range(-10, 10);
             }
             else
             {
                 ShakeText.SetActive(false);
-                xVelocity = 0;
-                yVelocity = 0;
             }
         }
-        foreach (GameObject card in CardsToShuffle)
-        {
-                card.transform.position = new Vector3(
-                card.transform.position.x + xVelocity,
-                card.transform.position.y + yVelocity,
-                card.transform.position.z
-                );
-        }
+        // TO DO: Implement animation
     }
     
 

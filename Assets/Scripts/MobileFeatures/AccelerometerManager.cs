@@ -12,14 +12,23 @@ public class AccelerometerManager : MonoBehaviour
     }
     public void EnableAccelerometer()
     {
+        if (Accelerometer.current == null)
+            return;
+
         InputSystem.EnableDevice(Accelerometer.current);
     }
     public void DisableAccelerometer()
     {
+        if (Accelerometer.current == null)
+            return;
+
         InputSystem.DisableDevice(Accelerometer.current);
     }
     public Vector3 GetAcceleration()
     {
+        if (Accelerometer.current == null)
+            return Vector3.zero;
+
         return Accelerometer.current.acceleration.ReadValue();
     }
     public bool IsShaking()

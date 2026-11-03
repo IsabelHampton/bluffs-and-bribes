@@ -5,12 +5,14 @@ using UnityEngine;
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance;
-    private SaveData saveData = new SaveData();
+    public SaveData saveData { get; private set; }
     const string kJsonFileName = "playerData";
 
     private void Awake()
     {
         Instance = this;
+        saveData = new SaveData();
+        //DeleteSave(GetDataPath()); // REMOVE: For testing with no save file
     }
 
     private void OnApplicationPause(bool _pause)
@@ -151,6 +153,12 @@ public class SaveManager : MonoBehaviour
     {
         if (!File.Exists(_path))
             File.Create(_path).Close();
+    }
+
+    public void DeleteSave(string _path)
+    {
+        if(File.Exists(_path))
+            File.Delete(_path);
     }
     
 }
