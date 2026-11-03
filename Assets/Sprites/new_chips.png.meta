@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b586b0e22fa52784d9949ca4e990d094
+guid: 313987b5a38c59244b5aec3f5d6c6b08
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -71,7 +71,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Chips_0
+      name: new_chips_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 72
-        width: 64
-        height: 72
+        y: 13
+        width: 32
+        height: 35
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -138,20 +138,42 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7dea54759052b3c4eb54d3a51bd58a0c
-      internalID: 1318180037
+      spriteID: 2bca35a9e5cd7704b9c96a0035546a5c
+      internalID: -1637697920
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Chips_1
+      name: new_chips_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 13
+        width: 32
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aab918cf5fe73c04ba2a6c54fef82c02
+      internalID: 1434534063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: new_chips_2
       rect:
         serializedVersion: 2
         x: 64
-        y: 72
-        width: 64
-        height: 72
+        y: 13
+        width: 32
+        height: 35
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,20 +182,42 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 32f9c210631fe95408ab044573144197
-      internalID: 33750830
+      spriteID: 725cf9b1eac54d84a9c48241943099d4
+      internalID: -476775802
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Chips_2
+      name: new_chips_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 13
+        width: 32
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09e8a65294b3c9748b522276acb14ab5
+      internalID: -698163949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: new_chips_4
       rect:
         serializedVersion: 2
         x: 128
-        y: 72
-        width: 64
-        height: 72
+        y: 13
+        width: 32
+        height: 35
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -182,20 +226,42 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 253e97fd868641243a1c3480c2f64ac3
-      internalID: -127142903
+      spriteID: a05c506db6651eb4a87d33f3b95703c5
+      internalID: 947981384
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Chips_3
+      name: new_chips_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 13
+        width: 32
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e91894e422606a441867ad5d426da550
+      internalID: 1440459509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: new_chips_6
       rect:
         serializedVersion: 2
         x: 192
-        y: 72
-        width: 64
-        height: 72
+        y: 13
+        width: 32
+        height: 35
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,20 +270,42 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e00e1c0d70e1e2489545570f5f292f6
-      internalID: -333416520
+      spriteID: a2aa3f9bc8e78d348a8246dd8ccce0cd
+      internalID: 1576162734
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Chips_4
+      name: new_chips_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 13
+        width: 32
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80651d4d58ec5ed4bbf61bef3e110f51
+      internalID: 1439307881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: new_chips_8
       rect:
         serializedVersion: 2
         x: 256
-        y: 72
-        width: 64
-        height: 72
+        y: 13
+        width: 32
+        height: 35
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -226,20 +314,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cfb9a9d2d72dfdb4b86224f01ef73b5f
-      internalID: 99828639
+      spriteID: 4a7ef2f621940cc4898e963ae39df637
+      internalID: 43015968
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Chips_5
+      name: new_chips_9
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 64
-        height: 72
+        x: 288
+        y: 13
+        width: 32
+        height: 35
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -248,20 +336,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2022db2863a290641a61791b8ab297fc
-      internalID: -1861700655
+      spriteID: 9b00b1bcbe47ebd4b98f2880d0a70d84
+      internalID: -9014588
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Chips_6
+      name: new_chips_10
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 64
-        height: 72
+        x: 320
+        y: 13
+        width: 32
+        height: 35
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -270,20 +358,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9bd18113f9a896e4ea06ff2319094032
-      internalID: -2018844803
+      spriteID: b8877ddd94064ef48beb813b7b3441f2
+      internalID: 630423945
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Chips_7
+      name: new_chips_11
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
-        width: 64
-        height: 72
+        x: 352
+        y: 13
+        width: 32
+        height: 35
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,20 +380,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1115216eb6dc4e14c861707b21a821cc
-      internalID: 637128344
+      spriteID: 0e58e559e731323499c7e313b8f0e3ab
+      internalID: 1174787736
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Chips_8
+      name: new_chips_12
       rect:
         serializedVersion: 2
-        x: 192
-        y: 0
-        width: 64
-        height: 72
+        x: 384
+        y: 13
+        width: 32
+        height: 35
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -314,20 +402,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c029d93c184d26442b43b60044c4c836
-      internalID: 476887051
+      spriteID: c27c9ffd528f6594983088d372bd383e
+      internalID: -930777861
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Chips_9
+      name: new_chips_13
       rect:
         serializedVersion: 2
-        x: 256
-        y: 0
-        width: 64
-        height: 72
+        x: 416
+        y: 13
+        width: 32
+        height: 35
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -336,8 +424,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4648c09620f605241a98b1da8669141c
-      internalID: 123724123
+      spriteID: 0dc32326be9ceeb468a87dd2c12b93c2
+      internalID: 584514937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: new_chips_14
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 13
+        width: 32
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bbe6179c9896a94bba56f256ef3a60a
+      internalID: 1096006369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: new_chips_15
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 13
+        width: 32
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb49abe8fd8685146a5058f5082a8d2c
+      internalID: -1788396270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: new_chips_16
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 13
+        width: 32
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f4ce0593755c17489204905006e40ce
+      internalID: -1361825191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: new_chips_17
+      rect:
+        serializedVersion: 2
+        x: 544
+        y: 13
+        width: 32
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 550196711554bb34d904667acf157510
+      internalID: -279391995
       vertices: []
       indices: 
       edges: []
@@ -346,7 +522,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: aaa7750be39a52540a26e86a8064e9e9
+    spriteID: 878397dcde1a8a747bae1da246972295
     internalID: 0
     vertices: []
     indices: 
@@ -356,18 +532,26 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":72.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":35.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Chips_0: 1318180037
-      Chips_1: 33750830
-      Chips_2: -127142903
-      Chips_3: -333416520
-      Chips_4: 99828639
-      Chips_5: -1861700655
-      Chips_6: -2018844803
-      Chips_7: 637128344
-      Chips_8: 476887051
-      Chips_9: 123724123
+      new_chips_0: -1637697920
+      new_chips_1: 1434534063
+      new_chips_10: 630423945
+      new_chips_11: 1174787736
+      new_chips_12: -930777861
+      new_chips_13: 584514937
+      new_chips_14: 1096006369
+      new_chips_15: -1788396270
+      new_chips_16: -1361825191
+      new_chips_17: -279391995
+      new_chips_2: -476775802
+      new_chips_3: -698163949
+      new_chips_4: 947981384
+      new_chips_5: 1440459509
+      new_chips_6: 1576162734
+      new_chips_7: 1439307881
+      new_chips_8: 43015968
+      new_chips_9: -9014588
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
