@@ -6936,7 +6936,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
       propertyPath: kDescription
-      value: The highest card in the player's hand
+      value: The highest card in the player's hand.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7585,7 +7585,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
       propertyPath: kDescription
-      value: 5 cards of the same suit. The higher the value of these cards the better
+      value: 5 cards of the same suit. The higher the value of these cards, the better
         the rank of the hand.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -9615,7 +9615,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
       propertyPath: kDescription
-      value: 2 cards o fthe same value. The higher the value of the cards the better
+      value: 2 cards of the same value. The higher the value of the cards, the better
         the rank of the hand.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -10314,7 +10314,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
       propertyPath: kDescription
-      value: 4 cards of the same value
+      value: 4 cards of the same value. The higher the value of the cards, the better
+        the rank of the hand.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -18702,8 +18703,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
       propertyPath: kDescription
-      value: 5 cards of consecutive value, regardless of their suits. The higher
-        value the value of the cards, the better the rank of the hand.
+      value: 5 cards of consecutive value, regardless of their suit. The higher the
+        value of the cards, the better the rank of the hand.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19996,8 +19997,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
       propertyPath: kDescription
-      value: 5 cards of consecutive value and the same suit. The higher the value
-        of the cards, the better the rank of this hand.
+      value: 5 cards of consecutive value with the same suit. The higher the value
+        of the cards, the better the rank of the hand.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
