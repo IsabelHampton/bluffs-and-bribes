@@ -25,6 +25,7 @@ public class TutorialUI : MonoBehaviour
     }
     public void SelectHand(HandTapArea _handPanel)
     {
+        Debug.Log("Hand Selected");
         if (_handPanel.selected)
             return; // Already selected so skip
 
@@ -33,8 +34,11 @@ public class TutorialUI : MonoBehaviour
         { 
             DeselectHand(hand);
         }
+
+        // Select this hand
         _handPanel.selectedHighlight.SetActive(true);
         _handPanel.selected = true;
+        DescriptionDisplay.text = _handPanel.kDescription;
     }
     public void DeselectHand(HandTapArea _handPanel)
     {

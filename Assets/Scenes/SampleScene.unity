@@ -543,12 +543,21 @@ PrefabInstance:
 
 '
       objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kHandName
+      value: Two pair
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kDescription
+      value: 2 different pairs of cards. The highest pair takes priority for the
+        rank of the hand, then the value of the 2nd pair.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3479324384138439903, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3250728010767005207, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
-      insertIndex: -1
+      insertIndex: 7
       addedObject: {fileID: 1850491307}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
@@ -1147,7 +1156,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 138232311}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1858078680}
+        m_TargetAssemblyTypeName: TutorialUI, Assembly-CSharp
+        m_MethodName: OpenMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &138232311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1267,7 +1288,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 142058546}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1858078680}
+        m_TargetAssemblyTypeName: TutorialUI, Assembly-CSharp
+        m_MethodName: CloseMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &142058546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2372,18 +2405,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cfc53860e1659f40938917c3ab06e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenSizer
-  fullScreenPanels:
-  - {fileID: 1896837326}
-  - {fileID: 1743794861}
-  - {fileID: 1930957160}
-  - {fileID: 344484460}
-  - {fileID: 2016716230}
-  lastSafe:
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  lastDimensions: {x: 0, y: 0}
 --- !u!1 &301563647
 GameObject:
   m_ObjectHideFlags: 0
@@ -3067,6 +3088,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3250728010767005207, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
   m_PrefabInstance: {fileID: 2064437426}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &411050678 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+  m_PrefabInstance: {fileID: 2064437426}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ba6d969b693d9498826d3e84f0910c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TapArea
 --- !u!1 &411134189
 GameObject:
   m_ObjectHideFlags: 0
@@ -5170,6 +5202,26 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 311fec4cd2cee484b99d96cd96f16ccf, type: 3}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1730472804}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSelected
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HandTapArea, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1737165886602970138, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
       propertyPath: m_Name
       value: Pnl_FullHouse
@@ -5290,6 +5342,15 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: f3a19de53ff8ab64fae2e0e9a7a010dc, type: 3}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kHandName
+      value: Full House
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kDescription
+      value: A 3 of a kind and a pair. The highest 3 of a kind takes priority over
+        the value of the pairs in the hand.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6022,8 +6083,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9029826005317290135, guid: 0a952aec393276b48b9f44fe9beea1c5, type: 3}
+      propertyPath: m_text
+      value: 5 cards of consecutive value and the same suit. The higher the value
+        of the cards, the better the rank of this hand.
+      objectReference: {fileID: 0}
+    - target: {fileID: 9029826005317290135, guid: 0a952aec393276b48b9f44fe9beea1c5, type: 3}
       propertyPath: m_fontSize
       value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 9029826005317290135, guid: 0a952aec393276b48b9f44fe9beea1c5, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 9029826005317290135, guid: 0a952aec393276b48b9f44fe9beea1c5, type: 3}
       propertyPath: m_HorizontalAlignment
@@ -6979,6 +7049,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 2f075437c8551a94b9c82c07a9f2b891, type: 3}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kHandName
+      value: High Card
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kDescription
+      value: The highest card in the player's hand
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7134,6 +7212,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 909846249}
   m_CullTransparentMesh: 1
+--- !u!114 &917255421 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+  m_PrefabInstance: {fileID: 1415940745}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ba6d969b693d9498826d3e84f0910c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TapArea
 --- !u!1 &930172836
 GameObject:
   m_ObjectHideFlags: 0
@@ -7610,11 +7699,31 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: eb94257c0267c0e4db48b5f37995278a, type: 3}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kHandName
+      value: Flush
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kDescription
+      value: 5 cards of the same suit. The higher the value of these cards the better
+        the rank of the hand.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+--- !u!114 &959068110 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+  m_PrefabInstance: {fileID: 957468518}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ba6d969b693d9498826d3e84f0910c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TapArea
 --- !u!1 &959091841
 GameObject:
   m_ObjectHideFlags: 0
@@ -9620,6 +9729,15 @@ PrefabInstance:
 
 '
       objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kHandName
+      value: Pair
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kDescription
+      value: 2 cards o fthe same value. The higher the value of the cards the better
+        the rank of the hand.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3479324384138439903, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
@@ -9627,13 +9745,13 @@ PrefabInstance:
     - {fileID: 2746047631675243573, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3250728010767005207, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
-      insertIndex: -1
+      insertIndex: 5
       addedObject: {fileID: 1941671829}
     - targetCorrespondingSourceObject: {fileID: 3250728010767005207, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
-      insertIndex: -1
+      insertIndex: 6
       addedObject: {fileID: 709136326}
     - targetCorrespondingSourceObject: {fileID: 3250728010767005207, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
-      insertIndex: -1
+      insertIndex: 7
       addedObject: {fileID: 1863054605}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
@@ -9642,6 +9760,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3250728010767005207, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
   m_PrefabInstance: {fileID: 6628881954063609820}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1132082908 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+  m_PrefabInstance: {fileID: 6628881954063609820}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ba6d969b693d9498826d3e84f0910c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TapArea
 --- !u!1 &1135910606
 GameObject:
   m_ObjectHideFlags: 0
@@ -10117,6 +10246,58 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: d3799f9a51d547e4e9be52f1ac7a8cb1, type: 3}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1951605629}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 296973356}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSelected
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: MediumVibrate
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HandTapArea, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: VibrationManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1737165886602970138, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
       propertyPath: m_Name
       value: Pnl_FourOfAKind
@@ -10247,12 +10428,20 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kHandName
+      value: Four of A Kind
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kDescription
+      value: 4 cards of the same value
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3479324384138439903, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3250728010767005207, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
-      insertIndex: -1
+      insertIndex: 7
       addedObject: {fileID: 2130906854}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
@@ -10521,6 +10710,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3250728010767005207, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
   m_PrefabInstance: {fileID: 859016881}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1356776204 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+  m_PrefabInstance: {fileID: 859016881}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ba6d969b693d9498826d3e84f0910c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TapArea
 --- !u!1 &1358536129
 GameObject:
   m_ObjectHideFlags: 0
@@ -11616,16 +11816,25 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kHandName
+      value: Three Of A Kind
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kDescription
+      value: 3 cards of the same value. The higher the value the better the rank
+        of the cards.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3479324384138439903, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
     - {fileID: 4800731310827630809, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3250728010767005207, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
-      insertIndex: -1
+      insertIndex: 6
       addedObject: {fileID: 1349254228}
     - targetCorrespondingSourceObject: {fileID: 3250728010767005207, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
-      insertIndex: -1
+      insertIndex: 7
       addedObject: {fileID: 1583315707}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
@@ -14975,6 +15184,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3250728010767005207, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
   m_PrefabInstance: {fileID: 687497991}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1730472804 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+  m_PrefabInstance: {fileID: 687497991}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ba6d969b693d9498826d3e84f0910c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TapArea
 --- !u!1 &1741229102
 GameObject:
   m_ObjectHideFlags: 0
@@ -16365,6 +16585,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialUI
   TutorialPanel: {fileID: 1570149689}
   DescriptionDisplay: {fileID: 768594554}
+  handDisplays:
+  - {fileID: 1132082908}
+  - {fileID: 1951605629}
+  - {fileID: 1730472804}
+  - {fileID: 959068110}
+  - {fileID: 411050678}
+  - {fileID: 917255421}
+  - {fileID: 1910863620}
+  - {fileID: 2130455413}
+  - {fileID: 1356776204}
 --- !u!1001 &1863054604
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17077,6 +17307,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3f016b8f631fb48843456aa6c1a137, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FontController
+--- !u!114 &1910863620 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+  m_PrefabInstance: {fileID: 57823490}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ba6d969b693d9498826d3e84f0910c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TapArea
 --- !u!1 &1918302021
 GameObject:
   m_ObjectHideFlags: 0
@@ -17349,6 +17590,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3250728010767005207, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
   m_PrefabInstance: {fileID: 1345553747}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1951605629 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+  m_PrefabInstance: {fileID: 1345553747}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ba6d969b693d9498826d3e84f0910c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TapArea
 --- !u!1 &1955729095
 GameObject:
   m_ObjectHideFlags: 0
@@ -18564,6 +18816,15 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: a7edbfc298848c44c8c20ac15c669e21, type: 3}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kHandName
+      value: Straight
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kDescription
+      value: 5 cards of consecutive value, regardless of their suits. The higher
+        value the value of the cards, the better the rank of the hand.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18963,6 +19224,17 @@ RectTransform:
   m_AnchoredPosition: {x: 75.9, y: 2}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2130455413 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+  m_PrefabInstance: {fileID: 1109397482}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ba6d969b693d9498826d3e84f0910c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TapArea
 --- !u!1001 &2130906853
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19669,6 +19941,66 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1449226935}
     m_Modifications:
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1858078680}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 296973356}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectHand
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: MediumVibrate
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TutorialUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: VibrationManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1132082908}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: HandTapArea, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 664930347349368174, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1263352469564985513, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1263352469564985513, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -5
+      objectReference: {fileID: 0}
     - target: {fileID: 1737165886602970138, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
       propertyPath: m_Name
       value: Pnl_StraightFlush
@@ -19764,6 +20096,28 @@ PrefabInstance:
     - target: {fileID: 7632133613388303296, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8008900333563539734, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: selected
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kHandName
+      value: Straight Flush
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: description
+      value: 5 cards of consecutive values and the same suit. The higher the card
+        values, the better this hand is.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625130056974288258, guid: b46f2a42598ad5f47b5b60a5d0a5d2de, type: 3}
+      propertyPath: kDescription
+      value: 5 cards of consecutive value and the same suit. The higher the value
+        of the cards, the better the rank of this hand.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
