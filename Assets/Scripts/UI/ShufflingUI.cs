@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShufflingUI : MonoBehaviour
 {
@@ -6,11 +7,13 @@ public class ShufflingUI : MonoBehaviour
    // public GameObject[] CardsToShuffle;
     public GameObject ShufflingPanel;
     public GameObject ShakeText;
+    public Button skipButton;
 
     public float shakeCheckCooldown = 0.2f;
     public float lastShakeCheck;
 
     public static ShufflingUI Instance;
+
     void Awake()
     {
         Instance = this;
@@ -30,15 +33,23 @@ public class ShufflingUI : MonoBehaviour
     }
     public void Update()
     {
+        UpdateSkipButtonInteractibility();
+
         if (ShufflingPanel.activeInHierarchy)
         {
             Debug.Log($"Accelerator detect shaking: {AccelerometerManager.Instance.IsShaking()}");
 
             if (!SettingsManager.Instance.LimitedMotionEnabled && !SettingsManager.Instance.PowerSavingEnabled) // Check if should have shake detection
                 PerformShakeAnimation();
+
             //else
                 // TO DO: Animate without motion
         }
+    }
+
+    public void UpdateSkipButtonInteractibility()
+    {
+        skipButton.interactable = !HandManager.Instance.isDealing;
     }
     public void MoveOnFromShuffling()
     {

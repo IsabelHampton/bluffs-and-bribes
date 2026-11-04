@@ -8,6 +8,8 @@ public class HandManager : MonoBehaviour
 {
     public static HandManager Instance;
 
+    public bool isDealing;
+
     public Card[] playerHand = new Card[2];
     public Card[] o1Hand = new Card[2];
     public Card[] o2Hand = new Card[2];
@@ -65,20 +67,21 @@ public class HandManager : MonoBehaviour
                 HideAllCards();
                 break;
             case GameState.DEALING:
+                isDealing = true;
                 endOfRoundSequenceStarted = false; // Reset 
-                // 1st round normal deal cards            
-                /*if (GameManager.Instance.roundNumber == 0)
+
+                if (TutorialManager.Instance.isInTutorial)
+                {
+                    TutorialDeal();
+                    return; // Skip rest of dealing
+                }
+                
+                // Check if there is a highest bribe
+                int highestPlayer = BribeManager.Instance.HighestBribePlayerNumber();
+                if (highestPlayer == -1)
                 {
                     RandomDealCards();
                 }
-                else
-                {*/
-                    // Check if there is a highest bribe
-                    int highestPlayer = BribeManager.Instance.HighestBribePlayerNumber();
-                    if (highestPlayer == -1)
-                    {
-                        RandomDealCards();
-                    }
                 else
                 {
                     // Rig their cards
@@ -92,6 +95,8 @@ public class HandManager : MonoBehaviour
                 UpdateAllHands();
                 // TO DO: UNCOMMENT
                 //GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
+
+                isDealing = false;
                 break;
             case GameState.REVEAL:
                 NextCardReveal();
@@ -161,6 +166,28 @@ public class HandManager : MonoBehaviour
                 break;
         }
     }
+
+    private void TutorialDeal()
+    {
+        switch (TutorialManager.Instance.tutorialRoundNumber)
+        {
+            case 0:
+                for (int i = 0; i < cardsOnTable.Length; i++)
+                {
+                    Debug.Log($"Card on table {cardsOnTable[i]}, rigged card {TutorialManager.Instance.round0CardsOnTable[i]}");
+                    cardsOnTable[i].Init(TutorialManager.Instance.round0CardsOnTable[i]);
+                }
+                break;
+            default:
+                break;
+        }
+
+        // Allow to go to player's turn
+        UpdateAllHands();
+        isDealing = false; // Enables skip button in shuffling UI
+
+    }
+
     /// <summary>
     /// Sets indexesToDrawFrom to 0-51, full deck to select cards from
     /// </summary>

@@ -27,8 +27,13 @@ public class TipOffManager : MonoBehaviour
     {
         if (GameManager.Instance.State == GameState.TIPOFF)
         {
-            /*ReceiveTipOff(GameManager.Instance.RoundNumber);
-            ReceiveTipOff(1); // REMOVE*/
+            if (TutorialManager.Instance.TutorialSkipsTipOff())
+            {
+                GameManager.Instance.UpdateGameState(GameState.BRIBE);
+                return; // Skip rest of method
+            }
+
+            // TO DO: Implement tipoffs
 
             GameManager.Instance.UpdateGameState(GameState.BRIBE);
         }

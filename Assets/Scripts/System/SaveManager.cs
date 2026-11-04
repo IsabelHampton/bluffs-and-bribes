@@ -12,7 +12,7 @@ public class SaveManager : MonoBehaviour
     {
         Instance = this;
         saveData = new SaveData();
-        //DeleteSave(GetDataPath()); // REMOVE: For testing with no save file
+        DeleteSave(GetDataPath()); // REMOVE: For testing with no save file
     }
 
     private void OnApplicationPause(bool _pause)
@@ -223,5 +223,12 @@ public class CardSaveData
             Suit = _card.Suit;
             FaceDown = _card.faceDown;
         }
+    }
+
+    public CardSaveData(int _value, int _suit, bool _faceDown = true) 
+    { 
+        Value = _value;
+        Suit = _suit;
+        FaceDown = _faceDown;
     }
 }

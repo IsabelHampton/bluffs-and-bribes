@@ -31,6 +31,12 @@ public class BribeManager : MonoBehaviour
 
         else if (GameManager.Instance.State == GameState.BRIBE && !bribeStateReached) // Event triggered multiple times added check to prevent this
         {
+            if (TutorialManager.Instance.TutorialSkipsBribe())
+            {
+                GameManager.Instance.UpdateGameState(GameState.DEALING);
+                return; // skip rest of method
+            }
+
             bribeStateReached = true;
 
             ResetBribes();

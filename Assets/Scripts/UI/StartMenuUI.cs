@@ -3,7 +3,9 @@ using UnityEngine.UI;
 
 public class StartMenuUI : MonoBehaviour
 {
-    public static StartMenuUI Instance; 
+    public static StartMenuUI Instance;
+
+    [Header("Panels")]
     public GameObject newRunConfirmationPanel;
     public GameObject startMenuPanel;
     public GameObject tablePanel;
@@ -11,9 +13,12 @@ public class StartMenuUI : MonoBehaviour
     public GameObject endOfRunPanel;
     public GameObject endOfRoundPanel;
     public GameObject shufflingPanel;
+    public GameObject tutorialPanel;
 
-    public HandManager handManager;
+    [Header("Tutorial Prompts")]
+    public GameObject newRunPrompt;
 
+    [Header("Buttons")]
     public Button continueRunButton;
     private void Start()
     {
@@ -66,14 +71,27 @@ public class StartMenuUI : MonoBehaviour
         endOfRunPanel.SetActive(false);
         endOfRoundPanel.SetActive(false);
         shufflingPanel.SetActive(false);
+        tutorialPanel.SetActive(false);
+
         startMenuPanel.SetActive(true);
+
+        SetUpTutorialUI();
+    }
+
+    public void SetUpTutorialUI()
+    {
+        if (TutorialManager.Instance.isInTutorial)
+            newRunPrompt.SetActive(true);
+        else
+            newRunPrompt.SetActive(false);
     }
     public void OnNewRun()
     {
-        // TO DO: Add check if previous run exists, if not ignore confirm 
-
         // Ask confirmation as this will override previous run
-        newRunConfirmationPanel.SetActive(true);
+        if (TutorialManager.Instance.isInTutorial || !continueRunButton.interactable)
+            OnNewRunConfirmation();
+        else
+            newRunConfirmationPanel.SetActive(true);
 
     }
     public void OnContinueRun()
