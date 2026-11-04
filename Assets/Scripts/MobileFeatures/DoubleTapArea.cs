@@ -29,11 +29,12 @@ public class DoubleTapArea : MonoBehaviour
     {
         GameManager.OnGameStateChanged -= GameManagerOnStateChanged;
     }
-
     private void GameManagerOnStateChanged(GameState _state)
     { 
         // Only show area when player can check
-        if (GameManager.Instance.State == GameState.PLAYER_TURN && ActionManager.Instance.CanCheck((int)PlayerOrder.PLAYER)) // TO DO: Add check that interctaive UI selected
+        if (GameManager.Instance.State == GameState.PLAYER_TURN && 
+            ActionManager.Instance.CanCheck((int)PlayerOrder.PLAYER) &&
+            !TutorialManager.Instance.isInTutorial) // TO DO: Add check that interctaive UI selected
         {
             ShowArea();
         }
