@@ -6,6 +6,8 @@ using System;
 
 public class PlayerRaiseUI : MonoBehaviour
 {
+    public static PlayerRaiseUI Instance;
+
     public GameObject raiseMenu;
     public TMP_Text chipsDisplay;
     public Button increaseBetButton;
@@ -17,13 +19,20 @@ public class PlayerRaiseUI : MonoBehaviour
 
     int[][] riggedRaiseValuesPerTutorialRound =
     {
-        new int[] {0, 15, 20 },
+        new int[] {0, 15, 30 },
         new int[] { },
         new int[] { }
     };
 
+    public int GetRaiseAmount(int _roundNumber, int _turnNumber)
+    {
+        return riggedRaiseValuesPerTutorialRound[_roundNumber][_turnNumber];
+    }
+
     private void Awake()
     {
+        Instance = this;
+
         SetUp();
         raiseMenu.SetActive(false); //initially hidden
         GameManager.OnGameStateChanged += GameManagerOnStateChanged;
@@ -91,7 +100,7 @@ public class PlayerRaiseUI : MonoBehaviour
         if (TutorialManager.Instance.isInTutorial)
         {
             // Only enable submit button on raise menu if equal to set amount for tutorial
-            if (chipsToBet == riggedRaiseValuesPerTutorialRound[TutorialManager.Instance.tutorialRoundNumber][TutorialManager.Instance.playerTurnsThisRound])
+            if (chipsToBet == GetRaiseAmount(TutorialManager.Instance.tutorialRoundNumber, TutorialManager.Instance.playerTurnsThisRound))
             {
                 betButton.interactable = true;
             }
@@ -115,7 +124,7 @@ public class PlayerRaiseUI : MonoBehaviour
         raiseButton.interactable = true; // Menu closed offer to press again press again
 
         // Re-enable removed double tap area if needed
-        if (ActionManager.Instance.CanCheck((int)PlayerOrder.PLAYER))
+        if (!TutorialManager.Instance.isInTutorial && ActionManager.Instance.CanCheck((int)PlayerOrder.PLAYER))
             StartCoroutine(DoubleTapArea.Instance.ShowAreaWithDelay(0.2f));
     }
 

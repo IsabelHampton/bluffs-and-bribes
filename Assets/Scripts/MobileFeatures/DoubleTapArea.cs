@@ -41,7 +41,8 @@ public class DoubleTapArea : MonoBehaviour
     }
     private void Update()
     {
-        if (checkArea.activeInHierarchy && GameManager.Instance.State != GameState.PLAYER_TURN)
+        if (checkArea.activeInHierarchy && 
+            (GameManager.Instance.State != GameState.PLAYER_TURN || TutorialManager.Instance.isInTutorial))
             HideArea();
 
         // Only check if area active
