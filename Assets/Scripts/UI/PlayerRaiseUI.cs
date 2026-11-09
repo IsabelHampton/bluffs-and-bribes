@@ -43,7 +43,7 @@ public class PlayerRaiseUI : MonoBehaviour
     public void OnRaiseClicked()
     {
         raiseMenu.SetActive(true);
-        raiseButton.enabled = false; // Menu open can't press again
+        raiseButton.interactable = false; // Menu open can't press again
 
         //Hide check area to prevent overlap
         DoubleTapArea.Instance.HideArea();
@@ -88,7 +88,7 @@ public class PlayerRaiseUI : MonoBehaviour
         chipsToBet = 0;
         chipsDisplay.text = BetManager.Instance.minBet.ToString();
         raiseMenu.SetActive(false);
-        raiseButton.enabled = true; // Menu closed offer to press again press again
+        raiseButton.interactable = true; // Menu closed offer to press again press again
 
         // Re-enable removed double tap area if needed
         if (ActionManager.Instance.CanCheck((int)PlayerOrder.PLAYER))

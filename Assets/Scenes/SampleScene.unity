@@ -2296,7 +2296,6 @@ GameObject:
   - component: {fileID: 296973360}
   - component: {fileID: 296973361}
   - component: {fileID: 296973362}
-  - component: {fileID: 296973363}
   m_Layer: 0
   m_Name: MobileManager
   m_TagString: Untagged
@@ -2393,18 +2392,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f41e82e5b8fc61f4f9ddacda83150d70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AccelerometerManager
---- !u!114 &296973363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 296973355}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cfc53860e1659f40938917c3ab06e33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScreenSizer
 --- !u!1 &301563647
 GameObject:
   m_ObjectHideFlags: 0
@@ -16309,6 +16296,7 @@ MonoBehaviour:
   callButton: {fileID: 1173893680}
   raiseButton: {fileID: 930172838}
   foldButton: {fileID: 960042623}
+  tutorialPrompts: {fileID: 0}
 --- !u!114 &1858078671
 MonoBehaviour:
   m_ObjectHideFlags: 0

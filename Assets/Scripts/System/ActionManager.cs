@@ -15,6 +15,26 @@ public class ActionManager : MonoBehaviour
     
     public List<int> possibleActions = new List<int>();
 
+    [Header("Tutorial Values")]
+    private int playerTurnsThisRound;
+
+    private Actions[][] opponent1TutorialActions = new Actions[][] {
+        new Actions [] { Actions.CHECK, Actions.CALL, Actions.FOLD },
+        new Actions [] { },
+        new Actions[]{ }
+    };
+    private Actions[][] opponent2TutorialActions = new Actions[][] {
+        new Actions [] { Actions.CHECK, Actions.FOLD},
+        new Actions [] { },
+        new Actions[]{ }
+    };
+    private Actions[][] opponent3TutorialActions = new Actions[][] {
+        new Actions [] { Actions.CHECK, Actions.CALL, Actions.CALL },
+        new Actions [] { },
+        new Actions[]{ }
+    };
+
+
     public void UpdateAllIn(int _playerNumber)
     {
         isAllIn[_playerNumber] = true;
@@ -46,26 +66,15 @@ public class ActionManager : MonoBehaviour
                 break;
 
             case GameState.OPPONENT1_TURN:
-                if (TurnNeedsSkipping((int)PlayerOrder.OPPONENT1))
-                    MoveToNextStageWithoutDelay((int)PlayerOrder.OPPONENT1);
-                else
-                    TakeTurn((int)PlayerOrder.OPPONENT1);
+                EnemyTurn((int)PlayerOrder.OPPONENT1);
                 break;
 
             case GameState.OPPONENT2_TURN:
-                if (TurnNeedsSkipping((int)PlayerOrder.OPPONENT2))
-                    MoveToNextStageWithoutDelay((int)PlayerOrder.OPPONENT2);
-                else
-                    TakeTurn((int)PlayerOrder.OPPONENT2);
+                EnemyTurn((int)PlayerOrder.OPPONENT2);
                 break;
 
             case GameState.OPPONENT3_TURN:
-                if (TurnNeedsSkipping((int)PlayerOrder.OPPONENT3))
-                {
-                    MoveToNextStageWithoutDelay((int)PlayerOrder.OPPONENT3);
-                }
-                else
-                    TakeTurn((int)PlayerOrder.OPPONENT3);
+                EnemyTurn((int)PlayerOrder.OPPONENT3);
                 break;
 
             default:
@@ -83,12 +92,32 @@ public class ActionManager : MonoBehaviour
         lastActions = new Actions[(int)PlayerOrder.NUM_OF_PLAYERS];
         foldedPlayers = 0;
     }
+
+    public void EnemyTurn(int _playerNumber)
+    {
+        if (TurnNeedsSkipping(_playerNumber))
+            MoveToNextStageWithoutDelay(_playerNumber);
+
+        // Check if in tutorial - complete set action
+        if (TutorialManager.Instance.isInTutorial)
+        {
+            CompleteTutorialRiggedActionsForRound(_playerNumber);
+            return;
+        }
+        else
+            TakeTurn(_playerNumber);
+    }
     public void TakeTurn(int _playerNumber)
     {
         DeterminePossibleActionsForTurn(_playerNumber);
 
         int actionNumberIndex = Random.Range(0, possibleActions.Count);
-        switch (possibleActions[actionNumberIndex])
+        PerformAction(possibleActions[actionNumberIndex], _playerNumber); 
+    }
+
+    public void PerformAction(int _actionNumber, int _playerNumber) 
+    {
+        switch (_actionNumber)
         {
             case (int)Actions.CHECK:
                 Check(_playerNumber);
@@ -106,8 +135,7 @@ public class ActionManager : MonoBehaviour
                 break;
         }
 
-        //lastActions[_playerNumber] = (Actions)possibleActions[actionNumberIndex];
-        Debug.Log($"Player {(PlayerOrder)_playerNumber} performed action {(Actions)possibleActions[actionNumberIndex]}");
+        Debug.Log($"Player {(PlayerOrder)_playerNumber} performed action {(Actions)_actionNumber}");
 
         // Check if only one player remaining ask skip to end
         if (foldedPlayers == (int)PlayerOrder.NUM_OF_PLAYERS - 1)
@@ -115,6 +143,7 @@ public class ActionManager : MonoBehaviour
         else
             StartCoroutine(MoveToNextStageWithDelay(_playerNumber));
     }
+
     public bool TurnNeedsSkipping(int _playerNumber)
     {
         return foldedPlayers == (int)PlayerOrder.NUM_OF_PLAYERS-1 || // All other players have folded so skip to reveal
@@ -241,9 +270,18 @@ public class ActionManager : MonoBehaviour
             }
         }
         if (roundCanEnd)
+        {
+            // Increment counter if in tutorial
+            playerTurnsThisRound++;
+
             GameManager.Instance.UpdateGameState((GameState)(GameManager.Instance.State + 1));
+        }
+
+        // Round can't end - return play to player
         else
+        {
             GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
+        }
     }
     /// <summary>
     /// Checks for if call is valid shoud be performed before calling
@@ -320,6 +358,34 @@ public class ActionManager : MonoBehaviour
     {
         lastActions[_playerNumber] = _action;
         ActionUI.Instance.DisplayActionUI(_playerNumber, _action);
+    }
+
+    public void CompleteTutorialRiggedActionsForRound(int _playerNumber)
+    {
+        switch (_playerNumber)
+        {
+            case (int)PlayerOrder.OPPONENT1:
+                PerformRiggedAction(opponent1TutorialActions, _playerNumber);
+                //PerformAction((int)opponent1TutorialActions[TutorialManager.Instance.tutorialRoundNumber][playerTurnsThisRound], _playerNumber);
+                break;
+            case (int)PlayerOrder.OPPONENT2:
+                PerformRiggedAction(opponent2TutorialActions, _playerNumber);
+                //PerformAction((int)opponent2TutorialActions[TutorialManager.Instance.tutorialRoundNumber][playerTurnsThisRound], _playerNumber);
+                break; 
+            case (int)PlayerOrder.OPPONENT3:
+                PerformRiggedAction(opponent3TutorialActions, _playerNumber);
+                //PerformAction((int)opponent3TutorialActions[TutorialManager.Instance.tutorialRoundNumber][playerTurnsThisRound], _playerNumber);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void PerformRiggedAction(Actions[][] tutorialActions, int _playerNumber)
+    {
+        // Check there is an action assigned for this player this round (e.g. if folded later values might be null)
+        if (playerTurnsThisRound < tutorialActions[TutorialManager.Instance.tutorialRoundNumber].Length)
+            PerformAction((int)tutorialActions[TutorialManager.Instance.tutorialRoundNumber][playerTurnsThisRound], _playerNumber);
     }
 }  
 
