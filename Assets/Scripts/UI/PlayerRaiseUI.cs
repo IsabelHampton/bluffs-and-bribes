@@ -15,6 +15,13 @@ public class PlayerRaiseUI : MonoBehaviour
 
     int chipsToBet = 0;
 
+    int[][] riggedRaiseValuesPerTutorialRound =
+    {
+        new int[] {0, 15, 20 },
+        new int[] { },
+        new int[] { }
+    };
+
     private void Awake()
     {
         SetUp();
@@ -42,7 +49,10 @@ public class PlayerRaiseUI : MonoBehaviour
 
     public void OnRaiseClicked()
     {
+        SetUp();
+        UpdateButtonInteractability();
         raiseMenu.SetActive(true);
+
         raiseButton.interactable = false; // Menu open can't press again
 
         //Hide check area to prevent overlap
@@ -76,6 +86,20 @@ public class PlayerRaiseUI : MonoBehaviour
             decreaseBetButton.interactable = false;
         else
             decreaseBetButton.interactable = true;
+
+        // Further check for tutorial to force raise values
+        if (TutorialManager.Instance.isInTutorial)
+        {
+            // Only enable submit button on raise menu if equal to set amount for tutorial
+            if (chipsToBet == riggedRaiseValuesPerTutorialRound[TutorialManager.Instance.tutorialRoundNumber][TutorialManager.Instance.playerTurnsThisRound])
+            {
+                betButton.interactable = true;
+            }
+            else
+            {
+                betButton.interactable = false;
+            }
+        }
     }
 
     public void OnConfirmRaiseAmount()

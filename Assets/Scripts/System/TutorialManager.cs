@@ -5,6 +5,7 @@ public class TutorialManager : MonoBehaviour
     public static TutorialManager Instance;
     public bool isInTutorial { get; private set; }
     public int tutorialRoundNumber { get; private set; }
+    public int playerTurnsThisRound;
     /// <summary>
     /// Player cards, opponent 1's cards, opponent 2's cards. opponent 3's cards, centre cards
     /// </summary>

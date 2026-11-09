@@ -15,8 +15,8 @@ public class ActionManager : MonoBehaviour
     
     public List<int> possibleActions = new List<int>();
 
-    [Header("Tutorial Values")]
-    private int playerTurnsThisRound;
+    //[Header("Tutorial Values")]
+    //private int playerTurnsThisRound;
 
     private Actions[][] opponent1TutorialActions = new Actions[][] {
         new Actions [] { Actions.CHECK, Actions.CALL, Actions.FOLD },
@@ -272,7 +272,7 @@ public class ActionManager : MonoBehaviour
         if (roundCanEnd)
         {
             // Increment counter if in tutorial
-            playerTurnsThisRound++;
+            TutorialManager.Instance.playerTurnsThisRound++;
 
             GameManager.Instance.UpdateGameState((GameState)(GameManager.Instance.State + 1));
         }
@@ -384,8 +384,8 @@ public class ActionManager : MonoBehaviour
     public void PerformRiggedAction(Actions[][] tutorialActions, int _playerNumber)
     {
         // Check there is an action assigned for this player this round (e.g. if folded later values might be null)
-        if (playerTurnsThisRound < tutorialActions[TutorialManager.Instance.tutorialRoundNumber].Length)
-            PerformAction((int)tutorialActions[TutorialManager.Instance.tutorialRoundNumber][playerTurnsThisRound], _playerNumber);
+        if (TutorialManager.Instance.playerTurnsThisRound < tutorialActions[TutorialManager.Instance.tutorialRoundNumber].Length)
+            PerformAction((int)tutorialActions[TutorialManager.Instance.tutorialRoundNumber][TutorialManager.Instance.playerTurnsThisRound], _playerNumber);
     }
 }  
 
