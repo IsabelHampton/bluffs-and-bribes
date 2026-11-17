@@ -8,9 +8,12 @@ using Random = UnityEngine.Random;
 public class HandManager : MonoBehaviour
 {
     public static HandManager Instance;
+
+    // Game state guards to prevent multiple processes being started
+    bool isBribing;
     bool isRevealing;
-    // TO DO: Remove
-    //public bool isDealing;
+    bool isDealing;
+    bool endOfRoundSequenceStarted = false;
 
     public Card[] playerHand = new Card[2];
     public Card[] o1Hand = new Card[2];
@@ -27,8 +30,6 @@ public class HandManager : MonoBehaviour
     private List<Card> cardsAvailableToMakeHandFrom = new List<Card>();
 
     public PlayerHand[] playerHands = new PlayerHand[(int)PlayerOrder.NUM_OF_PLAYERS];
-
-    bool endOfRoundSequenceStarted = false; // Prevent sequence happening multiple times on event trigger? TO DO: Find better fix
 
     private void UpdateAllHands()
     {
@@ -68,55 +69,68 @@ public class HandManager : MonoBehaviour
         switch (GameManager.Instance.State)
         {
             case GameState.BRIBE: //happens before dealing
+                if (isBribing)
+                    break;
+
+                isBribing = true;
                 HideAllCards();
+                isBribing = false;
                 break;
+
             case GameState.DEALING:
-                //isDealing = true;
-                endOfRoundSequenceStarted = false; // Reset 
-
-                if (TutorialManager.Instance.isInTutorial)
-                {
-                    TutorialDeal();
-                    return; // Skip rest of dealing
-                }
-                
-                // Check if there is a highest bribe
-                int highestPlayer = BribeManager.Instance.HighestBribePlayerNumber();
-                if (highestPlayer == -1)
-                {
-                    RandomDealCards();
-                }
-                else
-                {
-                    // Rig their cards
-                    CheatDeal(highestPlayer, (CheatHandOptions)Random.Range(0, (int)CheatHandOptions.CHEAT_OPTIONS));
-                    // Random deal the rest
-                    RandomDealFromSelection();
-                }
-                //}
-
-                // Visually deal all cards
-                StartCoroutine(VisuallyDealCards());
-
-                UpdateAllHands();
+                if (!isDealing)
+                    StartCoroutine(Deal());
                 break;
             case GameState.REVEAL:
                 if (!isRevealing)
                     StartCoroutine(NextCardReveal());
                 break;
+
             case GameState.END_ROUND:
-                StartCoroutine(EndOfRound());
+                if (!endOfRoundSequenceStarted)
+                    StartCoroutine(EndOfRound());
                 break;
+
             default:
                 break;
         }
     }
+    private IEnumerator Deal()
+    {
+        isDealing = true;
+        endOfRoundSequenceStarted = false; // Reset 
+
+        if (TutorialManager.Instance.isInTutorial)
+        {
+            TutorialDeal();
+        }
+        else
+        {
+            // Check if there is a highest bribe
+            int highestPlayer = BribeManager.Instance.HighestBribePlayerNumber();
+            if (highestPlayer == -1)
+            {
+                RandomDealCards();
+            }
+            else
+            {
+                // Rig their cards
+                CheatDeal(highestPlayer, (CheatHandOptions)Random.Range(0, (int)CheatHandOptions.CHEAT_OPTIONS));
+                // Random deal the rest
+                RandomDealFromSelection();
+            }
+        }
+
+        // Visually deal all cards
+        yield return StartCoroutine(VisuallyDealCards());
+
+        UpdateAllHands();
+
+        isDealing = false;
+    }
 
     private IEnumerator EndOfRound()
     {
-        if (endOfRoundSequenceStarted)
-            yield return null; // Stop doing multiple times 
-
         endOfRoundSequenceStarted = true; // Now started so tell event thing to stop calling repeatedly
         yield return StartCoroutine(RevealEndOfRoundHands()); // Calls UpdateHands()
 
