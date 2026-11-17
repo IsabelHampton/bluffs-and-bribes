@@ -4,7 +4,8 @@ public class RoundOverUI : MonoBehaviour
 {
     public static RoundOverUI Instance;
 
-    [SerializeField] public GameObject roundOverPanel;
+    public GameObject roundOverPanel;
+    public TMP_Text roundDescription;
 
     private void Awake()
     {
@@ -23,6 +24,24 @@ public class RoundOverUI : MonoBehaviour
             OpenEndOfRoundMenu();
         }
     }
+    public void UpdateDescription()
+    {
+        string text = "";
+        int numOfWinners = GameManager.Instance.winners.Count;
+
+        // Iterate throw winners and add to list
+        for (int i = 0; i < numOfWinners; i++)
+        {
+            text += GameManager.GetPlayerName(GameManager.Instance.winners[i]);
+
+            if (i != numOfWinners - 1)
+                text += ",";
+        }
+
+        text += $" won this round with a {GameManager.GetHandName(GameManager.Instance.winningHandType)}!";
+
+        roundDescription.text = text;
+    }
     public void OnNewRound()
     {
         roundOverPanel.SetActive(false); // hide this menu
@@ -33,6 +52,7 @@ public class RoundOverUI : MonoBehaviour
         // Vibrate phone to show end of round
         VibrationManager.Instance.HeavyVibrate();
 
+        UpdateDescription();
         roundOverPanel.SetActive(true);
     }
 }

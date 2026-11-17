@@ -96,7 +96,10 @@ public class ActionManager : MonoBehaviour
     public void EnemyTurn(int _playerNumber)
     {
         if (TurnNeedsSkipping(_playerNumber))
+        {
             MoveToNextStageWithoutDelay(_playerNumber);
+            return;
+        }
 
         // Check if in tutorial - complete set action
         if (TutorialManager.Instance.isInTutorial)
@@ -340,10 +343,10 @@ public class ActionManager : MonoBehaviour
 
         int incrementsAvailableForRaise = availableChips / BetManager.Instance.minBet;
         int raiseIncrement = Random.Range(1, incrementsAvailableForRaise + 1);
-        if (raiseIncrement == incrementsAvailableForRaise)
+        /*if (raiseIncrement == incrementsAvailableForRaise)
         {
             UpdateAllIn(_playerNumber);
-        }
+        }*/
         Debug.Log($"Player {_playerNumber} raised by {raiseIncrement * BetManager.Instance.minBet}");
         return raiseIncrement * BetManager.Instance.minBet;
     }

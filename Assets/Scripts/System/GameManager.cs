@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,6 +9,10 @@ public class GameManager : MonoBehaviour
     public static event Action<GameState> OnGameStateChanged;
 
     public bool ignoreResets;
+
+    // Values for last winners
+    public List<PlayerOrder> winners = new List<PlayerOrder>();
+    public HandType winningHandType;
 
     // RUN SPECIFIC VARS
     public int RoundNumber = 0;
@@ -34,26 +39,7 @@ public class GameManager : MonoBehaviour
         State = _state;
         switch (State)
         {
-            case GameState.TIPOFF:
-                break;
-            case GameState.BRIBE:
-                /*if (roundNumber == 0)
-                {
-                    UpdateGameState(GameState.DEALING);
-                }*/
-                break;
-            case GameState.DEALING:
-                break;
-            case GameState.PLAYER_TURN:
-                break;
-            case GameState.OPPONENT1_TURN:
-                break;
-            case GameState.OPPONENT2_TURN:
-                break;
-            case GameState.OPPONENT3_TURN:
-                break;
-            case GameState.REVEAL:
-                break;
+
             case GameState.END_ROUND:
                 ignoreResets = false; // Round over so resets need to happen
                 break;
@@ -72,10 +58,6 @@ public class GameManager : MonoBehaviour
                     UpdateGameState(GameState.END_OF_ROUND_MENU);
                 }
                 
-                break;
-            case GameState.END_OF_ROUND_MENU:
-                break;
-            case GameState.END_OF_RUN_MENU:
                 break;
             default:
                 break;
@@ -121,12 +103,56 @@ public class GameManager : MonoBehaviour
         MaxChipsThisRun = Mathf.Max(BetManager.Instance.chips[(int)PlayerOrder.PLAYER], MaxChipsThisRun);
     }
 
+    public static string GetPlayerName(PlayerOrder _player)
+    {
+        switch (_player)
+        {
+            case PlayerOrder.PLAYER:
+                return "You";
+            case PlayerOrder.OPPONENT1:
+                return "Opponent 1";
+            case PlayerOrder.OPPONENT2:
+                return "Opponent 2";
+            case PlayerOrder.OPPONENT3:
+                return "Opponent 3";
+            default:
+                break;
+        }
+        return "";
+    }
+
+    public static string GetHandName(HandType _handType)
+    {
+        switch(_handType) 
+        {
+            case HandType.HIGH_CARD:
+                return ("High Card");
+            case HandType.PAIR:
+                return ("Pair");
+            case HandType.TWO_PAIR:
+                return ("Two Pair");
+            case HandType.THREE_OF_A_KIND:
+                return ("Three of a Kind");
+            case HandType.STRAIGHT:
+                return ("Straight");
+            case HandType.FLUSH:
+                return ("Flush");
+            case HandType.FULL_HOUSE:
+                return ("Full House");
+            case HandType.FOUR_OF_A_KIND:
+                return ("Four of a Kind");
+            case HandType.STRAIGHT_FLUSH:
+                return ("Straight Flush");
+        }
+        return "";
+    }
 }
 public enum GameState
 {
     IN_START_MENU,
     TIPOFF,
     BRIBE,
+    SHUFFLING,
     DEALING,
     PLAYER_TURN,
     OPPONENT1_TURN,

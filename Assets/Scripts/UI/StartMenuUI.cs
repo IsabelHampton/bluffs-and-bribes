@@ -39,22 +39,6 @@ public class StartMenuUI : MonoBehaviour
                 SetUp();
                 UpdateContinueRunButton();
                 break;
-            case GameState.TIPOFF:
-                break;
-            case GameState.DEALING:
-                break;
-            case GameState.PLAYER_TURN:
-                break;
-            case GameState.OPPONENT1_TURN:
-                break;
-            case GameState.OPPONENT2_TURN:
-                break;
-            case GameState.OPPONENT3_TURN:
-                break;
-            case GameState.REVEAL:
-                break;
-            case GameState.END_ROUND:
-                break;
             default:
                 break;
         }

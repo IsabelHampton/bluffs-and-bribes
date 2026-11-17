@@ -209,7 +209,7 @@ public class CardSaveData
     public int Suit;
     public bool FaceDown;
 
-    public CardSaveData(Card? _card)
+    public CardSaveData(Card _card)
     {
         if (_card == null)
         {
