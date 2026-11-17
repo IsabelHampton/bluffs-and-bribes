@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8971224552469476107}
   - component: {fileID: 1465966584932579300}
   - component: {fileID: 8505907820580329273}
+  - component: {fileID: 859720161485308869}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -95,3 +96,16 @@ MonoBehaviour:
   faceDown: 0
   displayedImage: {fileID: 1465966584932579300}
   faceUpSprite: {fileID: 0}
+--- !u!114 &859720161485308869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6161507577988030214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c46220bdafbd6fb4eba9c5b67eda4ebd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card_DOTween
+  cardBack: {fileID: 0}

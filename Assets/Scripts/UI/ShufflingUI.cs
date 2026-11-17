@@ -26,9 +26,9 @@ public class ShufflingUI : MonoBehaviour
     }
     private void GameManagerOnStateChanged(GameState _state)
     {
-        if (GameManager.Instance.State == GameState.DEALING && !ShufflingPanel.activeInHierarchy)
+        if (GameManager.Instance.State == GameState.SHUFFLING && !ShufflingPanel.activeInHierarchy)
             ShowShufflingPanel();
-        else if (GameManager.Instance.State != GameState.DEALING && ShufflingPanel.activeInHierarchy)
+        else if (GameManager.Instance.State != GameState.SHUFFLING && ShufflingPanel.activeInHierarchy)
             HideShufflingPanel();
     }
     public void Update()
@@ -49,12 +49,12 @@ public class ShufflingUI : MonoBehaviour
 
     public void UpdateSkipButtonInteractibility()
     {
-        skipButton.interactable = !HandManager.Instance.isDealing;
+        skipButton.interactable = true/*!HandManager.Instance.isDealing*/;
     }
     public void MoveOnFromShuffling()
     {
         HideShufflingPanel();
-        GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
+        GameManager.Instance.UpdateGameState(GameState.DEALING);
     }
     public void ShowShufflingPanel()
     {

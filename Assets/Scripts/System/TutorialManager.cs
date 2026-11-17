@@ -40,12 +40,12 @@ public class TutorialManager : MonoBehaviour
         else
         {
             Debug.Log("No save file detected");
-            PlayTutorial();
+            PlayTutorial(); // TO DO: FINISH IMPLEMENTATION
         }
     }
     void PlayTutorial()
     {
-        isInTutorial = true;
+        //isInTutorial = true;
         // Set up cards and bets 
 
         // End of tutorial

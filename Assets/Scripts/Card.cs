@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Collections;
 public enum Suits
 {
     HEART,
@@ -22,8 +23,12 @@ public class Card : MonoBehaviour
     [SerializeField] public bool faceDown;
     public Image displayedImage;
 
-    [SerializeField] private Sprite faceUpSprite;
+    [SerializeField] public Sprite faceUpSprite;
 
+    private void Awake()
+    {
+        gameObject.SetActive(false); // hidden by default
+    }
     public void Init (int _value, int _suit, bool _faceDown = true)
     {
         Value = _value;
@@ -60,10 +65,10 @@ public class Card : MonoBehaviour
     {
         Init(_data.Value, _data.Suit, _data.FaceDown);
     }
-    public void Reveal()
+    public IEnumerator Reveal()
     {
         faceDown = false;
-        displayedImage.sprite = faceUpSprite;
+        yield return GetComponent<Card_DOTween>().RevealCard();
     }
 
     public void Hide()

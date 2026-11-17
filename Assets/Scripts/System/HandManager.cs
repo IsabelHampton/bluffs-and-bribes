@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,8 +8,9 @@ using Random = UnityEngine.Random;
 public class HandManager : MonoBehaviour
 {
     public static HandManager Instance;
-
-    public bool isDealing;
+    bool isRevealing;
+    // TO DO: Remove
+    //public bool isDealing;
 
     public Card[] playerHand = new Card[2];
     public Card[] o1Hand = new Card[2];
@@ -32,8 +34,9 @@ public class HandManager : MonoBehaviour
     {
         allHands = new Card[][]{ playerHand, o1Hand, o2Hand, o3Hand};
     }
-    private void RevealEndOfRoundHands()
+    private IEnumerator RevealEndOfRoundHands()
     {
+        isRevealing = true;
         UpdateAllHands();
         for (int i = 0; i < allHands.Length; i++)
         {
@@ -43,9 +46,10 @@ public class HandManager : MonoBehaviour
             // Reveal cards in hand
             foreach (Card card in allHands[i])
             {
-                card.Reveal();
+                yield return StartCoroutine(card.Reveal());
             }
         }
+        isRevealing = false;
     }
 
     private void Awake()
@@ -67,7 +71,7 @@ public class HandManager : MonoBehaviour
                 HideAllCards();
                 break;
             case GameState.DEALING:
-                isDealing = true;
+                //isDealing = true;
                 endOfRoundSequenceStarted = false; // Reset 
 
                 if (TutorialManager.Instance.isInTutorial)
@@ -90,81 +94,107 @@ public class HandManager : MonoBehaviour
                     RandomDealFromSelection();
                 }
                 //}
-                RevealCards(playerHand);
-                RevealCards(flop);
-                UpdateAllHands();
-                // TO DO: UNCOMMENT
-                //GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
 
-                isDealing = false;
+                // Visually deal all cards
+                StartCoroutine(VisuallyDealCards());
+
+                UpdateAllHands();
                 break;
             case GameState.REVEAL:
-                NextCardReveal();
+                if (!isRevealing)
+                    StartCoroutine(NextCardReveal());
                 break;
             case GameState.END_ROUND:
-                if (endOfRoundSequenceStarted)
-                    break; // Stop doing multiple times 
-
-                endOfRoundSequenceStarted = true; // Now started so tell event thing to stop calling repeatedly
-                RevealEndOfRoundHands(); // Calls UpdateHands()
-
-                for (int i = 0; i < (int)PlayerOrder.NUM_OF_PLAYERS; i++)
-                {
-                    // Check player hasn't folded
-                    if (!ActionManager.Instance.hasFolded[i])
-                        DetermineCurrentHandRank(allHands[i], i);
-                }
-
-                // Sort ranks in descending order
-                PlayerHand[] sortedHands = new PlayerHand[playerHands.Length];
-                Array.Copy(playerHands, sortedHands, playerHands.Length);
-                Array.Sort(sortedHands, ByDescendingHandType);
-                Array.Sort(sortedHands, ByDescendingRankPerHandType);
-
-                List<PlayerHand> winningHands = new List<PlayerHand> { sortedHands[0] } ; // 1st element in sorted list is winner
-                for (int i = 0; i < sortedHands.Length; i++)
-                {
-                    if (i == 0)
-                        continue; // Already know they are winner and are in list
-
-                    // If next player has same hand and rank add to winners list
-                    if (sortedHands[i].handType == sortedHands[i - 1].handType && sortedHands[i].handRank == sortedHands[i - 1].handRank)
-                        winningHands.Add(sortedHands[i]);
-
-                    // No more players with same hand, stop checking for winner
-                    else
-                        break; // No more players with same hand type no need to check
-                }
-
-                // Work out split of pot to dish out
-                int chipsWon = BetManager.Instance.pot / winningHands.Count;
-
-                // Iterate through list of player hands (in order of player number)
-                for (int i = 0; i < playerHands.Length; i++)
-                {
-                    // If hand is in winning hands list give spilt of pot
-                    if (winningHands.Contains(playerHands[i]))
-                    {
-                        BetManager.Instance.AddPlayerChips(chipsWon, i);// Give player winnings split from pot
-                        Debug.Log($"{(PlayerOrder)i} wins {chipsWon} with a {playerHands[i].handType} of rank {playerHands[i].handRank}");
-                    }
-                    else
-                    {
-                        if (ActionManager.Instance.hasFolded[i])
-                            Debug.Log($"{(PlayerOrder)i} lost as folded");
-                        else
-                            Debug.Log($"{(PlayerOrder)i} lost with a {playerHands[i].handType} of rank {playerHands[i].handRank}");
-                    }
-                }
-                // Empty pot
-                BetManager.Instance.SetPot(0);
-
-                GameManager.Instance.UpdateGameState(GameState.CHECK_IF_RUN_CONTINUE); // Trigger UI for moving between rounds
-
+                StartCoroutine(EndOfRound());
                 break;
             default:
                 break;
         }
+    }
+
+    private IEnumerator EndOfRound()
+    {
+        if (endOfRoundSequenceStarted)
+            yield return null; // Stop doing multiple times 
+
+        endOfRoundSequenceStarted = true; // Now started so tell event thing to stop calling repeatedly
+        yield return StartCoroutine(RevealEndOfRoundHands()); // Calls UpdateHands()
+
+        for (int i = 0; i < (int)PlayerOrder.NUM_OF_PLAYERS; i++)
+        {
+            // Check player hasn't folded
+            if (!ActionManager.Instance.hasFolded[i])
+                DetermineCurrentHandRank(allHands[i], i);
+        }
+
+        // Sort ranks in descending order
+        PlayerHand[] sortedHands = new PlayerHand[playerHands.Length];
+        Array.Copy(playerHands, sortedHands, playerHands.Length);
+        Array.Sort(sortedHands, ByDescendingHandType);
+        Array.Sort(sortedHands, ByDescendingRankPerHandType);
+
+        GameManager.Instance.winners.Clear(); // empty out winnder list before new winners found
+
+        List<PlayerHand> winningHands = new List<PlayerHand> { sortedHands[0] }; // 1st element in sorted list is winner
+        for (int i = 0; i < sortedHands.Length; i++)
+        {
+            if (i == 0)
+                continue; // Already know they are winner and are in list
+
+            // If next player has same hand and rank add to winners list
+            if (sortedHands[i].handType == sortedHands[i - 1].handType && sortedHands[i].handRank == sortedHands[i - 1].handRank)
+                winningHands.Add(sortedHands[i]);
+
+            // No more players with same hand, stop checking for winner
+            else
+                break; // No more players with same hand type no need to check
+        }
+
+        // Work out split of pot to dish out
+        int chipsWon = BetManager.Instance.pot / winningHands.Count;
+
+        // Iterate through list of player hands (in order of player number)
+        for (int i = 0; i < playerHands.Length; i++)
+        {
+            // If hand is in winning hands list give spilt of pot
+            if (winningHands.Contains(playerHands[i]))
+            {
+                BetManager.Instance.AddPlayerChips(chipsWon, i);// Give player winnings split from pot
+
+                // Update winner tracking
+                GameManager.Instance.winners.Add((PlayerOrder)i);
+                GameManager.Instance.winningHandType = playerHands[i].handType;
+
+                Debug.Log($"{(PlayerOrder)i} wins {chipsWon} with a {playerHands[i].handType} of rank {playerHands[i].handRank}");
+            }
+            else
+            {
+                if (ActionManager.Instance.hasFolded[i])
+                    Debug.Log($"{(PlayerOrder)i} lost as folded");
+                else
+                    Debug.Log($"{(PlayerOrder)i} lost with a {playerHands[i].handType} of rank {playerHands[i].handRank}");
+            }
+        }
+        // Empty pot
+        BetManager.Instance.SetPot(0);
+
+        GameManager.Instance.UpdateGameState(GameState.CHECK_IF_RUN_CONTINUE); // Trigger UI for moving between rounds
+    }
+    private IEnumerator VisuallyDealCards()
+    {
+        foreach (Card card in cardsOnTable)
+        {
+            card.gameObject.SetActive(true);
+            yield return StartCoroutine(card.gameObject.GetComponent<Card_DOTween>().DealInCard());
+        }
+
+        yield return StartCoroutine(RevealCards(playerHand));
+
+        yield return StartCoroutine(RevealCards(flop));
+
+        GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN); // Don't set player's turn until visuals finished
+
+        //isDealing = false; // Not finished dealing until visuals finished
     }
 
     private void TutorialDeal()
@@ -184,7 +214,7 @@ public class HandManager : MonoBehaviour
 
         // Allow to go to player's turn
         UpdateAllHands();
-        isDealing = false; // Enables skip button in shuffling UI
+        //isDealing = false; // Enables skip button in shuffling UI
 
     }
 
@@ -401,23 +431,27 @@ public class HandManager : MonoBehaviour
         foreach (Card card in cardsOnTable)
         {
             card.Hide();
+            card.gameObject.SetActive(false);
         }
     }
-    public void RevealCards(Card[] _cardsToReveal)
+    public IEnumerator RevealCards(Card[] _cardsToReveal)
     {
+        isRevealing = true;
         foreach (Card card in _cardsToReveal)
         {
-            card.Reveal();
+            yield return StartCoroutine(card.Reveal());
         }
+        isRevealing = false;
     }
-    public void NextCardReveal()
+    public IEnumerator NextCardReveal()
     {
+        isRevealing = true;
         bool cardWasRevealed = false;
         foreach (Card card in centreCards)
         {
             if (card.faceDown)
             {
-                card.Reveal();
+                yield return StartCoroutine(card.Reveal());
                 cardWasRevealed = true;
                 break;
             }
@@ -427,6 +461,8 @@ public class HandManager : MonoBehaviour
             GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
         else
             GameManager.Instance.UpdateGameState(GameState.END_ROUND);
+
+        isRevealing = false;
     }
     public void CreateCardPoolForHand(Card[] _currentHand)
     {

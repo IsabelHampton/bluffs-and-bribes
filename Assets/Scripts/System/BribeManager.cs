@@ -33,7 +33,7 @@ public class BribeManager : MonoBehaviour
         {
             if (TutorialManager.Instance.TutorialSkipsBribe())
             {
-                GameManager.Instance.UpdateGameState(GameState.DEALING);
+                GameManager.Instance.UpdateGameState(GameState.SHUFFLING);
                 return; // skip rest of method
             }
 
@@ -59,15 +59,15 @@ public class BribeManager : MonoBehaviour
 
             // Bribe set up complete - attempt to move to dealing 
             BribeSetUpComplete = true;
-            AttemptMoveToDealing();
+            AttemptMoveToShuffling();
 
         }
         
     }
-    public void AttemptMoveToDealing()
+    public void AttemptMoveToShuffling()
     {
-        if (GameManager.Instance.State != GameState.DEALING && PlayerBribeUI.Instance.PlayerSelectedOption && BribeSetUpComplete)
-            GameManager.Instance.UpdateGameState(GameState.DEALING);
+        if (GameManager.Instance.State != GameState.SHUFFLING && PlayerBribeUI.Instance.PlayerSelectedOption && BribeSetUpComplete)
+            GameManager.Instance.UpdateGameState(GameState.SHUFFLING);
     }
     public void SetBribeAmount(int _bribeAmount, int _playerNumber)
     {

@@ -112,7 +112,7 @@ public class PlayerBribeUI : MonoBehaviour
     public void AttemptMoveToDealing()
     {
         PlayerSelectedOption = true;
-        BribeManager.Instance.AttemptMoveToDealing();
+        BribeManager.Instance.AttemptMoveToShuffling();
     }
 
     public void OnCancelBribe()
