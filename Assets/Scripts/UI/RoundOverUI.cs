@@ -29,7 +29,7 @@ public class RoundOverUI : MonoBehaviour
         string text = "";
         int numOfWinners = GameManager.Instance.winners.Count;
 
-        // Iterate throw winners and add to list
+        // Iterate through winners and add to list
         for (int i = 0; i < numOfWinners; i++)
         {
             text += GameManager.GetPlayerName(GameManager.Instance.winners[i]);

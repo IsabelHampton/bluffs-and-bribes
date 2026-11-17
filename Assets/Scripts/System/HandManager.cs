@@ -74,6 +74,7 @@ public class HandManager : MonoBehaviour
 
                 isBribing = true;
                 HideAllCards();
+                ResetPlayerHandRanks();
                 isBribing = false;
                 break;
 
@@ -95,6 +96,16 @@ public class HandManager : MonoBehaviour
                 break;
         }
     }
+
+    private void ResetPlayerHandRanks()
+    {
+        for (int i = 0; i < playerHands.Length; i++)
+        {
+            playerHands[i].handType = 0;
+            playerHands[i].handRank = 0;
+        }    
+    }
+
     private IEnumerator Deal()
     {
         isDealing = true;
@@ -134,11 +145,20 @@ public class HandManager : MonoBehaviour
         endOfRoundSequenceStarted = true; // Now started so tell event thing to stop calling repeatedly
         yield return StartCoroutine(RevealEndOfRoundHands()); // Calls UpdateHands()
 
+        ResetPlayerHandRanks();
+
         for (int i = 0; i < (int)PlayerOrder.NUM_OF_PLAYERS; i++)
         {
             // Check player hasn't folded
             if (!ActionManager.Instance.hasFolded[i])
                 DetermineCurrentHandRank(allHands[i], i);
+
+            // Player folded - zero their rank so they lose
+            else
+            {
+                playerHands[i].handType = 0;
+                playerHands[i].handRank = 0;
+            }
         }
 
         // Sort ranks in descending order
@@ -597,6 +617,7 @@ public class HandManager : MonoBehaviour
         {
             playerHands[_playerNumber].handType = _checkedForHand;
             playerHands[_playerNumber].handRank = _foundRank;
+            playerHands[_playerNumber].playerNumber = _playerNumber;
             return true; // Hand found
         }
         return false;
@@ -1016,4 +1037,5 @@ public struct PlayerHand
 {
     public HandType handType;
     public int handRank;
+    public int playerNumber;
 }
