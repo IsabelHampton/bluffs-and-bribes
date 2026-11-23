@@ -38,6 +38,14 @@ public class BetManager : MonoBehaviour
                 break;
         }
     }
+    public void Reset()
+    {
+        pot = 0;
+
+        bets = new int[] { 0, 0, 0, 0 };
+        chips = new int[] { startAmount, startAmount, startAmount, startAmount };
+        highestBet = 0;
+    }
     private void ResetBets()
     {
         if (GameManager.Instance.ignoreResets)

@@ -7,6 +7,12 @@ public class BribeManager : MonoBehaviour
     public bool bribeStateReached = false;
     public bool BribeSetUpComplete;
 
+    public void Reset()
+    {
+        bribes = new int[(int)PlayerOrder.NUM_OF_PLAYERS];
+        bribeStateReached = false;
+        BribeSetUpComplete = false;
+    }
     public void ResetBribes()
     {
         if (GameManager.Instance.ignoreResets)

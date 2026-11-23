@@ -94,7 +94,7 @@ public class StartMenuUI : MonoBehaviour
     public void OnNewRunConfirmation()
     {
         // Update game state
-        GameManager.Instance.UpdateGameState(GameState.TIPOFF);
+        GameManager.Instance.UpdateGameState(GameState.SET_UP);
 
         // Set up UI
         startMenuPanel.SetActive(false);

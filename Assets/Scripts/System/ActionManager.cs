@@ -51,7 +51,16 @@ public class ActionManager : MonoBehaviour
     {
         GameManager.OnGameStateChanged -= GameManagerOnStateChanged;
     }
+    public void Reset()
+    {
+        hasFolded = new bool[(int)PlayerOrder.NUM_OF_PLAYERS];
+        foldedPlayers = 0;
+        isAllIn = new bool[(int)PlayerOrder.NUM_OF_PLAYERS];
 
+        lastActions = new Actions[(int)PlayerOrder.NUM_OF_PLAYERS];
+
+        possibleActions.Clear();
+}
     private void GameManagerOnStateChanged(GameState _state)
     {
         Debug.Log($"Game state changed to {GameManager.Instance.State} ");

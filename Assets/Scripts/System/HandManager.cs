@@ -11,7 +11,9 @@ public class HandManager : MonoBehaviour
 
     // Game state guards to prevent multiple processes being started
     bool isBribing;
-    bool isRevealing;
+    bool isInitialRevealing;
+    bool isNextCardRevealing;
+    bool isEndOfRoundRevealing;
     bool isDealing;
     bool endOfRoundSequenceStarted = false;
 
@@ -31,17 +33,26 @@ public class HandManager : MonoBehaviour
 
     public PlayerHand[] playerHands = new PlayerHand[(int)PlayerOrder.NUM_OF_PLAYERS];
 
+    public void Reset()
+    {
+        ResetStateGuards();
+        alreadyDealtCards.Clear();
+        indexesToDrawFrom.Clear();
+        cardsAvailableToMakeHandFrom.Clear();
+        playerHands = new PlayerHand[(int)PlayerOrder.NUM_OF_PLAYERS];
+    }
+
     private void UpdateAllHands()
     {
         allHands = new Card[][]{ playerHand, o1Hand, o2Hand, o3Hand};
     }
     private IEnumerator RevealEndOfRoundHands()
     {
-        isRevealing = true;
+        isEndOfRoundRevealing = true;
         UpdateAllHands();
         for (int i = 0; i < allHands.Length; i++)
         {
-            if (ActionManager.Instance.hasFolded[i])
+            if (ActionManager.Instance.hasFolded[i] || i == (int)PlayerOrder.PLAYER)
                 continue; // Skip reveal as has folded
 
             // Reveal cards in hand
@@ -50,7 +61,7 @@ public class HandManager : MonoBehaviour
                 yield return StartCoroutine(card.Reveal());
             }
         }
-        isRevealing = false;
+        isEndOfRoundRevealing = false;
     }
 
     private void Awake()
@@ -86,7 +97,7 @@ public class HandManager : MonoBehaviour
                     StartCoroutine(Deal());
                 break;
             case GameState.REVEAL:
-                if (!isRevealing)
+                if (!isNextCardRevealing)
                     StartCoroutine(NextCardReveal());
                 break;
 
@@ -113,7 +124,9 @@ public class HandManager : MonoBehaviour
     {
         isBribing = false;
         isDealing = false;
-        isRevealing = false;
+        isInitialRevealing = false;
+        isNextCardRevealing = false;
+        isEndOfRoundRevealing = false;
         endOfRoundSequenceStarted = false;
     }
 
@@ -482,16 +495,16 @@ public class HandManager : MonoBehaviour
     }
     public IEnumerator RevealCards(Card[] _cardsToReveal)
     {
-        isRevealing = true;
+        isInitialRevealing = true;
         foreach (Card card in _cardsToReveal)
         {
             yield return StartCoroutine(card.Reveal());
         }
-        isRevealing = false;
+        isInitialRevealing = false;
     }
     public IEnumerator NextCardReveal()
     {
-        isRevealing = true;
+        isNextCardRevealing = true;
         bool cardWasRevealed = false;
         foreach (Card card in centreCards)
         {
@@ -502,13 +515,12 @@ public class HandManager : MonoBehaviour
                 break;
             }
         }
+        isNextCardRevealing = false;
 
         if (cardWasRevealed)
             GameManager.Instance.UpdateGameState(GameState.PLAYER_TURN);
         else
             GameManager.Instance.UpdateGameState(GameState.END_ROUND);
-
-        isRevealing = false;
     }
     public void CreateCardPoolForHand(Card[] _currentHand)
     {

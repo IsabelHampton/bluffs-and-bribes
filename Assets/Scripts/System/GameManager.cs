@@ -39,7 +39,14 @@ public class GameManager : MonoBehaviour
         State = _state;
         switch (State)
         {
+            case GameState.SET_UP:
+                ActionManager.Instance.Reset();
+                BetManager.Instance.Reset();
+                BribeManager.Instance.Reset();
+                HandManager.Instance.Reset();
 
+                UpdateGameState(GameState.TIPOFF);
+                break;
             case GameState.END_ROUND:
                 ignoreResets = false; // Round over so resets need to happen
                 break;
@@ -150,6 +157,7 @@ public class GameManager : MonoBehaviour
 public enum GameState
 {
     IN_START_MENU,
+    SET_UP,
     TIPOFF,
     BRIBE,
     SHUFFLING,
