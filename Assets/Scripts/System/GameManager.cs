@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
                 ignoreResets = false; // Round over so resets need to happen
                 break;
             case GameState.CHECK_IF_RUN_CONTINUE:
-                if (BetManager.Instance.IsPlayerBankrupt())
+                if (BetManager.Instance.IsBankrupt((int)PlayerOrder.PLAYER))
                 {
                     UpdateAllTimeStats();
                     // Trigger end of run state - this will display menu

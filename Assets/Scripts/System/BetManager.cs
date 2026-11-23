@@ -91,10 +91,14 @@ public class BetManager : MonoBehaviour
         bets[_playerNumber] += _value;
         ChipsUI.Instance.UpdateElements();
     }
-
-    public bool IsPlayerBankrupt()
+    public void SetHighestBet(int _value)
     {
-        return chips[(int)PlayerOrder.PLAYER] == 0;
+        highestBet= _value;
+    }
+
+    public bool IsBankrupt(int _playerNumber)
+    {
+        return chips[_playerNumber] <= 0;
     }
     public int BankruptPlayers()
     {

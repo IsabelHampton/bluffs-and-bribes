@@ -229,6 +229,7 @@ public class HandManager : MonoBehaviour
     {
         foreach (Card card in cardsOnTable)
         {
+            card.gameObject.GetComponent<Image>().color = Color.white; // Reset card color in case of folding grey
             card.gameObject.SetActive(true);
             yield return StartCoroutine(card.gameObject.GetComponent<Card_DOTween>().DealInCard());
         }

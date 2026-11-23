@@ -335,12 +335,12 @@ public class ActionManager : MonoBehaviour
     {
         Call(_playerNumber);
 
-        BetManager.Instance.chips[_playerNumber] -= _value;
-        BetManager.Instance.bets[_playerNumber] += _value;
-        BetManager.Instance.pot += _value;
-        BetManager.Instance.highestBet = BetManager.Instance.bets[_playerNumber];
+        BetManager.Instance.AddPlayerChips(-_value, _playerNumber);
+        BetManager.Instance.AddPlayerBet(_value, _playerNumber);
+        BetManager.Instance.AddToPot(_value);
+        BetManager.Instance.SetHighestBet(BetManager.Instance.bets[_playerNumber]);
 
-        if (BetManager.Instance.chips[_playerNumber] == 0)
+        if (BetManager.Instance.IsBankrupt(_playerNumber))
             UpdateAllIn(_playerNumber);
         else
             UpdateLastActions(_playerNumber, Actions.RAISE);
