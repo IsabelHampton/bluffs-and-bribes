@@ -5,15 +5,14 @@ using UnityEngine.UI;
 
 public class Card_DOTween : MonoBehaviour
 {
-    public Image cardBack; 
-
     public Tween cardPosTween;
     public Tween cardRotTween;
     public Tween cardRevealTween;
 
     Vector3 startRotation;
     Vector3 startPosition;
-    float duration = .5f;
+    float dealDuration = .5f;
+    float foldDuration = .5f;
 
     private void Awake()
     {
@@ -23,12 +22,12 @@ public class Card_DOTween : MonoBehaviour
 
     public IEnumerator DealInCard()
     {
-        cardPosTween = transform.DOBlendableMoveBy(startPosition, duration)
+        cardPosTween = transform.DOBlendableMoveBy(startPosition, dealDuration)
             .SetEase(Ease.OutQuad)
             .From();
             //.SetDelay(delay);
 
-        cardRotTween = transform.DOBlendableRotateBy(startRotation, duration)
+        cardRotTween = transform.DOBlendableRotateBy(startRotation, dealDuration)
             .SetEase(Ease.OutQuint)
             .From();
             //.SetDelay(delay);
@@ -38,16 +37,41 @@ public class Card_DOTween : MonoBehaviour
     public IEnumerator RevealCard()
     {
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(transform.DORotate(new Vector3(transform.rotation.x, 90, transform.rotation.z), duration)
+        sequence.Append(transform.DORotate(new Vector3(transform.rotation.x, 90, transform.rotation.z), dealDuration)
             .SetEase(Ease.InSine));
 
         sequence.AppendCallback(() =>
         {
-            gameObject.GetComponent<Image>().sprite = gameObject.GetComponent<Card>().faceUpSprite; // Change sprite
+            gameObject.GetComponent<Image>().sprite = gameObject.GetComponent<Card>().faceUpSprite; // Change sprite to be face up
         });
-        sequence.Append(transform.DORotate(new Vector3(transform.rotation.x, 0, transform.rotation.z), duration)
+        sequence.Append(transform.DORotate(new Vector3(transform.rotation.x, 0, transform.rotation.z), dealDuration)
             .SetEase(Ease.OutSine));
 
         yield return sequence.WaitForCompletion();
     }
+
+    public IEnumerator HideCard()
+    {
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(transform.DORotate(new Vector3(transform.rotation.x, 90, transform.rotation.z), dealDuration)
+            .SetEase(Ease.InSine));
+
+        sequence.AppendCallback(() =>
+        {
+            gameObject.GetComponent<Image>().sprite = FindAnyObjectByType<CardImages>().faceDownSprite; // Change sprite to be face down
+        });
+        sequence.Append(transform.DORotate(new Vector3(transform.rotation.x, 0, transform.rotation.z), dealDuration)
+            .SetEase(Ease.OutSine));
+
+        yield return sequence.WaitForCompletion();
+    }
+
+    public IEnumerator FoldFadeAndShake()
+    {
+        Tween tween = gameObject.GetComponent<Image>().DOColor(Color.gray3, foldDuration);
+        Tween shakeTween = GetComponent<RectTransform>().DOShakeAnchorPos(foldDuration, 50);
+
+        yield return tween.WaitForCompletion();
+    }
+
 }

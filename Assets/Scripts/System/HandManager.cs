@@ -68,6 +68,9 @@ public class HandManager : MonoBehaviour
         UpdateAllHands();
         switch (GameManager.Instance.State)
         {
+            case GameState.TIPOFF: // Before hands
+                ResetPlayerHandRanks(); 
+                break;
             case GameState.BRIBE: //happens before dealing
                 if (isBribing)
                     break;
@@ -104,6 +107,14 @@ public class HandManager : MonoBehaviour
             playerHands[i].handType = 0;
             playerHands[i].handRank = 0;
         }    
+    }
+
+    private void ResetStateGuards()
+    {
+        isBribing = false;
+        isDealing = false;
+        isRevealing = false;
+        endOfRoundSequenceStarted = false;
     }
 
     private IEnumerator Deal()

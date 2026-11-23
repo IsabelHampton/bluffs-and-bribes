@@ -223,9 +223,19 @@ public class ActionManager : MonoBehaviour
         hasFolded[_playerNumber] = true;
         foldedPlayers++;
         UpdateLastActions(_playerNumber, Actions.FOLD);
+
+        foreach(Card card in HandManager.Instance.allHands[_playerNumber])
+        {
+            StartCoroutine(card.GetComponent<Card_DOTween>().FoldFadeAndShake()); // NO WAIT
+        }
     }
     public void PlayerFold()
     {
+        foreach (Card card in HandManager.Instance.allHands[(int)PlayerOrder.PLAYER])
+        {
+            StartCoroutine(card.GetComponent<Card_DOTween>().HideCard()); // NO WAIT
+        }
+
         Fold((int)PlayerOrder.PLAYER);
 
         MoveToNextStageWithoutDelay((int)PlayerOrder.PLAYER);
