@@ -32,13 +32,13 @@ public class BetManager : MonoBehaviour
                 ResetBets();
                 break;
             case GameState.REVEAL: // 1st turn of round
-                ResetBets();
+                //ResetBets();
                 break;
             default:
                 break;
         }
     }
-    public void Reset()
+    public void ResetManager()
     {
         pot = 0;
 

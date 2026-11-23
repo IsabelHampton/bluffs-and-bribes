@@ -51,7 +51,7 @@ public class ActionManager : MonoBehaviour
     {
         GameManager.OnGameStateChanged -= GameManagerOnStateChanged;
     }
-    public void Reset()
+    public void ResetManager()
     {
         hasFolded = new bool[(int)PlayerOrder.NUM_OF_PLAYERS];
         foldedPlayers = 0;

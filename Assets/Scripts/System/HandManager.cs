@@ -33,7 +33,7 @@ public class HandManager : MonoBehaviour
 
     public PlayerHand[] playerHands = new PlayerHand[(int)PlayerOrder.NUM_OF_PLAYERS];
 
-    public void Reset()
+    public void ResetManager()
     {
         ResetStateGuards();
         alreadyDealtCards.Clear();

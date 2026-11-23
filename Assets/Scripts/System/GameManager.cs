@@ -40,10 +40,10 @@ public class GameManager : MonoBehaviour
         switch (State)
         {
             case GameState.SET_UP:
-                ActionManager.Instance.Reset();
-                BetManager.Instance.Reset();
-                BribeManager.Instance.Reset();
-                HandManager.Instance.Reset();
+                ActionManager.Instance.ResetManager();
+                BetManager.Instance.ResetManager();
+                BribeManager.Instance.ResetManager();
+                HandManager.Instance.ResetManager();
 
                 UpdateGameState(GameState.TIPOFF);
                 break;
